@@ -1,7 +1,12 @@
+import { NavLink } from "react-router-dom";
+import { StyledNavBar } from "./NavBar.styled";
+
 export function NavBar() {
   return (
-    <>
-      <h1>Nav Bar</h1>
-    </>
+    <StyledNavBar>
+      <NavLink to="/">Home</NavLink>
+      <NavLink to="/login">Log In</NavLink>
+      <NavLink to="/signup">Sign Up</NavLink>
+    </StyledNavBar>
   );
 }
