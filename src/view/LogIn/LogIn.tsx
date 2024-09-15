@@ -19,8 +19,10 @@ export function LogIn() {
       // Redirect or show a success message
       console.log("LogIn Success!");
       navigate("/");
-    } catch (error) {
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
     }
   };
 
