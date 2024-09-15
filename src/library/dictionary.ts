@@ -4,8 +4,8 @@ const dictionary = {
     en: "",
   },
   LogInPage: {
-    pl: "",
-    en: "",
+    pl: "Zaloguj",
+    en: "Login",
   },
   SignUpPage: {
     pl: "",
