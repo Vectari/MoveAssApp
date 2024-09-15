@@ -1,6 +1,10 @@
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "../../theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "../../library/firebaseConfig";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.background};
@@ -21,6 +25,22 @@ const Button = styled.button`
 
 export function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
 
   return (
     <>
@@ -32,6 +52,8 @@ export function Home() {
           </Button>
         </Container>
       </ThemeProvider>
+      <div>{user ? <p>Welcome, {user.email}</p> : <p>Go to login</p>}</div>
+      <button onClick={handleLogout}>Logout</button>
     </>
   );
 }
