@@ -6,6 +6,7 @@ import { LogIn } from "./view/LogIn/LogIn";
 import { SignUp } from "./view/SignUp/SignUp";
 import { Home } from "./view/Home/Home";
 import { NavBar } from "./components/NavBar/NavBar";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <LanguageProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </LanguageProvider>
   </React.StrictMode>
 );
