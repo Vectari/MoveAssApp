@@ -4,8 +4,18 @@ const dictionary = {
     en: "",
   },
   LogInPage: {
-    pl: "Zaloguj",
-    en: "Login",
+    email: {
+      pl: "Email",
+      en: "Email",
+    },
+    password: {
+      pl: "Hasło",
+      en: "Password",
+    },
+    loginButton: {
+      pl: "Zaloguj",
+      en: "Login",
+    },
   },
   SignUpPage: {
     pl: "",
