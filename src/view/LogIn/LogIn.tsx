@@ -3,6 +3,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../library/firebaseConfig";
 import dictionary from "../../library/dictionary";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../../hooks/useTranslation";
+
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function LogIn() {
   const [email, setEmail] = useState<string>("");
@@ -10,6 +13,9 @@ export function LogIn() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const { translate } = useTranslation();
+
+  const { language, setLanguage } = useLanguage();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +43,7 @@ export function LogIn() {
       {error && <p>{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
-          <label>Email:</label>
+          <label>{translate("LogInPage", "email")}</label>
           <input
             type="email"
             value={email}
@@ -46,7 +52,7 @@ export function LogIn() {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label>{translate("LogInPage", "password")}</label>
           <input
             type="password"
             value={password}
@@ -54,11 +60,20 @@ export function LogIn() {
             required
           />
         </div>
-        <button type="submit">{dictionary.LogInPage.en}</button>
+        <button type="submit">{translate("LogInPage", "loginButton")}</button>
       </form>
       <p>test@test.com</p>
       <p>test123</p>
       <button onClick={handleAutoLogin}>AutoLogin</button>
+
+      <div>
+      <button onClick={() => setLanguage('en')} disabled={language === 'en'}>
+        English
+      </button>
+      <button onClick={() => setLanguage('pl')} disabled={language === 'pl'}>
+        Polish
+      </button>
+    </div>
     </>
   );
 }
