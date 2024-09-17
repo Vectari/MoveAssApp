@@ -1,38 +1,42 @@
-type HomePageTranslations = {
-  pl: string;
-  en: string;
-};
+// type HomePageTranslations = {
+//   pl: string;
+//   en: string;
+// };
 
-type LogInPageTranslations = {
-  email: {
-    pl: string;
-    en: string;
-  };
-  password: {
-    pl: string;
-    en: string;
-  };
-  loginButton: {
-    pl: string;
-    en: string;
-  };
-};
+// type LogInPageTranslations = {
+//   email: {
+//     pl: string;
+//     en: string;
+//   };
+//   password: {
+//     pl: string;
+//     en: string;
+//   };
+//   loginButton: {
+//     pl: string;
+//     en: string;
+//   };
+// };
 
-type SignUpPageTranslations = {
-  pl: string;
-  en: string;
-};
+// type SignUpPageTranslations = {
+//   pl: string;
+//   en: string;
+// };
 
-export type Dictionary = {
-  HomePage: HomePageTranslations;
-  LogInPage: LogInPageTranslations;
-  SignUpPage: SignUpPageTranslations;
-};
+// export type Dictionary = {
+//   HomePage: HomePageTranslations;
+//   LogInPage: LogInPageTranslations;
+//   SignUpPage: SignUpPageTranslations;
+// };
 
-const dictionary: Dictionary = {
+export type Dictionary = "HomePage" | "LogInPage" | "SignUpPage";
+
+const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
   HomePage: {
-    pl: "",
-    en: "",
+    title: {
+      pl: "",
+      en: "",
+    },
   },
   LogInPage: {
     email: {
@@ -49,8 +53,18 @@ const dictionary: Dictionary = {
     },
   },
   SignUpPage: {
-    pl: "",
-    en: "",
+    email: {
+      pl: "Email",
+      en: "Email",
+    },
+    password: {
+      pl: "Hasło",
+      en: "Password",
+    },
+    repassword: {
+      pl: "Hasło",
+      en: "Password",
+    },
   },
 };
 
