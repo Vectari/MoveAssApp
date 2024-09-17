@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../library/firebaseConfig";
-import dictionary from "../../library/dictionary";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../../hooks/useTranslation";
 
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export function LogIn() {
   const [email, setEmail] = useState<string>("");
@@ -67,13 +66,13 @@ export function LogIn() {
       <button onClick={handleAutoLogin}>AutoLogin</button>
 
       <div>
-      <button onClick={() => setLanguage('en')} disabled={language === 'en'}>
-        English
-      </button>
-      <button onClick={() => setLanguage('pl')} disabled={language === 'pl'}>
-        Polish
-      </button>
-    </div>
+        <button onClick={() => setLanguage("en")} disabled={language === "en"}>
+          English
+        </button>
+        <button onClick={() => setLanguage("pl")} disabled={language === "pl"}>
+          Polish
+        </button>
+      </div>
     </>
   );
 }
