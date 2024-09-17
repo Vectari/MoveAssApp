@@ -1,4 +1,4 @@
-import { useLanguage } from "../contexts/LanguageContext";
+import { useLanguage } from "../hooks/useLanguage";
 import dictionary, { Dictionary } from "../library/dictionary";
 
 export const useTranslation = () => {

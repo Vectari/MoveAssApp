@@ -4,7 +4,7 @@ import { auth } from "../../library/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../../hooks/useTranslation";
 
-import { useLanguage } from "../../contexts/LanguageContext";
+import { useLanguage } from "../../hooks/useLanguage";
 
 export function LogIn() {
   const [email, setEmail] = useState<string>("");
