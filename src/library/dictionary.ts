@@ -1,4 +1,35 @@
-const dictionary = {
+type HomePageTranslations = {
+  pl: string;
+  en: string;
+};
+
+type LogInPageTranslations = {
+  email: {
+    pl: string;
+    en: string;
+  };
+  password: {
+    pl: string;
+    en: string;
+  };
+  loginButton: {
+    pl: string;
+    en: string;
+  };
+};
+
+type SignUpPageTranslations = {
+  pl: string;
+  en: string;
+};
+
+export type Dictionary = {
+  HomePage: HomePageTranslations;
+  LogInPage: LogInPageTranslations;
+  SignUpPage: SignUpPageTranslations;
+};
+
+const dictionary: Dictionary = {
   HomePage: {
     pl: "",
     en: "",
@@ -24,5 +55,3 @@ const dictionary = {
 };
 
 export default dictionary;
-
-export type dictionaryType = typeof dictionary;
