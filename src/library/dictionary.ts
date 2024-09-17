@@ -29,7 +29,7 @@
 //   SignUpPage: SignUpPageTranslations;
 // };
 
-export type Dictionary = "HomePage" | "LogInPage" | "SignUpPage";
+export type Dictionary = "HomePage" | "LogInPage" | "SignUpPage" | "en" | "pl";
 
 const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
   HomePage: {
@@ -66,6 +66,8 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       en: "Password",
     },
   },
+  en: {},
+  pl: {},
 };
 
 export default dictionary;
