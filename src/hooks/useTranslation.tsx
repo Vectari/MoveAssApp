@@ -1,10 +1,10 @@
 import { useLanguage } from "../contexts/LanguageContext";
-import dictionary from "../library/dictionary";
+import dictionary, { Dictionary } from "../library/dictionary";
 
 export const useTranslation = () => {
   const { language } = useLanguage();
 
-  const translate = (page: string, element: string) => {
+  const translate = (page: Dictionary, element: string) => {
     return dictionary[page]?.[element]?.[language] || "";
   };
 
