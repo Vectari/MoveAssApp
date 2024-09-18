@@ -1,34 +1,3 @@
-// type HomePageTranslations = {
-//   pl: string;
-//   en: string;
-// };
-
-// type LogInPageTranslations = {
-//   email: {
-//     pl: string;
-//     en: string;
-//   };
-//   password: {
-//     pl: string;
-//     en: string;
-//   };
-//   loginButton: {
-//     pl: string;
-//     en: string;
-//   };
-// };
-
-// type SignUpPageTranslations = {
-//   pl: string;
-//   en: string;
-// };
-
-// export type Dictionary = {
-//   HomePage: HomePageTranslations;
-//   LogInPage: LogInPageTranslations;
-//   SignUpPage: SignUpPageTranslations;
-// };
-
 export type Dictionary = "HomePage" | "LogInPage" | "SignUpPage" | "en" | "pl";
 
 const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
@@ -61,9 +30,13 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       pl: "Hasło",
       en: "Password",
     },
-    repassword: {
-      pl: "Hasło",
-      en: "Password",
+    adminPass: {
+      pl: "Przepustka",
+      en: "Pass",
+    },
+    signupButton: {
+      pl: "Zarejestruj",
+      en: "Sign Up",
     },
   },
   en: {},
