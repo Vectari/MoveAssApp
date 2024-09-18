@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../library/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export function SignUp() {
+  const { translate } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [adminPass, setAdminPass] = useState("");
@@ -45,7 +47,7 @@ export function SignUp() {
       <h1>SignUp page</h1>
       <form onSubmit={handleSignup}>
         <div>
-          <label>Email:</label>
+          <label>{translate("SignUpPage", "email")}</label>
           <input
             type="email"
             value={email}
@@ -54,7 +56,7 @@ export function SignUp() {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label>{translate("SignUpPage", "password")}</label>
           <input
             type="password"
             value={password}
@@ -63,7 +65,7 @@ export function SignUp() {
           />
         </div>
         <div>
-          <label>Admin Pass:</label>
+          <label>{translate("SignUpPage", "adminPass")}</label>
           <input
             type="text"
             value={adminPass}
@@ -71,7 +73,7 @@ export function SignUp() {
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit">{translate("SignUpPage", "signupButton")}</button>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
