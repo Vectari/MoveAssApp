@@ -7,6 +7,7 @@ import { SignUp } from "./view/SignUp/SignUp";
 import { Home } from "./view/Home/Home";
 import { NavBar } from "./components/NavBar/NavBar";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { UserPanel } from "./view/UserPanel/UserPanel";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
     ],
+  },
+  {
+    path: "/panel",
+    element: <UserPanel />,
   },
 ]);
 
