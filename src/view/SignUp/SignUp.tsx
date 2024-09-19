@@ -3,9 +3,11 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../library/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
   const { translate } = useTranslation();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [adminPass, setAdminPass] = useState("");
@@ -16,6 +18,7 @@ export function SignUp() {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+    navigate("/panel");
 
     if (adminPass === import.meta.env.VITE_ADMIN_PASS) {
       try {
@@ -32,7 +35,6 @@ export function SignUp() {
           email: user.email,
           createdAt: new Date(),
         });
-
         setSuccess(true);
       } catch (err) {
         setError((err as Error).message);
@@ -67,7 +69,7 @@ export function SignUp() {
         <div>
           <label>{translate("SignUpPage", "adminPass")}</label>
           <input
-            type="text"
+            type="password"
             value={adminPass}
             onChange={(e) => setAdminPass(e.target.value)}
             required
