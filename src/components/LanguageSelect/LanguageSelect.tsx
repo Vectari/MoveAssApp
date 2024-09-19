@@ -18,7 +18,7 @@ export function LanguageSelect() {
             setLanguage("en");
             localStorage.setItem("language", "en");
           }}
-          alt=""
+          alt="uk flag icon"
         />
       ) : (
         <img
@@ -27,7 +27,7 @@ export function LanguageSelect() {
             setLanguage("pl");
             localStorage.setItem("language", "pl");
           }}
-          alt=""
+          alt="pl flag icon"
         />
       )}
     </StyledLanguageSelectWrapper>
