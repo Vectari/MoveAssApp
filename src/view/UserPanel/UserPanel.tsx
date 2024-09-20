@@ -9,13 +9,15 @@ export function UserPanel() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+      if (auth.currentUser === null) {
+        console.log("Redirect to login");
+        navigate("/login");
+      } else {
+        setUser(user);
+        console.log(auth);
+        console.log(user);
+      }
     });
-
-    if (auth.currentUser === null) {
-      console.log("Redirect to login");
-      navigate("/login");
-    }
 
     return () => unsubscribe();
   }, [navigate]);
