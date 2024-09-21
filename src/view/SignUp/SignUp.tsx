@@ -18,7 +18,6 @@ export function SignUp() {
     e.preventDefault();
     setError(null);
     setSuccess(false);
-    navigate("/panel");
 
     if (adminPass === import.meta.env.VITE_ADMIN_PASS) {
       try {
@@ -36,6 +35,7 @@ export function SignUp() {
           createdAt: new Date(),
         });
         setSuccess(true);
+        navigate("/panel");
       } catch (err) {
         setError((err as Error).message);
       }
