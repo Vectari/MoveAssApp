@@ -18,7 +18,7 @@ export function LogIn() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       // Redirect or show a success message
-      console.log(auth)
+      console.log(auth);
       console.log("LogIn Success!");
       navigate("/panel");
     } catch (error: unknown) {
@@ -58,13 +58,8 @@ export function LogIn() {
         </div>
         <button type="submit">{translate("LogInPage", "loginButton")}</button>
       </form>
-
-      <br />
-      <br />
       <br />
       <div>
-        <p>test@test.com</p>
-        <p>test123</p>
         <button onClick={handleAutoLogin}>AutoLogin</button>
       </div>
     </>
