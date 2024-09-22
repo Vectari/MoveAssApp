@@ -2,6 +2,7 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../../library/firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { NavBar } from "../../components/NavBar/NavBar";
 
 export function UserPanel() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export function UserPanel() {
 
   return (
     <>
+      <NavBar hideHomeButton />
       <h1>User panel</h1>
       <div>{user ? <p>Welcome, {user.email}</p> : ""}</div>
       <button onClick={handleLogout}>Logout</button>
