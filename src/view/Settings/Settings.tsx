@@ -1,29 +1,61 @@
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { useEffect, useState } from "react";
-import { auth } from "../../library/firebaseConfig";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { auth, db } from "../../library/firebaseConfig"; // Add Firestore (db) import
+import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore"; // Firestore functions
 
 export function Settings() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [displayName, setDisplayName] = useState<string>("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (auth.currentUser === null) {
         navigate("/login");
       } else {
         setUser(user);
+        // Fetch the displayName from Firestore if available
+        const userDocRef = doc(db, "users", user!.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setDisplayName(userDoc.data().displayName || "");
+        }
       }
     });
 
     return () => unsubscribe();
   }, [navigate]);
+
+  const handleSaveDisplayName = async () => {
+    if (auth.currentUser) {
+      // Update the displayName in Firebase Authentication
+      await updateProfile(auth.currentUser, { displayName });
+
+      // Save the displayName to Firestore
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      await setDoc(userDocRef, { displayName }, { merge: true });
+
+      alert("Display Name updated!");
+    }
+  };
+
   return (
     <>
       <NavBar />
       <h1>Settings</h1>
       <h2>{user?.email}</h2>
+      <div>
+        <label htmlFor="displayName">Display Name: </label>
+        <input
+          type="text"
+          id="displayName"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+        />
+        <button onClick={handleSaveDisplayName}>Save</button>
+      </div>
     </>
   );
 }

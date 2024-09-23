@@ -25,6 +25,7 @@ export function NavBar() {
       ) : (
         <>
           <NavLink to="/panel">Home</NavLink>
+          <NavLink to="/settings">Settings</NavLink>
           <button onClick={handleLogout}>Logout</button>
         </>
       )}

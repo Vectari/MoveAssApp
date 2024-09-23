@@ -17,9 +17,6 @@ export function LogIn() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Redirect or show a success message
-      console.log(auth);
-      console.log("LogIn Success!");
       navigate("/panel");
     } catch (error: unknown) {
       if (error instanceof Error) {
