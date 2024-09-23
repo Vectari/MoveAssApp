@@ -1,5 +1,6 @@
 import PL_FLG from "/pl_flag.svg";
 import UK_FLAG from "/uk_flag.svg";
+import { useEffect } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { Dictionary } from "../../library/dictionary";
 import { StyledLanguageSelectWrapper } from "./LanguageSelect.style";
@@ -7,7 +8,11 @@ import { StyledLanguageSelectWrapper } from "./LanguageSelect.style";
 export function LanguageSelect() {
   const { language, setLanguage } = useLanguage();
 
-  setLanguage((localStorage.getItem("language") as Dictionary) || "en");
+  useEffect(() => {
+    const storedLanguage =
+      (localStorage.getItem("language") as Dictionary) || "en";
+    setLanguage(storedLanguage);
+  }, [setLanguage]);
 
   return (
     <StyledLanguageSelectWrapper>
