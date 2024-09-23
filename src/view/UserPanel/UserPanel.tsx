@@ -31,7 +31,7 @@ export function UserPanel() {
 
   return (
     <>
-      <NavBar hideHomeButton />
+      <NavBar />
       <h1>User panel</h1>
       <div>{user ? <p>Welcome, {user.email}</p> : ""}</div>
       <button onClick={handleLogout}>Logout</button>
