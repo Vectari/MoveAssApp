@@ -5,11 +5,7 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../library/firebaseConfig";
 
-interface NavBar {
-  hideHomeButton?: boolean;
-}
-
-export function NavBar({ hideHomeButton }: NavBar) {
+export function NavBar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -20,14 +16,17 @@ export function NavBar({ hideHomeButton }: NavBar) {
 
   return (
     <StyledNavBar>
-      {hideHomeButton ?? <NavLink to="/">Home</NavLink>}
       {auth.currentUser === null ? (
         <>
+          <NavLink to="/">Home</NavLink>
           <NavLink to="/login">Log In</NavLink>
           <NavLink to="/signup">Sign Up</NavLink>
         </>
       ) : (
-        <button onClick={handleLogout}>Logout</button>
+        <>
+          <NavLink to="/panel">Home</NavLink>
+          <button onClick={handleLogout}>Logout</button>
+        </>
       )}
       <LanguageSelect />
     </StyledNavBar>
