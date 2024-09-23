@@ -8,6 +8,7 @@ import { Home } from "./view/Home/Home";
 import { NavBar } from "./components/NavBar/NavBar";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { UserPanel } from "./view/UserPanel/UserPanel";
+import { Settings } from "./view/Settings/Settings";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/panel",
     element: <UserPanel />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
   },
 ]);
 
