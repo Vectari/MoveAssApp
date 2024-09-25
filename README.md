@@ -4,6 +4,8 @@ Welcome to the Move Ass App repository! This application helps users track their
 
 ## Live Demo
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/07a83e91-b249-4cdc-b104-3de0b62caed9/deploy-status)](https://app.netlify.com/sites/moveass/deploys)
+
 Check out the live demo [here](https://moveass.netlify.app/).
 
 ## Features
