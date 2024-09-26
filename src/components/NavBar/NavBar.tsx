@@ -4,9 +4,11 @@ import { LanguageSelect } from "../LanguageSelect/LanguageSelect";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../library/firebaseConfig";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export function NavBar() {
   const navigate = useNavigate();
+  const { translate } = useTranslation();
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -18,15 +20,17 @@ export function NavBar() {
     <StyledNavBar>
       {auth.currentUser === null ? (
         <>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/login">Log In</NavLink>
-          <NavLink to="/signup">Sign Up</NavLink>
+          <NavLink to="/">{translate("NavBar", "home")}</NavLink>
+          <NavLink to="/login">{translate("NavBar", "login")}</NavLink>
+          <NavLink to="/signup">{translate("NavBar", "signup")}</NavLink>
         </>
       ) : (
         <>
-          <NavLink to="/panel">Home</NavLink>
-          <NavLink to="/settings">Settings</NavLink>
-          <button onClick={handleLogout}>Logout</button>
+          <NavLink to="/panel">{translate("NavBar", "home")}</NavLink>
+          <NavLink to="/settings">{translate("NavBar", "settings")}</NavLink>
+          <button onClick={handleLogout}>
+            {translate("NavBar", "logout")}
+          </button>
         </>
       )}
       <LanguageSelect />
