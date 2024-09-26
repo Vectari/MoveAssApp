@@ -13,11 +13,11 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       en: "Home Page",
     },
     login: {
-      pl: "Zaloguj się",
+      pl: "Zaloguj",
       en: "Log in",
     },
     signup: {
-      pl: "Zarejestruj się",
+      pl: "Zarejestruj",
       en: "Sign up",
     },
     settings: {
@@ -25,7 +25,7 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       en: "Settings",
     },
     logout: {
-      pl: "Wyloguj się",
+      pl: "Wyloguj",
       en: "Logout",
     },
   },
