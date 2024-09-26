@@ -1,6 +1,34 @@
-export type Dictionary = "HomePage" | "LogInPage" | "SignUpPage" | "en" | "pl";
+export type Dictionary =
+  | "NavBar"
+  | "HomePage"
+  | "LogInPage"
+  | "SignUpPage"
+  | "en"
+  | "pl";
 
 const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
+  NavBar: {
+    home: {
+      pl: "Strona Główna",
+      en: "Home Page",
+    },
+    login: {
+      pl: "Zaloguj się",
+      en: "Log in",
+    },
+    signup: {
+      pl: "Zarejestruj się",
+      en: "Sign up",
+    },
+    settings: {
+      pl: "Ustawienia",
+      en: "Settings",
+    },
+    logout: {
+      pl: "Wyloguj się",
+      en: "Logout",
+    },
+  },
   HomePage: {
     title: {
       pl: "",
