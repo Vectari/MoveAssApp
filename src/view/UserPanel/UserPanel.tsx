@@ -29,10 +29,3 @@ export function UserPanel() {
     </>
   );
 }
-
-//
-//
-//
-//
-//
-//
