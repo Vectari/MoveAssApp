@@ -22,7 +22,13 @@ export function UserPanel() {
 
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
-          setDailyKcal(userDoc.data().dailyKcal || "");
+
+          const userId = auth.currentUser.uid;
+          const userKcalDoc = await getDoc(
+            doc(db, "users", userId, "daily_kcal", "dailyKcal")
+          );
+          const kcalData = userKcalDoc.data();
+          setDailyKcal(kcalData?.dailyKcal || "");
         }
       }
     });
