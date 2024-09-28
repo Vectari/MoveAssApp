@@ -18,11 +18,16 @@ export function Settings() {
       } else {
         setUser(user);
         // Fetch the displayName from Firestore if available
-        const userDocRef = doc(db, "users", user!.uid);
-        const userDoc = await getDoc(userDocRef);
+        // const userDocRef = doc(db, "users", user!.uid);
+        // const userId = auth.currentUser.uid;
+        const userDoc = await getDoc(doc(db, "users", user!.uid));
+        // const userKcal = await getDoc(
+        //   doc(db, "users", userId, "daily_kcal", "dailyKcal")
+        // );
+
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
-          setDailyKcal(userDoc.data().dailyKcal || "");
+          // setDailyKcal(userKcal || "");
         }
       }
     });
@@ -39,16 +44,26 @@ export function Settings() {
       const userDocRef = doc(db, "users", auth.currentUser.uid);
       await setDoc(userDocRef, { displayName }, { merge: true });
 
-      alert("Display Name updated!");
+      console.log("Display Name updated!");
     }
   };
 
   const handleSaveDailyKcal = async () => {
     if (auth.currentUser) {
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      await setDoc(userDocRef, { dailyKcal }, { merge: true });
+      const userId = auth.currentUser.uid;
 
-      alert("Daily Kcal updated!");
+      // Reference to the "daily_kcal" subcollection under the user's document
+      const dailyKcalDocRef = doc(
+        db,
+        "users",
+        userId,
+        "daily_kcal",
+        "dailyKcal"
+      );
+
+      await setDoc(dailyKcalDocRef, { dailyKcal }, { merge: true });
+
+      console.log("Daily Kcal updated!");
     }
   };
 
