@@ -18,16 +18,22 @@ export function Settings() {
       } else {
         setUser(user);
         // Fetch the displayName from Firestore if available
-        // const userDocRef = doc(db, "users", user!.uid);
-        // const userId = auth.currentUser.uid;
-        const userDoc = await getDoc(doc(db, "users", user!.uid));
-        // const userKcal = await getDoc(
-        //   doc(db, "users", userId, "daily_kcal", "dailyKcal")
-        // );
+        const userId = auth.currentUser.uid;
+
+        // Get user document
+        const userDoc = await getDoc(doc(db, "users", userId));
+        // Get daily kcal document
+        const userKcalDoc = await getDoc(
+          doc(db, "users", userId, "daily_kcal", "dailyKcal")
+        );
 
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
-          // setDailyKcal(userKcal || "");
+        }
+
+        if (userKcalDoc.exists()) {
+          const kcalData = userKcalDoc.data();
+          setDailyKcal(kcalData?.dailyKcal || ""); // Ensure kcalData is defined before accessing dailyKcal
         }
       }
     });
@@ -83,7 +89,7 @@ export function Settings() {
         <button onClick={handleSaveDisplayName}>Save</button>
       </div>
       <div>
-        <label htmlFor="DailyKcal">Daily kcal: </label>
+        <label htmlFor="dailyKcal">Daily kcal: </label>
         <input
           type="number"
           id="dailyKcal"
