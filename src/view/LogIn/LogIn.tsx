@@ -25,9 +25,14 @@ export function LogIn() {
     }
   };
 
-  const handleAutoLogin = () => {
+  const handleAutoLoginOne = () => {
     setEmail("test@test.com");
     setPassword("test123");
+  };
+
+  const handleAutoLoginTwo = () => {
+    setEmail("test2@test2.com");
+    setPassword("test222");
   };
 
   return (
@@ -57,7 +62,10 @@ export function LogIn() {
       </form>
       <br />
       <div>
-        <button onClick={handleAutoLogin}>AutoLogin</button>
+        <button onClick={handleAutoLoginOne}>AutoLogin_ONE</button>
+      </div>
+      <div>
+        <button onClick={handleAutoLoginTwo}>AutoLogin_TWO</button>
       </div>
     </>
   );
