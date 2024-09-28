@@ -9,6 +9,7 @@ export function Settings() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
+  const [dailyKcal, setDailyKcal] = useState<string>("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -21,6 +22,7 @@ export function Settings() {
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
+          setDailyKcal(userDoc.data().dailyKcal || "");
         }
       }
     });
@@ -41,6 +43,15 @@ export function Settings() {
     }
   };
 
+  const handleSaveDailyKcal = async () => {
+    if (auth.currentUser) {
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      await setDoc(userDocRef, { dailyKcal }, { merge: true });
+
+      alert("Daily Kcal updated!");
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -55,6 +66,16 @@ export function Settings() {
           onChange={(e) => setDisplayName(e.target.value)}
         />
         <button onClick={handleSaveDisplayName}>Save</button>
+      </div>
+      <div>
+        <label htmlFor="DailyKcal">Daily kcal: </label>
+        <input
+          type="number"
+          id="dailyKcal"
+          value={dailyKcal}
+          onChange={(e) => setDailyKcal(e.target.value)}
+        />
+        <button onClick={handleSaveDailyKcal}>Save</button>
       </div>
     </>
   );
