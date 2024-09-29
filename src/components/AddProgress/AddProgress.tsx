@@ -17,6 +17,7 @@ export function AddProgress() {
   const [dimensionB, setDimensionB] = useState<string>("");
   const [dimensionC, setDimensionC] = useState<string>("");
   const [dimensionD, setDimensionD] = useState<string>("");
+  const [addedStatus, setAddedStatus] = useState<boolean>(false);
 
   const handleAddProgress = async () => {
     if (auth.currentUser) {
@@ -41,7 +42,7 @@ export function AddProgress() {
         },
         { merge: true }
       );
-
+      setAddedStatus(true);
       console.log("Progress added!");
     }
   };
@@ -94,7 +95,8 @@ export function AddProgress() {
           onChange={(e) => setDimensionD(e.target.value)}
         />
       </div>
-      <button onClick={(handleAddProgress)}>Save</button>
+      {addedStatus ? <p>Progress added!</p> : null}
+      <button onClick={handleAddProgress}>Save</button>
     </>
   );
 }
