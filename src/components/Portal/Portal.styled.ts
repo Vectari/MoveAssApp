@@ -19,7 +19,7 @@ export const PortalWrapper = styled.div`
     position: relative;
   }
 
-  button {
+  #close_button {
     position: absolute;
     top: 10px;
     right: 10px;
