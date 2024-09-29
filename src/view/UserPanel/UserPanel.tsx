@@ -5,15 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { doc, getDoc } from "firebase/firestore";
 import { Portal } from "../../components/Portal/Portal";
+import { AddProgress } from "../../components/AddProgress/AddProgress";
 
 export function UserPanel() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
-
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false); // Portal visibility
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -49,11 +48,9 @@ export function UserPanel() {
       <div>Daily kcal: {dailyKcal}</div>
 
       <button onClick={() => setIsPortalOpen(true)}>Open Portal</button>
-
       {isPortalOpen && (
         <Portal onClose={() => setIsPortalOpen(false)}>
-          <h2>Welcome to the Portal!</h2>
-          <p>This is a portal modal.</p>
+          <AddProgress />
         </Portal>
       )}
     </>
