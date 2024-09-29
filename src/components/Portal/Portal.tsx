@@ -1,6 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import { PortalWrapper } from "./Portal.styled";
+import { createPortal } from "react-dom";
 
 // Define props for the Portal component
 interface PortalProps {
@@ -9,10 +8,10 @@ interface PortalProps {
 }
 
 export const Portal: React.FC<PortalProps> = ({ children, onClose }) => {
-  return ReactDOM.createPortal(
+  return createPortal(
     <PortalWrapper>
       <div>
-        <button onClick={onClose}>Close</button>
+        <button id="close_button" onClick={onClose}>X</button>
         {children}
       </div>
     </PortalWrapper>,
