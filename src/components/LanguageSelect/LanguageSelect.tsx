@@ -3,7 +3,7 @@ import UK_FLAG from "/uk_flag.svg";
 import { useEffect } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { Dictionary } from "../../library/dictionary";
-import { StyledLanguageSelectWrapper } from "./LanguageSelect.style";
+import { StyledLanguageSelectWrapper } from "./LanguageSelect.styled";
 
 export function LanguageSelect() {
   const { language, setLanguage } = useLanguage();
