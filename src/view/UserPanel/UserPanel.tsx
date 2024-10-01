@@ -6,6 +6,7 @@ import { NavBar } from "../../components/NavBar/NavBar";
 import { doc, getDoc } from "firebase/firestore";
 import { Portal } from "../../components/Portal/Portal";
 import { AddProgress } from "../../components/AddProgress/AddProgress";
+import { ProgressChart } from "../../components/ProgressChart/ProgressChart";
 
 export function UserPanel() {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ export function UserPanel() {
           <AddProgress />
         </Portal>
       )}
+      <ProgressChart />
     </>
   );
 }
