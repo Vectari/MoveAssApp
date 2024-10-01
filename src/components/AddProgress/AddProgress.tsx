@@ -44,6 +44,7 @@ export function AddProgress() {
       );
       setAddedStatus(true);
       console.log("Progress added!");
+      window.location.reload();
     }
   };
 
