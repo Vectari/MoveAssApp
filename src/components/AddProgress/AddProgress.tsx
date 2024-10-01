@@ -18,33 +18,39 @@ export function AddProgress() {
   const [dimensionC, setDimensionC] = useState<string>("");
   const [dimensionD, setDimensionD] = useState<string>("");
   const [addedStatus, setAddedStatus] = useState<boolean>(false);
+  const [weightStatus, setWeightStatus] = useState<boolean>(false);
 
   const handleAddProgress = async () => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
+    if (weight != "") {
+      if (auth.currentUser) {
+        const userId = auth.currentUser.uid;
 
-      // Get current date in 'YYYY-MM-DD' format
-      const currentDate = getCurrentDate();
+        // Get current date in 'YYYY-MM-DD' format
+        const currentDate = getCurrentDate();
 
-      // Reference to the "progress" subcollection, with each document named by the current date
-      const progressRef = doc(db, "users", userId, "progress", currentDate);
+        // Reference to the "progress" subcollection, with each document named by the current date
+        const progressRef = doc(db, "users", userId, "progress", currentDate);
 
-      // Save the weight and dimensions along with the current date
-      await setDoc(
-        progressRef,
-        {
-          weight,
-          dimensionA,
-          dimensionB,
-          dimensionC,
-          dimensionD,
-          date: currentDate,
-        },
-        { merge: true }
-      );
-      setAddedStatus(true);
-      console.log("Progress added!");
-      window.location.reload();
+        // Save the weight and dimensions along with the current date
+        await setDoc(
+          progressRef,
+          {
+            weight,
+            dimensionA,
+            dimensionB,
+            dimensionC,
+            dimensionD,
+            date: currentDate,
+          },
+          { merge: true }
+        );
+        setWeightStatus(false);
+        setAddedStatus(true);
+        console.log("Progress added!");
+        window.location.reload();
+      }
+    } else {
+      setWeightStatus(true);
     }
   };
 
@@ -97,6 +103,7 @@ export function AddProgress() {
         />
       </div>
       {addedStatus ? <p>Progress added!</p> : null}
+      {weightStatus ? <p>Add weight!</p> : null}
       <button onClick={handleAddProgress}>Save</button>
     </>
   );
