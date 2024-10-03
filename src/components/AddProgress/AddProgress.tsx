@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { auth, db } from "../../library/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import { useTranslation } from "../../hooks/useTranslation";
 
 // Utility function to get current date in 'YYYY-MM-DD' format
 const getCurrentDate = () => {
@@ -12,6 +13,7 @@ const getCurrentDate = () => {
 };
 
 export function AddProgress() {
+  const { translate } = useTranslation();
   const [weight, setWeight] = useState<string>("");
   const [dimensionA, setDimensionA] = useState<string>("");
   const [dimensionB, setDimensionB] = useState<string>("");
@@ -58,7 +60,9 @@ export function AddProgress() {
     <>
       <h2>Add Progress</h2>
       <div>
-        <label htmlFor="dailyWeight">Weight: </label>
+        <label htmlFor="dailyWeight">
+          {translate("AddProgress", "weight")}:{" "}
+        </label>
         <input
           type="number"
           id="dailyWeight"
@@ -67,7 +71,9 @@ export function AddProgress() {
         />
       </div>
       <div>
-        <label htmlFor="dimensionA">Dimension A: </label>
+        <label htmlFor="dimensionA">
+          {translate("AddProgress", "dimensionA")}:{" "}
+        </label>
         <input
           type="number"
           id="dimensionA"
@@ -76,7 +82,9 @@ export function AddProgress() {
         />
       </div>
       <div>
-        <label htmlFor="dimensionB">Dimension B: </label>
+        <label htmlFor="dimensionB">
+          {translate("AddProgress", "dimensionB")}:{" "}
+        </label>
         <input
           type="number"
           id="dimensionB"
@@ -85,7 +93,9 @@ export function AddProgress() {
         />
       </div>
       <div>
-        <label htmlFor="dimensionC">Dimension C: </label>
+        <label htmlFor="dimensionC">
+          {translate("AddProgress", "dimensionC")}:{" "}
+        </label>
         <input
           type="number"
           id="dimensionC"
@@ -94,7 +104,9 @@ export function AddProgress() {
         />
       </div>
       <div>
-        <label htmlFor="dimensionD">Dimension D: </label>
+        <label htmlFor="dimensionD">
+          {translate("AddProgress", "dimensionD")}:{" "}
+        </label>
         <input
           type="number"
           id="dimensionD"
