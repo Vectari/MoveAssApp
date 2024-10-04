@@ -166,7 +166,7 @@ export function ProgressChart() {
         plugins: [staticLinePlugin], // Add the custom static line plugin
       });
     }
-  }, [data]);
+  }, [data, weightProgressStatus]);
 
   return (
     <>
