@@ -17,6 +17,12 @@ export function ProgressChart() {
   const [data, setData] = useState<ProgressData[]>([]); // Use the interface for the state
 
   const weightTarget = 130;
+  const currentWeight = 150;
+
+  const weightProgressStatus =
+    currentWeight - weightTarget > 0
+      ? `Do schudnięcia: ${currentWeight - weightTarget} kg`
+      : `${currentWeight - weightTarget} kg poniżej wagi docelowej `;
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -143,7 +149,7 @@ export function ProgressChart() {
               ), // Array of weights
             },
             {
-              label: `Weight Target: ${weightTarget}`,
+              label: `Weight Target: ${weightTarget} kg Status: ${weightProgressStatus}`,
               backgroundColor: "rgba(255, 99, 132, 0.75)",
               data: null,
             },
