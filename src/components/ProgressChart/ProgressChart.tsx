@@ -6,11 +6,11 @@ import Chart from "chart.js/auto";
 // Define an interface for your progress data
 interface ProgressData {
   date: string; // Adjust the types based on your actual data structure
-  dimensionA: number; // Change to the appropriate type
-  dimensionB: number; // Change to the appropriate type
-  dimensionC: number; // Change to the appropriate type
-  dimensionD: number; // Change to the appropriate type
-  weight: number; // Change to the appropriate type
+  dimensionA: string | null; // Change to the appropriate type
+  dimensionB: string | null; // Change to the appropriate type
+  dimensionC: string | null; // Change to the appropriate type
+  dimensionD: string | null; // Change to the appropriate type
+  weight: string | null; // Change to the appropriate type
 }
 
 export function ProgressChart() {
@@ -128,7 +128,9 @@ export function ProgressChart() {
               backgroundColor: "rgba(54, 162, 235, 0.2)",
               borderColor: "rgba(54, 162, 235, 1)",
               borderWidth: 1,
-              data: data.map(({ weight }) => weight), // Array of weights
+              data: data.map(({ weight }) =>
+                weight === "" || weight === null ? null : weight
+              ), // Array of weights
             },
           ],
         },
