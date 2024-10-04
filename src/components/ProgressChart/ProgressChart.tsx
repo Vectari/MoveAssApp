@@ -16,6 +16,8 @@ interface ProgressData {
 export function ProgressChart() {
   const [data, setData] = useState<ProgressData[]>([]); // Use the interface for the state
 
+  const weightTarget = 130;
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -62,28 +64,36 @@ export function ProgressChart() {
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
-              data: data.map(({ dimensionA }) => dimensionA), // Array of weights
+              data: data.map(({ dimensionA }) =>
+                dimensionA === "" || dimensionA === null ? null : dimensionA
+              ), // Array of weights
             },
             {
               label: "DimensionB",
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
-              data: data.map(({ dimensionB }) => dimensionB), // Array of weights
+              data: data.map(({ dimensionB }) =>
+                dimensionB === "" || dimensionB === null ? null : dimensionB
+              ), // Array of weights
             },
             {
               label: "DimensionC",
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
-              data: data.map(({ dimensionC }) => dimensionC), // Array of weights
+              data: data.map(({ dimensionC }) =>
+                dimensionC === "" || dimensionC === null ? null : dimensionC
+              ), // Array of weights
             },
             {
               label: "DimensionD",
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
-              data: data.map(({ dimensionD }) => dimensionD), // Array of weights
+              data: data.map(({ dimensionD }) =>
+                dimensionD === "" || dimensionD === null ? null : dimensionD
+              ), // Array of weights
             },
           ],
         },
@@ -103,7 +113,7 @@ export function ProgressChart() {
         id: "staticLine",
         afterDraw: (chart: Chart<"line">) => {
           const yScale = chart.scales["y"]; // Access the y-axis scale
-          const yValue = yScale.getPixelForValue(105); // Convert value (90) to pixels
+          const yValue = yScale.getPixelForValue(weightTarget); // Convert value (90) to pixels
 
           const ctx = chart.ctx;
           ctx.save();
@@ -111,7 +121,7 @@ export function ProgressChart() {
           ctx.moveTo(chart.chartArea.left, yValue);
           ctx.lineTo(chart.chartArea.right, yValue);
           ctx.strokeStyle = "rgba(255, 99, 132, 0.75)"; // Color of the line
-          ctx.lineWidth = 2; // Width of the line
+          ctx.lineWidth = 3; // Width of the line
           ctx.stroke();
           ctx.restore();
         },
@@ -131,6 +141,11 @@ export function ProgressChart() {
               data: data.map(({ weight }) =>
                 weight === "" || weight === null ? null : weight
               ), // Array of weights
+            },
+            {
+              label: `Weight Target: ${weightTarget}`,
+              backgroundColor: "rgba(255, 99, 132, 0.75)",
+              data: null,
             },
           ],
         },
