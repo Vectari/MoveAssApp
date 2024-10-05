@@ -15,9 +15,10 @@ interface ProgressData {
 
 export function ProgressChart() {
   const [data, setData] = useState<ProgressData[]>([]); // Use the interface for the state
+  const [latestWeight, setLatestWeight] = useState<number>(0); // State to hold the latest weight value
 
   const weightTarget = 130;
-  const currentWeight = 150;
+  const currentWeight = latestWeight; // Use the latest weight if available, fallback to 150
 
   const weightProgressStatus =
     currentWeight - weightTarget > 0
@@ -35,15 +36,20 @@ export function ProgressChart() {
           const progressData: ProgressData[] = []; // Use the interface for temporary array
 
           querySnapshot.forEach((doc) => {
-            const docId = doc.id;
-
-            if (docId >= "2023-10-01") {
-              const data = doc.data() as ProgressData; // Assert the type of the data
-              progressData.push(data); // Push the typed data
-            }
+            const data = doc.data() as ProgressData; // Assert the type of the data
+            progressData.push(data); // Push the typed data
           });
 
           setData(progressData); // Set the state with the array of data
+
+          // Find the latest weight based on the date
+          if (progressData.length > 0) {
+            const latestEntry = progressData.reduce((latest, entry) => {
+              return entry.date > latest.date ? entry : latest;
+            });
+
+            setLatestWeight(parseFloat(latestEntry.weight || "0")); // Parse and set the latest weight
+          }
         } catch (error) {
           console.error("Error fetching progress data: ", error);
         }
@@ -72,7 +78,7 @@ export function ProgressChart() {
               borderWidth: 1,
               data: data.map(({ dimensionA }) =>
                 dimensionA === "" || dimensionA === null ? null : dimensionA
-              ), // Array of weights
+              ),
             },
             {
               label: "DimensionB",
@@ -81,7 +87,7 @@ export function ProgressChart() {
               borderWidth: 1,
               data: data.map(({ dimensionB }) =>
                 dimensionB === "" || dimensionB === null ? null : dimensionB
-              ), // Array of weights
+              ),
             },
             {
               label: "DimensionC",
@@ -90,7 +96,7 @@ export function ProgressChart() {
               borderWidth: 1,
               data: data.map(({ dimensionC }) =>
                 dimensionC === "" || dimensionC === null ? null : dimensionC
-              ), // Array of weights
+              ),
             },
             {
               label: "DimensionD",
@@ -99,7 +105,7 @@ export function ProgressChart() {
               borderWidth: 1,
               data: data.map(({ dimensionD }) =>
                 dimensionD === "" || dimensionD === null ? null : dimensionD
-              ), // Array of weights
+              ),
             },
           ],
         },
@@ -114,12 +120,12 @@ export function ProgressChart() {
     if (data.length > 0) {
       const ctx = document.getElementById("weight") as HTMLCanvasElement;
 
-      // Plugin to draw a static line at a value of 90
+      // Plugin to draw a static line at the weight target value
       const staticLinePlugin = {
         id: "staticLine",
         afterDraw: (chart: Chart<"line">) => {
           const yScale = chart.scales["y"]; // Access the y-axis scale
-          const yValue = yScale.getPixelForValue(weightTarget); // Convert value (90) to pixels
+          const yValue = yScale.getPixelForValue(weightTarget); // Convert value (weight target) to pixels
 
           const ctx = chart.ctx;
           ctx.save();
@@ -146,7 +152,7 @@ export function ProgressChart() {
               borderWidth: 1,
               data: data.map(({ weight }) =>
                 weight === "" || weight === null ? null : weight
-              ), // Array of weights
+              ),
             },
             {
               label: `Weight Target: ${weightTarget} kg Status: ${weightProgressStatus}`,
@@ -178,6 +184,10 @@ export function ProgressChart() {
         <canvas id="weight"></canvas>
       </div>
       <div>
+        <p>
+          Latest Weight:{" "}
+          {latestWeight ? latestWeight + " kg" : "No data available"}
+        </p>
         {data.length > 0 ? (
           data.map(
             (
