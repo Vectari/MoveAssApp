@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../../library/firebaseConfig"; // Add Firestore (db) import
 import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; // Firestore functions
+import { LanguageSelect } from "../../components/LanguageSelect/LanguageSelect";
 
 export function Settings() {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ export function Settings() {
   return (
     <>
       <NavBar />
+      <LanguageSelect />
       <h1>Settings</h1>
       <h2>{user?.email}</h2>
       <div>
