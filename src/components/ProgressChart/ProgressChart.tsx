@@ -17,10 +17,6 @@ export function ProgressChart() {
   const [data, setData] = useState<ProgressData[]>([]);
   const [latestWeight, setLatestWeight] = useState<number>(0);
 
-
-
-  
-
   //UPDATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const weightTarget = 130;
 
@@ -116,6 +112,7 @@ export function ProgressChart() {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
@@ -172,6 +169,7 @@ export function ProgressChart() {
         plugins: [staticLinePlugin],
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, weightProgressStatus]);
 
   return (
