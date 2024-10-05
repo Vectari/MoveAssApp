@@ -23,6 +23,7 @@ export function NavBar() {
           <NavLink to="/">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/login">{translate("NavBar", "login")}</NavLink>
           <NavLink to="/signup">{translate("NavBar", "signup")}</NavLink>
+          <LanguageSelect />
         </>
       ) : (
         <>
@@ -33,7 +34,6 @@ export function NavBar() {
           </button>
         </>
       )}
-      <LanguageSelect />
     </StyledNavBar>
   );
 }
