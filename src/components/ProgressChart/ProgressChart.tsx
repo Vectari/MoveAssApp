@@ -1,29 +1,27 @@
+import Chart from "chart.js/auto";
 import { collection, query, getDocs } from "firebase/firestore";
 import { auth, db } from "../../library/firebaseConfig";
 import { useEffect, useState } from "react";
-import Chart from "chart.js/auto";
-
-// Define an interface for your progress data
 interface ProgressData {
-  date: string; // Adjust the types based on your actual data structure
-  dimensionA: string | null; // Change to the appropriate type
-  dimensionB: string | null; // Change to the appropriate type
-  dimensionC: string | null; // Change to the appropriate type
-  dimensionD: string | null; // Change to the appropriate type
-  weight: string | null; // Change to the appropriate type
+  date: string;
+  dimensionA: string | null;
+  dimensionB: string | null;
+  dimensionC: string | null;
+  dimensionD: string | null;
+  weight: string | null;
 }
 
 export function ProgressChart() {
-  const [data, setData] = useState<ProgressData[]>([]); // Use the interface for the state
-  const [latestWeight, setLatestWeight] = useState<number>(0); // State to hold the latest weight value
+  const [data, setData] = useState<ProgressData[]>([]);
+  const [latestWeight, setLatestWeight] = useState<number>(0);
 
+  //UPDATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const weightTarget = 130;
-  const currentWeight = latestWeight; // Use the latest weight if available, fallback to 150
 
   const weightProgressStatus =
-    currentWeight - weightTarget > 0
-      ? `Do schudnięcia: ${currentWeight - weightTarget} kg`
-      : `${currentWeight - weightTarget} kg poniżej wagi docelowej `;
+    latestWeight - weightTarget > 0
+      ? `Do schudnięcia: ${latestWeight - weightTarget} kg`
+      : `${latestWeight - weightTarget} kg poniżej wagi docelowej `;
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -32,23 +30,21 @@ export function ProgressChart() {
         const q = query(collection(db, "users", userId, "progress"));
         try {
           const querySnapshot = await getDocs(q);
-
-          const progressData: ProgressData[] = []; // Use the interface for temporary array
+          const progressData: ProgressData[] = [];
 
           querySnapshot.forEach((doc) => {
-            const data = doc.data() as ProgressData; // Assert the type of the data
-            progressData.push(data); // Push the typed data
+            const data = doc.data() as ProgressData;
+            progressData.push(data);
           });
 
-          setData(progressData); // Set the state with the array of data
+          setData(progressData);
 
-          // Find the latest weight based on the date
           if (progressData.length > 0) {
             const latestEntry = progressData.reduce((latest, entry) => {
               return entry.date > latest.date ? entry : latest;
             });
 
-            setLatestWeight(parseFloat(latestEntry.weight || "0")); // Parse and set the latest weight
+            setLatestWeight(parseFloat(latestEntry.weight || "0"));
           }
         } catch (error) {
           console.error("Error fetching progress data: ", error);
@@ -58,18 +54,18 @@ export function ProgressChart() {
       }
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
-  // Create chart once data is loaded
   useEffect(() => {
     if (data.length > 0) {
-      const ctx = document.getElementById("dim") as HTMLCanvasElement;
+      const ctx = document.getElementById(
+        "dimension_chart"
+      ) as HTMLCanvasElement;
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: data.map(({ date }) => date), // Array of dates
+          labels: data.map(({ date }) => date),
           datasets: [
             {
               label: "DimensionA",
@@ -114,36 +110,34 @@ export function ProgressChart() {
         },
       });
     }
-  }, [data]); // Chart is created once data changes
+  }, [data]);
 
   useEffect(() => {
     if (data.length > 0) {
-      const ctx = document.getElementById("weight") as HTMLCanvasElement;
+      const ctx = document.getElementById("weight_chart") as HTMLCanvasElement;
 
-      // Plugin to draw a static line at the weight target value
       const staticLinePlugin = {
         id: "staticLine",
         afterDraw: (chart: Chart<"line">) => {
-          const yScale = chart.scales["y"]; // Access the y-axis scale
-          const yValue = yScale.getPixelForValue(weightTarget); // Convert value (weight target) to pixels
+          const yScale = chart.scales["y"];
+          const yValue = yScale.getPixelForValue(weightTarget);
 
           const ctx = chart.ctx;
           ctx.save();
           ctx.beginPath();
           ctx.moveTo(chart.chartArea.left, yValue);
           ctx.lineTo(chart.chartArea.right, yValue);
-          ctx.strokeStyle = "rgba(255, 99, 132, 0.75)"; // Color of the line
-          ctx.lineWidth = 3; // Width of the line
+          ctx.strokeStyle = "rgba(255, 99, 132, 0.75)";
+          ctx.lineWidth = 3;
           ctx.stroke();
           ctx.restore();
         },
       };
 
-      // Create the chart
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: data.map(({ date }) => date), // Array of dates
+          labels: data.map(({ date }) => date),
           datasets: [
             {
               label: "Weight",
@@ -165,11 +159,11 @@ export function ProgressChart() {
           responsive: true,
           scales: {
             y: {
-              beginAtZero: true, // Ensures the chart starts at 0
+              beginAtZero: true,
             },
           },
         },
-        plugins: [staticLinePlugin], // Add the custom static line plugin
+        plugins: [staticLinePlugin],
       });
     }
   }, [data, weightProgressStatus]);
@@ -178,10 +172,10 @@ export function ProgressChart() {
     <>
       <h1>Progress Chart</h1>
       <div>
-        <canvas id="dim"></canvas>
+        <canvas id="dimension_chart"></canvas>
       </div>
       <div>
-        <canvas id="weight"></canvas>
+        <canvas id="weight_chart"></canvas>
       </div>
       <div>
         <p>
