@@ -2,6 +2,7 @@ import Chart from "chart.js/auto";
 import { collection, query, getDocs } from "firebase/firestore";
 import { auth, db } from "../../library/firebaseConfig";
 import { useEffect, useState } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 interface ProgressData {
   date: string;
   dimensionA: string | null;
@@ -12,8 +13,13 @@ interface ProgressData {
 }
 
 export function ProgressChart() {
+  const { translate } = useTranslation();
   const [data, setData] = useState<ProgressData[]>([]);
   const [latestWeight, setLatestWeight] = useState<number>(0);
+
+
+
+  
 
   //UPDATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const weightTarget = 130;
@@ -68,7 +74,7 @@ export function ProgressChart() {
           labels: data.map(({ date }) => date),
           datasets: [
             {
-              label: "DimensionA",
+              label: `${translate("AddProgress", "dimensionA")}`,
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
@@ -77,7 +83,7 @@ export function ProgressChart() {
               ),
             },
             {
-              label: "DimensionB",
+              label: `${translate("AddProgress", "dimensionB")}`,
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
@@ -86,7 +92,7 @@ export function ProgressChart() {
               ),
             },
             {
-              label: "DimensionC",
+              label: `${translate("AddProgress", "dimensionC")}`,
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
@@ -95,7 +101,7 @@ export function ProgressChart() {
               ),
             },
             {
-              label: "DimensionD",
+              label: `${translate("AddProgress", "dimensionD")}`,
               backgroundColor: "rgba(108, 202, 124, 0.2)",
               borderColor: "#ebb236",
               borderWidth: 1,
@@ -140,7 +146,7 @@ export function ProgressChart() {
           labels: data.map(({ date }) => date),
           datasets: [
             {
-              label: "Weight",
+              label: `${translate("AddProgress", "weight")}`,
               backgroundColor: "rgba(54, 162, 235, 0.2)",
               borderColor: "rgba(54, 162, 235, 1)",
               borderWidth: 1,
