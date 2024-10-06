@@ -13,6 +13,7 @@ export function UserPanel() {
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
+  const [weightTarget, setWeightTarget] = useState<string>("");
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false); // Portal visibility
 
   useEffect(() => {
@@ -28,11 +29,18 @@ export function UserPanel() {
           setDisplayName(userDoc.data().displayName || "");
 
           const userId = auth.currentUser.uid;
+
           const userKcalDoc = await getDoc(
             doc(db, "users", userId, "daily_kcal", "dailyKcal")
           );
           const kcalData = userKcalDoc.data();
           setDailyKcal(kcalData?.dailyKcal || "");
+
+          const userWeightDoc = await getDoc(
+            doc(db, "users", userId, "weight_target", "weightTarget")
+          );
+          const weightData = userWeightDoc.data();
+          setWeightTarget(weightData?.weightTarget || "");
         }
       }
     });
@@ -47,6 +55,14 @@ export function UserPanel() {
       <div>Name: {displayName}</div>
       <div>Mail: {user?.email}</div>
       <div>Daily kcal: {dailyKcal}</div>
+
+      {/* !!!!!!!!!!! */}
+      {/* !!!!!!!!!! */}
+      {/* KCAL STRIKE BUTTON */}
+      {/* !!!!!!!!!!!! */}
+      {/* !!!!!!!!!1 */}
+
+      <div>Weight target: {weightTarget}</div>
 
       <button onClick={() => setIsPortalOpen(true)}>Open Portal</button>
       {isPortalOpen && (
