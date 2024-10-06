@@ -11,6 +11,7 @@ export function Settings() {
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
+  const [weightTarget, setWeightTarget] = useState<string>("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -27,6 +28,9 @@ export function Settings() {
         const userKcalDoc = await getDoc(
           doc(db, "users", userId, "daily_kcal", "dailyKcal")
         );
+        const userWeightDoc = await getDoc(
+          doc(db, "users", userId, "weight_target", "weightTarget")
+        );
 
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
@@ -35,6 +39,11 @@ export function Settings() {
         if (userKcalDoc.exists()) {
           const kcalData = userKcalDoc.data();
           setDailyKcal(kcalData?.dailyKcal || ""); // Ensure kcalData is defined before accessing dailyKcal
+        }
+
+        if (userWeightDoc.exists()) {
+          const weightData = userWeightDoc.data();
+          setWeightTarget(weightData?.weightTarget || ""); // Ensure kcalData is defined before accessing dailyKcal
         }
       }
     });
@@ -74,6 +83,25 @@ export function Settings() {
     }
   };
 
+  const handleSaveWeightTarget = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+
+      // Reference to the "daily_kcal" subcollection under the user's document
+      const weightTargetRef = doc(
+        db,
+        "users",
+        userId,
+        "weight_target",
+        "weightTarget"
+      );
+
+      await setDoc(weightTargetRef, { weightTarget }, { merge: true });
+
+      console.log("Weight target updated!");
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -99,6 +127,16 @@ export function Settings() {
           onChange={(e) => setDailyKcal(e.target.value)}
         />
         <button onClick={handleSaveDailyKcal}>Save</button>
+      </div>
+      <div>
+        <label htmlFor="weightTarget">Weight target: </label>
+        <input
+          type="number"
+          id="weightTarget"
+          value={weightTarget}
+          onChange={(e) => setWeightTarget(e.target.value)}
+        />
+        <button onClick={handleSaveWeightTarget}>Save</button>
       </div>
     </>
   );
