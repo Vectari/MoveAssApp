@@ -1,5 +1,5 @@
 import Chart from "chart.js/auto";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../library/firebaseConfig";
 import { useEffect, useState } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
@@ -15,10 +15,8 @@ interface ProgressData {
 export function ProgressChart() {
   const { translate } = useTranslation();
   const [data, setData] = useState<ProgressData[]>([]);
+  const [weightTarget, setWeightTarget] = useState<number>(0);
   const [latestWeight, setLatestWeight] = useState<number>(0);
-
-  //UPDATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  const weightTarget = 130;
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
@@ -30,6 +28,12 @@ export function ProgressChart() {
       if (user) {
         const userId = user.uid;
         const q = query(collection(db, "users", userId, "progress"));
+
+        const userWeightDoc = await getDoc(
+          doc(db, "users", userId, "weight_target", "weightTarget")
+        );
+        const weightData = userWeightDoc.data();
+        setWeightTarget(weightData?.weightTarget || "");
         try {
           const querySnapshot = await getDocs(q);
           const progressData: ProgressData[] = [];
