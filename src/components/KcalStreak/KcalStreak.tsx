@@ -6,6 +6,8 @@ import { onAuthStateChanged } from "firebase/auth";
 export function KcalStreak() {
   const [kcalStreak, setKcalStreak] = useState<number>(0);
   const [resetStreak, setResetStreak] = useState<number>(0);
+  const [kcalStrikeResetInfo, setKcalStrikeResetInfo] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async () => {
@@ -59,10 +61,10 @@ export function KcalStreak() {
     if (auth.currentUser) {
       setResetStreak(resetStreak + 1);
       if (resetStreak === 0) {
-        console.log("Click two more times");
+        setKcalStrikeResetInfo(true);
       } else if (resetStreak === 2) {
         setResetStreak(0);
-        console.log("RESET!!!");
+        setKcalStrikeResetInfo(false);
         const newStreak = 0;
         setKcalStreak(newStreak);
         const userId = auth.currentUser.uid;
@@ -86,6 +88,7 @@ export function KcalStreak() {
       <p>{kcalStreak}</p>
       <button onClick={handleAddStreak}>Add +1</button>
       <button onClick={handleResetStreak}>Reset</button>
+      <p>{kcalStrikeResetInfo ? "Two more times..." : null}</p>
     </>
   );
 }
