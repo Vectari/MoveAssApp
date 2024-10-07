@@ -18,7 +18,7 @@ export function KcalStreak() {
 
         if (kcalStreakDoc.exists()) {
           const kcalStreakData = kcalStreakDoc.data();
-          setKcalStreak(kcalStreakData?.kcalStreak || ""); // Ensure kcalData is defined before accessing dailyKcal
+          setKcalStreak(kcalStreakData?.kcalStreak || 0); // Ensure kcalData is defined before accessing dailyKcal
         }
       }
     });
@@ -55,16 +55,28 @@ export function KcalStreak() {
     }
   };
 
-  const handleResetStreak = () => {
-    setResetStreak(resetStreak + 1);
-    console.log(resetStreak);
-    if (resetStreak === 0) {
-      console.log("Click two more times");
-    } else if (resetStreak === 2) {
-      setResetStreak(0);
-      setKcalStreak(0);
-      console.log(resetStreak);
-      console.log("RESET!!!");
+  const handleResetStreak = async () => {
+    if (auth.currentUser) {
+      setResetStreak(resetStreak + 1);
+      if (resetStreak === 0) {
+        console.log("Click two more times");
+      } else if (resetStreak === 2) {
+        setResetStreak(0);
+        console.log("RESET!!!");
+        const newStreak = 0;
+        setKcalStreak(newStreak);
+        const userId = auth.currentUser.uid;
+
+        const kcalStreakRef = doc(
+          db,
+          "users",
+          userId,
+          "daily_kcal",
+          "kcalStreak"
+        );
+
+        await setDoc(kcalStreakRef, { kcalStreak: newStreak }, { merge: true });
+      }
     }
   };
 
