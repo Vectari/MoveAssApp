@@ -7,7 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { Portal } from "../../components/Portal/Portal";
 import { AddProgress } from "../../components/AddProgress/AddProgress";
 import { ProgressChart } from "../../components/ProgressChart/ProgressChart";
-import { KcalStrike } from "../../components/KcalStrike/KcalStrike";
+import { KcalStreak } from "../../components/KcalStreak/KcalStreak";
 
 export function UserPanel() {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export function UserPanel() {
       <div>Mail: {user?.email}</div>
       <div>Daily kcal: {dailyKcal}</div>
 
-      <KcalStrike />
+      <KcalStreak />
 
       <div>Weight target: {weightTarget}</div>
 
