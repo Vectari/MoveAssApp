@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { Portal } from "../../components/Portal/Portal";
 import { AddProgress } from "../../components/AddProgress/AddProgress";
 import { ProgressChart } from "../../components/ProgressChart/ProgressChart";
+import { KcalStrike } from "../../components/KcalStrike/KcalStrike";
 
 export function UserPanel() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export function UserPanel() {
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
   const [weightTarget, setWeightTarget] = useState<string>("");
-  const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false); // Portal visibility
+  const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -56,11 +57,7 @@ export function UserPanel() {
       <div>Mail: {user?.email}</div>
       <div>Daily kcal: {dailyKcal}</div>
 
-      {/* !!!!!!!!!!! */}
-      {/* !!!!!!!!!! */}
-      {/* KCAL STRIKE BUTTON */}
-      {/* !!!!!!!!!!!! */}
-      {/* !!!!!!!!!1 */}
+      <KcalStrike />
 
       <div>Weight target: {weightTarget}</div>
 
