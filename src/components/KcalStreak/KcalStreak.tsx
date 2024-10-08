@@ -82,6 +82,11 @@ export function KcalStreak() {
     }
   };
 
+  // ADD TIMER 
+  // 
+  // 
+  // 
+
   return (
     <>
       <p>Daily kcal Streak:</p>
