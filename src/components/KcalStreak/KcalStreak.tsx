@@ -86,7 +86,14 @@ export function KcalStreak() {
   // 
   // 
   // 
+  // 
+  // 
 
+  // 
+  // 
+  // 
+  // 
+  
   return (
     <>
       <p>Daily kcal Streak:</p>
