@@ -8,8 +8,15 @@ export function KcalStreak() {
   const [resetStreak, setResetStreak] = useState<number>(0);
   const [kcalStrikeResetInfo, setKcalStrikeResetInfo] =
     useState<boolean>(false);
-  const [lastClickTime, setLastClickTime] = useState<number | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+
+  // Function to calculate the number of milliseconds until midnight
+  const getMillisecondsUntilMidnight = () => {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0); // Set time to midnight
+    return midnight.getTime() - now.getTime();
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async () => {
@@ -29,14 +36,15 @@ export function KcalStreak() {
           const { kcalStreak, lastClickTime: storedLastClickTime } =
             docSnap.data();
           setKcalStreak(kcalStreak || 0);
-          setLastClickTime(storedLastClickTime || null);
 
-          // Check if the button should be disabled (i.e., if 24 hours have passed since last click)
+          // Check if the button should be disabled based on the last click time
           if (storedLastClickTime) {
             const currentTime = Date.now();
+            const millisecondsUntilMidnight = getMillisecondsUntilMidnight();
             const timeDifference = currentTime - storedLastClickTime;
-            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-            setIsButtonDisabled(timeDifference < oneDay);
+
+            // Disable the button if the user has clicked today (before midnight)
+            setIsButtonDisabled(timeDifference < millisecondsUntilMidnight);
           }
         }
       }
@@ -49,40 +57,33 @@ export function KcalStreak() {
     if (auth.currentUser && !isButtonDisabled) {
       const userId = auth.currentUser.uid;
       const currentTimestamp = Date.now();
-      const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
 
-      // Check if enough time has passed since the last click
-      if (!lastClickTime || currentTimestamp - lastClickTime >= oneDay) {
-        const kcalStreakRef = doc(
-          db,
-          "users",
-          userId,
-          "daily_kcal",
-          "kcalStreak"
-        );
+      const kcalStreakRef = doc(
+        db,
+        "users",
+        userId,
+        "daily_kcal",
+        "kcalStreak"
+      );
 
-        // Increment the streak locally
-        const newStreak = kcalStreak + 1;
-        setKcalStreak(newStreak);
+      // Increment the streak locally
+      const newStreak = kcalStreak + 1;
+      setKcalStreak(newStreak);
 
-        // Update the backend with the new streak and the current timestamp
-        await setDoc(
-          kcalStreakRef,
-          {
-            kcalStreak: newStreak,
-            lastClickTime: currentTimestamp, // Store the current timestamp
-          },
-          { merge: true }
-        );
+      // Update the backend with the new streak and the current timestamp
+      await setDoc(
+        kcalStreakRef,
+        {
+          kcalStreak: newStreak,
+          lastClickTime: currentTimestamp, // Store the current timestamp
+        },
+        { merge: true }
+      );
 
-        // Disable the button for the rest of the day
-        setIsButtonDisabled(true);
-        setLastClickTime(currentTimestamp);
+      // Disable the button until midnight
+      setIsButtonDisabled(true);
 
-        console.log("Kcal Streak updated!");
-      } else {
-        console.log("You can only add +1 once per day.");
-      }
+      console.log("Kcal Streak updated!");
     }
   };
 
@@ -120,7 +121,7 @@ export function KcalStreak() {
       </button>
       <button onClick={handleResetStreak}>Reset</button>
       <p>{kcalStrikeResetInfo ? "Two more times..." : null}</p>
-      {isButtonDisabled && <p>You can only add +1 once per day.</p>}
+      {isButtonDisabled && <p>You can only add +1 once a day.</p>}
     </>
   );
 }
