@@ -47,6 +47,17 @@ export function Settings() {
           doc(db, "users", userId, "show_hide", "showDailyKcalStreak")
         );
 
+        const userShowWeightTargetDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showWeightTarget")
+        );
+
+        const userShowDimChartDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showDimChart")
+        );
+        const userShowWeightChartDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showWeightChart")
+        );
+
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
         }
@@ -67,8 +78,21 @@ export function Settings() {
         }
 
         if (userShowDailyKcalStrekDoc.exists()) {
-          const showDailyKcalStrekData = userShowDailyKcalDoc.data();
-          setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcal);
+          const showDailyKcalStrekData = userShowDailyKcalStrekDoc.data();
+          setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcalStreak);
+        }
+
+        if (userShowDimChartDoc.exists()) {
+          const showDimChartData = userShowDimChartDoc.data();
+          setShowDimChart(showDimChartData?.showDimChart);
+        }
+        if (userShowWeightTargetDoc.exists()) {
+          const showWeightTargetData = userShowWeightTargetDoc.data();
+          setShowWeightTarget(showWeightTargetData?.showWeightTarget);
+        }
+        if (userShowWeightChartDoc.exists()) {
+          const showWeightChartData = userShowWeightChartDoc.data();
+          setShowWeightChart(showWeightChartData?.showWeightChart);
         }
       }
     });
@@ -169,6 +193,65 @@ export function Settings() {
     }
   };
 
+  const handleShowWeightTarget = async (checked: boolean) => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+
+      const showWeightTargetRef = doc(
+        db,
+        "users",
+        userId,
+        "show_hide",
+        "showWeightTarget"
+      );
+
+      await setDoc(
+        showWeightTargetRef,
+        { showWeightTarget: checked },
+        { merge: true }
+      );
+      console.log("Show Weight Target updated!");
+    }
+  };
+
+  const handleShowDimChart = async (checked: boolean) => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+
+      const showDimChrtRef = doc(
+        db,
+        "users",
+        userId,
+        "show_hide",
+        "showDimChart"
+      );
+
+      await setDoc(showDimChrtRef, { showDimChart: checked }, { merge: true });
+      console.log("Show Dim Chart updated!");
+    }
+  };
+
+  const handleShowWeightChart = async (checked: boolean) => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+
+      const showWeightChrtRef = doc(
+        db,
+        "users",
+        userId,
+        "show_hide",
+        "showWeightChart"
+      );
+
+      await setDoc(
+        showWeightChrtRef,
+        { showWeightChart: checked },
+        { merge: true }
+      );
+      console.log("Show Weight Chart updated!");
+    }
+  };
+
   // Checkbox change handler
   const handleShowDailyKcalCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -184,6 +267,30 @@ export function Settings() {
     const checked = e.target.checked;
     setShowDailyKcalStreak(checked);
     handleShowDailyKcalStreak(checked);
+  };
+
+  const handleShowWeightTargetCheckBoxChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = e.target.checked;
+    setShowWeightTarget(checked);
+    handleShowWeightTarget(checked);
+  };
+
+  const handleShowDimChartCheckBoxChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = e.target.checked;
+    setShowDimChart(checked);
+    handleShowDimChart(checked);
+  };
+
+  const handleShowWeightChartCheckBoxChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = e.target.checked;
+    setShowWeightChart(checked);
+    handleShowWeightChart(checked);
   };
 
   return (
@@ -239,13 +346,28 @@ export function Settings() {
         />
         <label htmlFor="showDailyKcalStreak">showDailyKcalStreak</label>
         <br />
-        <input type="checkbox" id="showWeightTarget" />
+        <input
+          type="checkbox"
+          id="showWeightTarget"
+          checked={showWeightTarget}
+          onChange={handleShowWeightTargetCheckBoxChange}
+        />
         <label htmlFor="showWeightTarget">showWeightTarget</label>
         <br />
-        <input type="checkbox" id="showDimChart" />
+        <input
+          type="checkbox"
+          id="showDimChart"
+          checked={showDimChart}
+          onChange={handleShowDimChartCheckBoxChange}
+        />
         <label htmlFor="showDimChart">showDimChart</label>
         <br />
-        <input type="checkbox" id="showWeightChart" />
+        <input
+          type="checkbox"
+          id="showWeightChart"
+          checked={showWeightChart}
+          onChange={handleShowWeightChartCheckBoxChange}
+        />
         <label htmlFor="showWeightChart">showWeightChart</label>
       </div>
     </>
