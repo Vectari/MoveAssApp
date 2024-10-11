@@ -3,6 +3,8 @@ import { collection, query, getDocs, getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../library/firebaseConfig";
 import { useEffect, useState } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useAtom } from "jotai";
+import { atomShowDimChart, atomShowWeightChart } from "../../atoms/atoms";
 interface ProgressData {
   date: string;
   dimensionA: string | null;
@@ -17,6 +19,9 @@ export function ProgressChart() {
   const [data, setData] = useState<ProgressData[]>([]);
   const [weightTarget, setWeightTarget] = useState<number>(0);
   const [latestWeight, setLatestWeight] = useState<number>(0);
+
+  const [showDimChart] = useAtom(atomShowDimChart);
+  const [showWeightChart] = useAtom(atomShowWeightChart);
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
@@ -64,132 +69,144 @@ export function ProgressChart() {
   }, []);
 
   useEffect(() => {
-    if (data.length > 0) {
-      const ctx = document.getElementById(
-        "dimension_chart"
-      ) as HTMLCanvasElement;
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: data.map(({ date }) => date),
-          datasets: [
-            {
-              label: `${translate("AddProgress", "dimensionA")}`,
-              backgroundColor: "rgba(108, 202, 124, 0.2)",
-              borderColor: "#ebb236",
-              borderWidth: 1,
-              data: data.map(({ dimensionA }) =>
-                dimensionA === "" || dimensionA === null ? null : dimensionA
-              ),
-            },
-            {
-              label: `${translate("AddProgress", "dimensionB")}`,
-              backgroundColor: "rgba(108, 202, 124, 0.2)",
-              borderColor: "#ebb236",
-              borderWidth: 1,
-              data: data.map(({ dimensionB }) =>
-                dimensionB === "" || dimensionB === null ? null : dimensionB
-              ),
-            },
-            {
-              label: `${translate("AddProgress", "dimensionC")}`,
-              backgroundColor: "rgba(108, 202, 124, 0.2)",
-              borderColor: "#ebb236",
-              borderWidth: 1,
-              data: data.map(({ dimensionC }) =>
-                dimensionC === "" || dimensionC === null ? null : dimensionC
-              ),
-            },
-            {
-              label: `${translate("AddProgress", "dimensionD")}`,
-              backgroundColor: "rgba(108, 202, 124, 0.2)",
-              borderColor: "#ebb236",
-              borderWidth: 1,
-              data: data.map(({ dimensionD }) =>
-                dimensionD === "" || dimensionD === null ? null : dimensionD
-              ),
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-        },
-      });
+    if (showDimChart) {
+      if (data.length > 0) {
+        const ctx = document.getElementById(
+          "dimension_chart"
+        ) as HTMLCanvasElement;
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: data.map(({ date }) => date),
+            datasets: [
+              {
+                label: `${translate("AddProgress", "dimensionA")}`,
+                backgroundColor: "rgba(108, 202, 124, 0.2)",
+                borderColor: "#ebb236",
+                borderWidth: 1,
+                data: data.map(({ dimensionA }) =>
+                  dimensionA === "" || dimensionA === null ? null : dimensionA
+                ),
+              },
+              {
+                label: `${translate("AddProgress", "dimensionB")}`,
+                backgroundColor: "rgba(108, 202, 124, 0.2)",
+                borderColor: "#ebb236",
+                borderWidth: 1,
+                data: data.map(({ dimensionB }) =>
+                  dimensionB === "" || dimensionB === null ? null : dimensionB
+                ),
+              },
+              {
+                label: `${translate("AddProgress", "dimensionC")}`,
+                backgroundColor: "rgba(108, 202, 124, 0.2)",
+                borderColor: "#ebb236",
+                borderWidth: 1,
+                data: data.map(({ dimensionC }) =>
+                  dimensionC === "" || dimensionC === null ? null : dimensionC
+                ),
+              },
+              {
+                label: `${translate("AddProgress", "dimensionD")}`,
+                backgroundColor: "rgba(108, 202, 124, 0.2)",
+                borderColor: "#ebb236",
+                borderWidth: 1,
+                data: data.map(({ dimensionD }) =>
+                  dimensionD === "" || dimensionD === null ? null : dimensionD
+                ),
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+          },
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      const ctx = document.getElementById("weight_chart") as HTMLCanvasElement;
+    if (showWeightChart) {
+      if (data.length > 0) {
+        const ctx = document.getElementById(
+          "weight_chart"
+        ) as HTMLCanvasElement;
 
-      const staticLinePlugin = {
-        id: "staticLine",
-        afterDraw: (chart: Chart<"line">) => {
-          const yScale = chart.scales["y"];
-          const yValue = yScale.getPixelForValue(weightTarget);
+        const staticLinePlugin = {
+          id: "staticLine",
+          afterDraw: (chart: Chart<"line">) => {
+            const yScale = chart.scales["y"];
+            const yValue = yScale.getPixelForValue(weightTarget);
 
-          const ctx = chart.ctx;
-          ctx.save();
-          ctx.beginPath();
-          ctx.moveTo(chart.chartArea.left, yValue);
-          ctx.lineTo(chart.chartArea.right, yValue);
-          ctx.strokeStyle = "rgba(255, 99, 132, 0.75)";
-          ctx.lineWidth = 3;
-          ctx.stroke();
-          ctx.restore();
-        },
-      };
+            const ctx = chart.ctx;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(chart.chartArea.left, yValue);
+            ctx.lineTo(chart.chartArea.right, yValue);
+            ctx.strokeStyle = "rgba(255, 99, 132, 0.75)";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+          },
+        };
 
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: data.map(({ date }) => date),
-          datasets: [
-            {
-              label: `${translate("AddProgress", "weight")}`,
-              backgroundColor: "rgba(54, 162, 235, 0.2)",
-              borderColor: "rgba(54, 162, 235, 1)",
-              borderWidth: 1,
-              data: data.map(({ weight }) =>
-                weight === "" || weight === null ? null : weight
-              ),
-            },
-            {
-              label: `Weight Target: ${weightTarget} kg Status: ${weightProgressStatus}`,
-              backgroundColor: "rgba(255, 99, 132, 0.75)",
-              data: null,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: data.map(({ date }) => date),
+            datasets: [
+              {
+                label: `${translate("AddProgress", "weight")}`,
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
+                data: data.map(({ weight }) =>
+                  weight === "" || weight === null ? null : weight
+                ),
+              },
+              {
+                label: `Weight Target: ${weightTarget} kg Status: ${weightProgressStatus}`,
+                backgroundColor: "rgba(255, 99, 132, 0.75)",
+                data: null,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
             },
           },
-        },
-        plugins: [staticLinePlugin],
-      });
+          plugins: [staticLinePlugin],
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, weightProgressStatus]);
 
   return (
     <>
-      <h1>Progress Chart</h1>
-      <div>
-        <canvas id="dimension_chart"></canvas>
-      </div>
-      <div>
-        <canvas id="weight_chart"></canvas>
-      </div>
-      <div>
-        <p>
-          Latest Weight:{" "}
-          {latestWeight ? latestWeight + " kg" : "No data available"}
-        </p>
+      <p>
+        Latest Weight:{" "}
+        {latestWeight ? latestWeight + " kg" : "No data available"}
+      </p>
+      <h1>Progress Charts</h1>
+      {showDimChart && (
+        <div>
+          <h3>Dim Chart</h3>
+          <canvas id="dimension_chart"></canvas>
+        </div>
+      )}
+      {showWeightChart && (
+        <div>
+          <h3>Weight chart</h3>
+          <canvas id="weight_chart"></canvas>
+        </div>
+      )}
+      {/* <div>
         {data.length > 0 ? (
           data.map(
             (
@@ -209,7 +226,7 @@ export function ProgressChart() {
         ) : (
           <p>No data available</p>
         )}
-      </div>
+      </div> */}
     </>
   );
 }
