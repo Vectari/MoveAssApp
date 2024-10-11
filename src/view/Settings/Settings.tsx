@@ -5,6 +5,14 @@ import { auth, db } from "../../library/firebaseConfig"; // Add Firestore (db) i
 import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; // Firestore functions
 import { LanguageSelect } from "../../components/LanguageSelect/LanguageSelect";
+import { useAtom } from "jotai";
+import {
+  atomShowDailyKcal,
+  atomShowDailyKcalStreak,
+  atomShowWeightTarget,
+  atomShowDimChart,
+  atomShowWeightChart,
+} from "../../atoms/atoms";
 
 export function Settings() {
   const navigate = useNavigate();
@@ -13,12 +21,15 @@ export function Settings() {
   const [dailyKcal, setDailyKcal] = useState<string>("");
   const [weightTarget, setWeightTarget] = useState<string>("");
 
-  const [showDailyKcal, setShowDailyKcal] = useState<boolean>(Boolean);
-  const [showDailyKcalStreak, setShowDailyKcalStreak] =
-    useState<boolean>(Boolean);
-  const [showWeightTarget, setShowWeightTarget] = useState<boolean>(Boolean);
-  const [showDimChart, setShowDimChart] = useState<boolean>(Boolean);
-  const [showWeightChart, setShowWeightChart] = useState<boolean>(Boolean);
+  const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
+  const [showDailyKcalStreak, setShowDailyKcalStreak] = useAtom<boolean>(
+    atomShowDailyKcalStreak
+  );
+  const [showWeightTarget, setShowWeightTarget] =
+    useAtom<boolean>(atomShowWeightTarget);
+  const [showDimChart, setShowDimChart] = useAtom<boolean>(atomShowDimChart);
+  const [showWeightChart, setShowWeightChart] =
+    useAtom<boolean>(atomShowWeightChart);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -98,7 +109,7 @@ export function Settings() {
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, [navigate, setShowDailyKcal]);
 
   const handleSaveDisplayName = async () => {
     if (auth.currentUser) {
