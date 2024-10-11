@@ -8,6 +8,12 @@ import { Portal } from "../../components/Portal/Portal";
 import { AddProgress } from "../../components/AddProgress/AddProgress";
 import { ProgressChart } from "../../components/ProgressChart/ProgressChart";
 import { KcalStreak } from "../../components/KcalStreak/KcalStreak";
+import {
+  atomShowDailyKcal,
+  atomShowDailyKcalStreak,
+  atomShowWeightTarget,
+} from "../../atoms/atoms";
+import { useAtom } from "jotai";
 
 export function UserPanel() {
   const navigate = useNavigate();
@@ -16,6 +22,10 @@ export function UserPanel() {
   const [dailyKcal, setDailyKcal] = useState<string>("");
   const [weightTarget, setWeightTarget] = useState<string>("");
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
+
+  const [showDailyKcal] = useAtom(atomShowDailyKcal);
+  const [showDailyKcalStreak] = useAtom(atomShowDailyKcalStreak);
+  const [showWeightTarget] = useAtom(atomShowWeightTarget);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -52,14 +62,11 @@ export function UserPanel() {
   return (
     <>
       <NavBar />
-      <h1>User panel</h1>
-      <div>Name: {displayName}</div>
+      <h1>Have a nice day {displayName} !</h1>
       <div>Mail: {user?.email}</div>
-      <div>Daily kcal: {dailyKcal}</div>
-
-      <KcalStreak />
-
-      <div>Weight target: {weightTarget}</div>
+      {showDailyKcal && <div>Daily kcal: {dailyKcal}</div>}
+      {showDailyKcalStreak && <KcalStreak />}
+      {showWeightTarget && <div>Weight target: {weightTarget}</div>}
 
       <button onClick={() => setIsPortalOpen(true)}>Open Portal</button>
       {isPortalOpen && (
