@@ -13,6 +13,12 @@ export function Settings() {
   const [dailyKcal, setDailyKcal] = useState<string>("");
   const [weightTarget, setWeightTarget] = useState<string>("");
 
+  const [showDailyKcal, setShowDailyKcal] = useState<boolean>(Boolean);
+  const [showDailyKcalStreak, setShowDailyKcalStreak] = useState<boolean>(true);
+  const [showWeightTarget, setShowWeightTarget] = useState<boolean>(true);
+  const [showDimChart, setShowDimChart] = useState<boolean>(true);
+  const [showWeightChart, setShowWeightChart] = useState<boolean>(true);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (auth.currentUser === null) {
@@ -32,6 +38,10 @@ export function Settings() {
           doc(db, "users", userId, "weight_target", "weightTarget")
         );
 
+        const userShowDailyKcalDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showDailyKcal")
+        );
+
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
         }
@@ -44,6 +54,11 @@ export function Settings() {
         if (userWeightDoc.exists()) {
           const weightData = userWeightDoc.data();
           setWeightTarget(weightData?.weightTarget || ""); // Ensure kcalData is defined before accessing dailyKcal
+        }
+
+        if (userShowDailyKcalDoc.exists()) {
+          const showDailyKcalData = userShowDailyKcalDoc.data();
+          setShowDailyKcal(showDailyKcalData?.showDailyKcal);
         }
       }
     });
@@ -102,6 +117,36 @@ export function Settings() {
     }
   };
 
+  const handleShowDailyKcal = async (checked: boolean) => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+
+      const showDailyKcalRef = doc(
+        db,
+        "users",
+        userId,
+        "show_hide",
+        "showDailyKcal"
+      );
+
+      await setDoc(
+        showDailyKcalRef,
+        { showDailyKcal: checked },
+        { merge: true }
+      );
+      console.log("Show Daily Kcal updated!");
+    }
+  };
+
+  // Checkbox change handler
+  const handleShowDailyKcalCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = e.target.checked;
+    setShowDailyKcal(checked);
+    handleShowDailyKcal(checked);
+  };
+
   return (
     <>
       <NavBar />
@@ -137,6 +182,27 @@ export function Settings() {
           onChange={(e) => setWeightTarget(e.target.value)}
         />
         <button onClick={handleSaveWeightTarget}>Save</button>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="showDailyKcal"
+          checked={showDailyKcal}
+          onChange={handleShowDailyKcalCheckboxChange}
+        />
+        <label htmlFor="showDailyKcal">showDailyKcal</label>
+        <br />
+        <input type="checkbox" id="showDailyKcalStreak" />
+        <label htmlFor="showDailyKcalStreak">showDailyKcalStreak</label>
+        <br />
+        <input type="checkbox" id="showWeightTarget" />
+        <label htmlFor="showWeightTarget">showWeightTarget</label>
+        <br />
+        <input type="checkbox" id="showDimChart" />
+        <label htmlFor="showDimChart">showDimChart</label>
+        <br />
+        <input type="checkbox" id="showWeightChart" />
+        <label htmlFor="showWeightChart">showWeightChart</label>
       </div>
     </>
   );
