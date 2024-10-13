@@ -94,14 +94,14 @@ export function Settings() {
           setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcalStreak);
         }
 
-        if (userShowDimChartDoc.exists()) {
-          const showDimChartData = userShowDimChartDoc.data();
-          setShowDimChart(showDimChartData?.showDimChart);
-        }
-
         if (userShowWeightTargetDoc.exists()) {
           const showWeightTargetData = userShowWeightTargetDoc.data();
           setShowWeightTarget(showWeightTargetData?.showWeightTarget);
+        }
+
+        if (userShowDimChartDoc.exists()) {
+          const showDimChartData = userShowDimChartDoc.data();
+          setShowDimChart(showDimChartData?.showDimChart);
         }
 
         if (userShowWeightChartDoc.exists()) {
