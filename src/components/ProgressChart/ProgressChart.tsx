@@ -20,8 +20,9 @@ export function ProgressChart() {
   const [weightTarget, setWeightTarget] = useState<number>(0);
   const [latestWeight, setLatestWeight] = useState<number>(0);
 
-  const [showDimChart] = useAtom(atomShowDimChart);
-  const [showWeightChart] = useAtom(atomShowWeightChart);
+  const [showDimChart, setShowDimChart] = useAtom<boolean>(atomShowDimChart);
+  const [showWeightChart, setShowWeightChart] =
+    useAtom<boolean>(atomShowWeightChart);
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
@@ -37,8 +38,28 @@ export function ProgressChart() {
         const userWeightDoc = await getDoc(
           doc(db, "users", userId, "weight_target", "weightTarget")
         );
+
         const weightData = userWeightDoc.data();
         setWeightTarget(weightData?.weightTarget || "");
+
+        const userShowDimChartDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showDimChart")
+        );
+
+        const userShowWeightChartDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showWeightChart")
+        );
+
+        if (userShowDimChartDoc.exists()) {
+          const showDimChartData = userShowDimChartDoc.data();
+          setShowDimChart(showDimChartData?.showDimChart);
+        }
+
+        if (userShowWeightChartDoc.exists()) {
+          const showWeightChartData = userShowWeightChartDoc.data();
+          setShowWeightChart(showWeightChartData?.showWeightChart);
+        }
+
         try {
           const querySnapshot = await getDocs(q);
           const progressData: ProgressData[] = [];
@@ -66,7 +87,7 @@ export function ProgressChart() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [setShowDimChart, setShowWeightChart]);
 
   useEffect(() => {
     if (showDimChart) {
