@@ -13,6 +13,7 @@ import {
   atomShowDimChart,
   atomShowWeightChart,
 } from "../../atoms/atoms";
+import { Loader } from "../../components/Loader/Loader";
 
 export function Settings() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export function Settings() {
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
   const [weightTarget, setWeightTarget] = useState<string>("");
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
   const [showDailyKcalStreak, setShowDailyKcalStreak] = useAtom<boolean>(
@@ -72,41 +74,49 @@ export function Settings() {
 
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
+          setLoaded(true);
         }
 
         if (userKcalDoc.exists()) {
           const kcalData = userKcalDoc.data();
           setDailyKcal(kcalData?.dailyKcal || ""); // Ensure kcalData is defined before accessing dailyKcal
+          setLoaded(true);
         }
 
         if (userWeightDoc.exists()) {
           const weightData = userWeightDoc.data();
           setWeightTarget(weightData?.weightTarget || ""); // Ensure kcalData is defined before accessing dailyKcal
+          setLoaded(true);
         }
 
         if (userShowDailyKcalDoc.exists()) {
           const showDailyKcalData = userShowDailyKcalDoc.data();
           setShowDailyKcal(showDailyKcalData?.showDailyKcal);
+          setLoaded(true);
         }
 
         if (userShowDailyKcalStrekDoc.exists()) {
           const showDailyKcalStrekData = userShowDailyKcalStrekDoc.data();
           setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcalStreak);
+          setLoaded(true);
         }
 
         if (userShowWeightTargetDoc.exists()) {
           const showWeightTargetData = userShowWeightTargetDoc.data();
           setShowWeightTarget(showWeightTargetData?.showWeightTarget);
+          setLoaded(true);
         }
 
         if (userShowDimChartDoc.exists()) {
           const showDimChartData = userShowDimChartDoc.data();
           setShowDimChart(showDimChartData?.showDimChart);
+          setLoaded(true);
         }
 
         if (userShowWeightChartDoc.exists()) {
           const showWeightChartData = userShowWeightChartDoc.data();
           setShowWeightChart(showWeightChartData?.showWeightChart);
+          setLoaded(true);
         }
       }
     });
@@ -316,6 +326,7 @@ export function Settings() {
 
   return (
     <>
+      <Loader description={"settings"} toCheck={loaded} />
       <NavBar />
       <LanguageSelect />
       <h1>Settings</h1>

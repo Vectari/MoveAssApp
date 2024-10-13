@@ -14,9 +14,11 @@ import {
   atomShowWeightTarget,
 } from "../../atoms/atoms";
 import { useAtom } from "jotai";
+import { Loader } from "../../components/Loader/Loader";
 
 export function UserPanel() {
   const navigate = useNavigate();
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
@@ -56,20 +58,24 @@ export function UserPanel() {
         if (userShowDailyKcalDoc.exists()) {
           const showDailyKcalData = userShowDailyKcalDoc.data();
           setShowDailyKcal(showDailyKcalData?.showDailyKcal);
+          setLoaded(true);
         }
 
         if (userShowDailyKcalStrekDoc.exists()) {
           const showDailyKcalStrekData = userShowDailyKcalStrekDoc.data();
           setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcalStreak);
+          setLoaded(true);
         }
 
         if (userShowWeightTargetDoc.exists()) {
           const showWeightTargetData = userShowWeightTargetDoc.data();
           setShowWeightTarget(showWeightTargetData?.showWeightTarget);
+          setLoaded(true);
         }
 
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
+          setLoaded(true);
 
           const userId = auth.currentUser.uid;
 
@@ -79,6 +85,7 @@ export function UserPanel() {
 
           const kcalData = userKcalDoc.data();
           setDailyKcal(kcalData?.dailyKcal || "");
+          setLoaded(true);
 
           const userWeightDoc = await getDoc(
             doc(db, "users", userId, "weight_target", "weightTarget")
@@ -86,6 +93,7 @@ export function UserPanel() {
 
           const weightData = userWeightDoc.data();
           setWeightTarget(weightData?.weightTarget || "");
+          setLoaded(true);
         }
       }
     });
@@ -95,12 +103,21 @@ export function UserPanel() {
 
   return (
     <>
+      <Loader description={"user data"} toCheck={loaded} />
       <NavBar />
-      <h1>Have a nice day {displayName} !</h1>
-      <div>Mail: {user?.email}</div>
-      {showDailyKcal && <div>Daily kcal: {dailyKcal}</div>}
+      <h1>Hello {displayName} !</h1>
+      <p>{user?.email}</p>
+      {showDailyKcal && (
+        <div>
+          Daily kcal: <span>{dailyKcal}</span>
+        </div>
+      )}
       {showDailyKcalStreak && <KcalStreak />}
-      {showWeightTarget && <div>Weight target: {weightTarget}</div>}
+      {showWeightTarget && (
+        <div>
+          Weight target: <span>{weightTarget}</span>
+        </div>
+      )}
 
       <button onClick={() => setIsPortalOpen(true)}>Open Portal</button>
       {isPortalOpen && (
