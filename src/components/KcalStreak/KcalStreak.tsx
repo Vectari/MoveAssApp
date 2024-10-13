@@ -25,15 +25,13 @@ export function KcalStreak() {
         const docSnap = await getDoc(kcalStreakRef);
 
         if (docSnap.exists()) {
-          const { kcalStreak, lastClickTime } = docSnap.data();
+          const { kcalStreak, lastClickTime, timeToMidnight } = docSnap.data();
           setKcalStreak(kcalStreak || 0);
 
+          console.log(lastClickTime + timeToMidnight - Date.now());
+
           if (lastClickTime) {
-            const millisecondsUntilMidnight = getMillisecondsUntilMidnight();
-            // Check if current time is greater than stored lastClickTime + timeToMidnight
-            setIsButtonDisabled(
-              Date.now() < lastClickTime + millisecondsUntilMidnight
-            );
+            setIsButtonDisabled(Date.now() < lastClickTime + timeToMidnight);
           }
         }
       }
@@ -110,8 +108,9 @@ export function KcalStreak() {
 
   return (
     <>
-      <p>Daily kcal Streak:</p>
-      <p>{kcalStreak}</p>
+      <p>
+        Daily kcal Streak: <span>{kcalStreak}</span>
+      </p>
       <button onClick={handleAddStreak} disabled={isButtonDisabled}>
         Add +1
       </button>
