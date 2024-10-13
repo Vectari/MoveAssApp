@@ -22,9 +22,14 @@ export function NavBar() {
     return allowedPaths.includes(location.pathname);
   };
 
+  const onRefreshLogenInUser = () => {
+    const allowedPaths = ["/panel", "/settings"];
+    return allowedPaths.includes(location.pathname);
+  };
+
   return (
     <StyledNavBar>
-      {auth.currentUser !== null ? (
+      {onRefreshLogenInUser() && (
         <>
           <NavLink to="/panel">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/settings">{translate("NavBar", "settings")}</NavLink>
@@ -32,7 +37,9 @@ export function NavBar() {
             {translate("NavBar", "logout")}
           </button>
         </>
-      ) : (
+      )}
+
+      {!onRefreshLogenInUser() && (
         <>
           <NavLink to="/">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/login">{translate("NavBar", "login")}</NavLink>
