@@ -65,6 +65,7 @@ export function Settings() {
         const userShowDimChartDoc = await getDoc(
           doc(db, "users", userId, "show_hide", "showDimChart")
         );
+
         const userShowWeightChartDoc = await getDoc(
           doc(db, "users", userId, "show_hide", "showWeightChart")
         );
@@ -97,10 +98,12 @@ export function Settings() {
           const showDimChartData = userShowDimChartDoc.data();
           setShowDimChart(showDimChartData?.showDimChart);
         }
+
         if (userShowWeightTargetDoc.exists()) {
           const showWeightTargetData = userShowWeightTargetDoc.data();
           setShowWeightTarget(showWeightTargetData?.showWeightTarget);
         }
+
         if (userShowWeightChartDoc.exists()) {
           const showWeightChartData = userShowWeightChartDoc.data();
           setShowWeightChart(showWeightChartData?.showWeightChart);
@@ -109,7 +112,14 @@ export function Settings() {
     });
 
     return () => unsubscribe();
-  }, [navigate, setShowDailyKcal]);
+  }, [
+    navigate,
+    setShowDailyKcal,
+    setShowDailyKcalStreak,
+    setShowDimChart,
+    setShowWeightChart,
+    setShowWeightTarget,
+  ]);
 
   const handleSaveDisplayName = async () => {
     if (auth.currentUser) {
