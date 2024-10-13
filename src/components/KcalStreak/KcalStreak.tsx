@@ -10,14 +10,6 @@ export function KcalStreak() {
     useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
-  // Function to calculate the number of milliseconds until midnight
-  const getMillisecondsUntilMidnight = () => {
-    const now = new Date();
-    const midnight = new Date(now);
-    midnight.setHours(24, 0, 0, 0); // Set time to midnight
-    return midnight.getTime() - now.getTime();
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async () => {
       if (auth.currentUser !== null) {
@@ -33,18 +25,15 @@ export function KcalStreak() {
         const docSnap = await getDoc(kcalStreakRef);
 
         if (docSnap.exists()) {
-          const { kcalStreak, lastClickTime: storedLastClickTime } =
-            docSnap.data();
+          const { kcalStreak, lastClickTime } = docSnap.data();
           setKcalStreak(kcalStreak || 0);
 
-          // Check if the button should be disabled based on the last click time
-          if (storedLastClickTime) {
-            const currentTime = Date.now();
+          if (lastClickTime) {
             const millisecondsUntilMidnight = getMillisecondsUntilMidnight();
-            const timeDifference = currentTime - storedLastClickTime;
-
-            // Disable the button if the user has clicked today (before midnight)
-            setIsButtonDisabled(timeDifference < millisecondsUntilMidnight);
+            // Check if current time is greater than stored lastClickTime + timeToMidnight
+            setIsButtonDisabled(
+              Date.now() < lastClickTime + millisecondsUntilMidnight
+            );
           }
         }
       }
@@ -53,10 +42,18 @@ export function KcalStreak() {
     return () => unsubscribe();
   }, []);
 
+  const getMillisecondsUntilMidnight = () => {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0); // Set time to midnight
+    return midnight.getTime() - now.getTime();
+  };
+
   const handleAddStreak = async () => {
     if (auth.currentUser && !isButtonDisabled) {
       const userId = auth.currentUser.uid;
       const currentTimestamp = Date.now();
+      const millisecondsUntilMidnight = getMillisecondsUntilMidnight();
 
       const kcalStreakRef = doc(
         db,
@@ -70,20 +67,19 @@ export function KcalStreak() {
       const newStreak = kcalStreak + 1;
       setKcalStreak(newStreak);
 
-      // Update the backend with the new streak and the current timestamp
+      // Update the backend with the new streak, last click time, and time to midnight
       await setDoc(
         kcalStreakRef,
         {
           kcalStreak: newStreak,
-          lastClickTime: currentTimestamp, // Store the current timestamp
+          lastClickTime: currentTimestamp,
+          timeToMidnight: millisecondsUntilMidnight,
         },
         { merge: true }
       );
 
       // Disable the button until midnight
       setIsButtonDisabled(true);
-
-      console.log("Kcal Streak updated!");
     }
   };
 
