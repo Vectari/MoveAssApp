@@ -23,9 +23,12 @@ export function UserPanel() {
   const [weightTarget, setWeightTarget] = useState<string>("");
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
 
-  const [showDailyKcal] = useAtom(atomShowDailyKcal);
-  const [showDailyKcalStreak] = useAtom(atomShowDailyKcalStreak);
-  const [showWeightTarget] = useAtom(atomShowWeightTarget);
+  const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
+  const [showDailyKcalStreak, setShowDailyKcalStreak] = useAtom<boolean>(
+    atomShowDailyKcalStreak
+  );
+  const [showWeightTarget, setShowWeightTarget] =
+    useAtom<boolean>(atomShowWeightTarget);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -33,8 +36,37 @@ export function UserPanel() {
         navigate("/login");
       } else {
         setUser(user);
+        const userId = auth.currentUser.uid;
         const userDocRef = doc(db, "users", user!.uid);
+
         const userDoc = await getDoc(userDocRef);
+
+        const userShowDailyKcalDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showDailyKcal")
+        );
+
+        const userShowDailyKcalStrekDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showDailyKcalStreak")
+        );
+
+        const userShowWeightTargetDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showWeightTarget")
+        );
+
+        if (userShowDailyKcalDoc.exists()) {
+          const showDailyKcalData = userShowDailyKcalDoc.data();
+          setShowDailyKcal(showDailyKcalData?.showDailyKcal);
+        }
+
+        if (userShowDailyKcalStrekDoc.exists()) {
+          const showDailyKcalStrekData = userShowDailyKcalStrekDoc.data();
+          setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcalStreak);
+        }
+
+        if (userShowWeightTargetDoc.exists()) {
+          const showWeightTargetData = userShowWeightTargetDoc.data();
+          setShowWeightTarget(showWeightTargetData?.showWeightTarget);
+        }
 
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
@@ -44,12 +76,14 @@ export function UserPanel() {
           const userKcalDoc = await getDoc(
             doc(db, "users", userId, "daily_kcal", "dailyKcal")
           );
+
           const kcalData = userKcalDoc.data();
           setDailyKcal(kcalData?.dailyKcal || "");
 
           const userWeightDoc = await getDoc(
             doc(db, "users", userId, "weight_target", "weightTarget")
           );
+
           const weightData = userWeightDoc.data();
           setWeightTarget(weightData?.weightTarget || "");
         }
@@ -57,7 +91,7 @@ export function UserPanel() {
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak, setShowWeightTarget]);
 
   return (
     <>
