@@ -12,16 +12,18 @@ import {
   atomShowDailyKcal,
   atomShowDailyKcalStreak,
   atomShowWeightTarget,
+  atomWeightTarget,
 } from "../../atoms/atoms";
 import { useAtom } from "jotai";
 import { Loader } from "../../components/Loader/Loader";
+import { WeightInfo } from "../../components/WeightInfo/WeightInfo";
 
 export function UserPanel() {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [dailyKcal, setDailyKcal] = useState<string>("");
-  const [weightTarget, setWeightTarget] = useState<string>("");
+  const [weightTarget, setWeightTarget] = useAtom<number>(atomWeightTarget);
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
 
   const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
@@ -120,6 +122,8 @@ export function UserPanel() {
           <AddProgress />
         </Portal>
       )}
+      <hr />
+      <WeightInfo />
       <hr />
       <ProgressChart />
     </>
