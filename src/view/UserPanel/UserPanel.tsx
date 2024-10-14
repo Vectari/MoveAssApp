@@ -11,8 +11,7 @@ import { KcalStreak } from "../../components/KcalStreak/KcalStreak";
 import {
   atomShowDailyKcal,
   atomShowDailyKcalStreak,
-  atomShowWeightTarget,
-  atomWeightTarget,
+  // atomShowWeightInfo,
 } from "../../atoms/atoms";
 import { useAtom } from "jotai";
 import { Loader } from "../../components/Loader/Loader";
@@ -23,15 +22,13 @@ export function UserPanel() {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [dailyKcal, setDailyKcal] = useState<string>("");
-  const [weightTarget, setWeightTarget] = useAtom<number>(atomWeightTarget);
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
-
+  // const [showWeightInfo, setShowWeightInfo] =
+  //   useAtom<boolean>(atomShowWeightInfo);
   const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
   const [showDailyKcalStreak, setShowDailyKcalStreak] = useAtom<boolean>(
     atomShowDailyKcalStreak
   );
-  const [showWeightTarget, setShowWeightTarget] =
-    useAtom<boolean>(atomShowWeightTarget);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -44,6 +41,10 @@ export function UserPanel() {
 
         const userDoc = await getDoc(userDocRef);
 
+        // const userShowWeightInfo = await getDoc(
+        //   doc(db, "users", userId, "show_hide", "showDailyInfo")
+        // );
+
         const userShowDailyKcalDoc = await getDoc(
           doc(db, "users", userId, "show_hide", "showDailyKcal")
         );
@@ -52,9 +53,11 @@ export function UserPanel() {
           doc(db, "users", userId, "show_hide", "showDailyKcalStreak")
         );
 
-        const userShowWeightTargetDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showWeightTarget")
-        );
+        // if (userShowWeightInfo.exists()) {
+        //   const showWeightInfoData = userShowWeightInfo.data();
+        //   setShowWeightInfo(showWeightInfoData?.showWeightInfo);
+        //   setLoaded(true);
+        // }
 
         if (userShowDailyKcalDoc.exists()) {
           const showDailyKcalData = userShowDailyKcalDoc.data();
@@ -68,12 +71,6 @@ export function UserPanel() {
           setLoaded(true);
         }
 
-        if (userShowWeightTargetDoc.exists()) {
-          const showWeightTargetData = userShowWeightTargetDoc.data();
-          setShowWeightTarget(showWeightTargetData?.showWeightTarget);
-          setLoaded(true);
-        }
-
         if (userDoc.exists()) {
           const userId = auth.currentUser.uid;
 
@@ -84,20 +81,12 @@ export function UserPanel() {
           const kcalData = userKcalDoc.data();
           setDailyKcal(kcalData?.dailyKcal || "");
           setLoaded(true);
-
-          const userWeightDoc = await getDoc(
-            doc(db, "users", userId, "weight_target", "weightTarget")
-          );
-
-          const weightData = userWeightDoc.data();
-          setWeightTarget(weightData?.weightTarget || "");
-          setLoaded(true);
         }
       }
     });
 
     return () => unsubscribe();
-  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak, setShowWeightTarget, setWeightTarget]);
+  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak]);
 
   return (
     <>
@@ -110,21 +99,13 @@ export function UserPanel() {
         </div>
       )}
       {showDailyKcalStreak && <KcalStreak />}
-      {showWeightTarget && (
-        <div>
-          Weight target: <span>{weightTarget}</span>
-        </div>
-      )}
-
       <button onClick={() => setIsPortalOpen(true)}>Open Portal</button>
       {isPortalOpen && (
         <Portal onClose={() => setIsPortalOpen(false)}>
           <AddProgress />
         </Portal>
       )}
-      <hr />
       <WeightInfo />
-      <hr />
       <ProgressChart />
     </>
   );
