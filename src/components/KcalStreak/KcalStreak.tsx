@@ -108,6 +108,7 @@ export function KcalStreak() {
 
   return (
     <>
+      <hr />
       <p>
         Daily kcal Streak: <span>{kcalStreak}</span>
       </p>
@@ -117,6 +118,7 @@ export function KcalStreak() {
       <button onClick={handleResetStreak}>Reset</button>
       <p>{kcalStrikeResetInfo ? "Two more times..." : null}</p>
       {isButtonDisabled && <p>You can only add +1 once a day.</p>}
+      <hr />
     </>
   );
 }
