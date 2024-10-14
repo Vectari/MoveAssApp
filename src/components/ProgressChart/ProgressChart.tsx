@@ -4,7 +4,11 @@ import { auth, db } from "../../library/firebaseConfig";
 import { useEffect, useState } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useAtom } from "jotai";
-import { atomLatestWeight, atomShowDimChart, atomShowWeightChart } from "../../atoms/atoms";
+import {
+  atomLatestWeight,
+  atomShowDimChart,
+  atomShowWeightChart,
+} from "../../atoms/atoms";
 interface ProgressData {
   date: string;
   dimensionA: string | null;
@@ -210,11 +214,6 @@ export function ProgressChart() {
 
   return (
     <>
-      <p>
-        Latest Weight:{" "}
-        {latestWeight ? latestWeight + " kg" : "No data available"}
-      </p>
-      <h1>Progress Charts</h1>
       {showDimChart && (
         <div>
           <h3>Dim Chart</h3>
