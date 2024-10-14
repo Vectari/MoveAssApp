@@ -97,7 +97,7 @@ export function UserPanel() {
     });
 
     return () => unsubscribe();
-  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak, setShowWeightTarget]);
+  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak, setShowWeightTarget, setWeightTarget]);
 
   return (
     <>

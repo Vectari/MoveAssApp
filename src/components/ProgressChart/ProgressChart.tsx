@@ -87,7 +87,7 @@ export function ProgressChart() {
     });
 
     return () => unsubscribe();
-  }, [setShowDimChart, setShowWeightChart]);
+  }, [setLatestWeight, setShowDimChart, setShowWeightChart]);
 
   useEffect(() => {
     if (showDimChart) {
