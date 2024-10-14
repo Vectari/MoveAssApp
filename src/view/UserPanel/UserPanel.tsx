@@ -20,7 +20,6 @@ export function UserPanel() {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
-  const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
   const [weightTarget, setWeightTarget] = useState<string>("");
   const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
@@ -74,9 +73,6 @@ export function UserPanel() {
         }
 
         if (userDoc.exists()) {
-          setDisplayName(userDoc.data().displayName || "");
-          setLoaded(true);
-
           const userId = auth.currentUser.uid;
 
           const userKcalDoc = await getDoc(
@@ -105,8 +101,7 @@ export function UserPanel() {
     <>
       <Loader description={"user data"} toCheck={loaded} />
       <NavBar />
-      <h1>Hello {displayName} !</h1>
-      <p>{user?.email}</p>
+      <h1>Hello {user?.displayName} !</h1>
       {showDailyKcal && (
         <div>
           Daily kcal: <span>{dailyKcal}</span>
@@ -125,6 +120,7 @@ export function UserPanel() {
           <AddProgress />
         </Portal>
       )}
+      <hr />
       <ProgressChart />
     </>
   );
