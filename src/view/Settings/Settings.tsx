@@ -9,9 +9,10 @@ import { useAtom } from "jotai";
 import {
   atomShowDailyKcal,
   atomShowDailyKcalStreak,
-  atomShowWeightTarget,
+  atomShowWeightInfo,
   atomShowDimChart,
   atomShowWeightChart,
+  atomWeightTarget,
 } from "../../atoms/atoms";
 import { Loader } from "../../components/Loader/Loader";
 
@@ -20,15 +21,15 @@ export function Settings() {
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
   const [dailyKcal, setDailyKcal] = useState<string>("");
-  const [weightTarget, setWeightTarget] = useState<string>("");
+  const [weightTarget, setWeightTarget] = useAtom<string>(atomWeightTarget);
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
   const [showDailyKcalStreak, setShowDailyKcalStreak] = useAtom<boolean>(
     atomShowDailyKcalStreak
   );
-  const [showWeightTarget, setShowWeightTarget] =
-    useAtom<boolean>(atomShowWeightTarget);
+  const [showWeightInfo, setShowWeightInfo] =
+    useAtom<boolean>(atomShowWeightInfo);
   const [showDimChart, setShowDimChart] = useAtom<boolean>(atomShowDimChart);
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
@@ -60,8 +61,8 @@ export function Settings() {
           doc(db, "users", userId, "show_hide", "showDailyKcalStreak")
         );
 
-        const userShowWeightTargetDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showWeightTarget")
+        const userShowWeightInfoDoc = await getDoc(
+          doc(db, "users", userId, "show_hide", "showWeightInfo")
         );
 
         const userShowDimChartDoc = await getDoc(
@@ -101,9 +102,9 @@ export function Settings() {
           setLoaded(true);
         }
 
-        if (userShowWeightTargetDoc.exists()) {
-          const showWeightTargetData = userShowWeightTargetDoc.data();
-          setShowWeightTarget(showWeightTargetData?.showWeightTarget);
+        if (userShowWeightInfoDoc.exists()) {
+          const showWeightInfoData = userShowWeightInfoDoc.data();
+          setShowWeightInfo(showWeightInfoData?.showWeightInfo);
           setLoaded(true);
         }
 
@@ -122,14 +123,7 @@ export function Settings() {
     });
 
     return () => unsubscribe();
-  }, [
-    navigate,
-    setShowDailyKcal,
-    setShowDailyKcalStreak,
-    setShowDimChart,
-    setShowWeightChart,
-    setShowWeightTarget,
-  ]);
+  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak, setShowDimChart, setShowWeightChart, setShowWeightInfo, setWeightTarget]);
 
   const handleSaveDisplayName = async () => {
     if (auth.currentUser) {
@@ -224,21 +218,21 @@ export function Settings() {
     }
   };
 
-  const handleShowWeightTarget = async (checked: boolean) => {
+  const handleShowWeightInfo = async (checked: boolean) => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
 
-      const showWeightTargetRef = doc(
+      const showWeightInfoRef = doc(
         db,
         "users",
         userId,
         "show_hide",
-        "showWeightTarget"
+        "showWeightInfo"
       );
 
       await setDoc(
-        showWeightTargetRef,
-        { showWeightTarget: checked },
+        showWeightInfoRef,
+        { showWeightInfo: checked },
         { merge: true }
       );
       console.log("Show Weight Target updated!");
@@ -300,12 +294,12 @@ export function Settings() {
     handleShowDailyKcalStreak(checked);
   };
 
-  const handleShowWeightTargetCheckBoxChange = (
+  const handleShowWeightInfoCheckBoxChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const checked = e.target.checked;
-    setShowWeightTarget(checked);
-    handleShowWeightTarget(checked);
+    setShowWeightInfo(checked);
+    handleShowWeightInfo(checked);
   };
 
   const handleShowDimChartCheckBoxChange = (
@@ -380,11 +374,11 @@ export function Settings() {
         <br />
         <input
           type="checkbox"
-          id="showWeightTarget"
-          checked={showWeightTarget}
-          onChange={handleShowWeightTargetCheckBoxChange}
+          id="showWeightInfo"
+          checked={showWeightInfo}
+          onChange={handleShowWeightInfoCheckBoxChange}
         />
-        <label htmlFor="showWeightTarget">showWeightTarget</label>
+        <label htmlFor="showWeightInfo">showWeightInfo</label>
         <br />
         <input
           type="checkbox"
