@@ -21,35 +21,47 @@ export function AddProgress() {
   const [dimensionD, setDimensionD] = useState<string>("");
   const [addedStatus, setAddedStatus] = useState<boolean>(false);
   const [weightStatus, setWeightStatus] = useState<boolean>(false);
+  const [dimensionStatus, setDimensionStatus] = useState<boolean>(false);
 
-  // Helper function to replace "," with "." and allow only one "."
-  const sanitizeInput = (value: string) => {
-    // Replace commas with dots
-    value = value.replace(",", ".");
-
-    // Allow only one "." in the value
-    const dotCount = (value.match(/\./g) || []).length;
-    return dotCount > 1 ? "" : value; // Return empty string if there are more than one "."
+  // Helper function to check if the value is valid
+  const isValidInput = (value: string) => {
+    const regex = /^\d*\.?\d{0,1}$/; // Allows numbers with at most one decimal place
+    return regex.test(value);
   };
 
-  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWeight(sanitizeInput(e.target.value));
+  const handleWeightInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (isValidInput(value)) {
+      setWeight(value);
+    }
   };
 
-  const handleDimensionAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDimensionA(sanitizeInput(e.target.value));
+  const handleDimensionAInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (isValidInput(value)) {
+      setDimensionA(value);
+    }
   };
 
-  const handleDimensionBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDimensionB(sanitizeInput(e.target.value));
+  const handleDimensionBInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (isValidInput(value)) {
+      setDimensionB(value);
+    }
   };
 
-  const handleDimensionCChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDimensionC(sanitizeInput(e.target.value));
+  const handleDimensionCInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (isValidInput(value)) {
+      setDimensionC(value);
+    }
   };
 
-  const handleDimensionDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDimensionD(sanitizeInput(e.target.value));
+  const handleDimensionDInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (isValidInput(value)) {
+      setDimensionD(value);
+    }
   };
 
   const handleAddProgress = async () => {
@@ -84,6 +96,18 @@ export function AddProgress() {
     } else {
       setWeightStatus(true);
     }
+
+    // Validate dimensions
+    if (
+      dimensionA !== "" &&
+      dimensionB !== "" &&
+      dimensionC !== "" &&
+      dimensionD !== ""
+    ) {
+      setDimensionStatus(false);
+    } else {
+      setDimensionStatus(true);
+    }
   };
 
   return (
@@ -94,11 +118,11 @@ export function AddProgress() {
           {translate("AddProgress", "weight")}:{" "}
         </label>
         <input
-          type="number"
+          type="number" // Change to number to allow manual input control
           id="dailyWeight"
           value={weight}
           step="0.1"
-          onChange={handleWeightChange}
+          onInput={handleWeightInput}
         />
       </div>
       <div>
@@ -106,11 +130,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionA")}:{" "}
         </label>
         <input
-          type="number"
+          type="number" // Change to number to allow manual input control
           id="dimensionA"
           value={dimensionA}
           step="0.1"
-          onChange={handleDimensionAChange}
+          onInput={handleDimensionAInput}
         />
       </div>
       <div>
@@ -118,11 +142,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionB")}:{" "}
         </label>
         <input
-          type="number"
+          type="number" // Change to number to allow manual input control
           id="dimensionB"
           value={dimensionB}
           step="0.1"
-          onChange={handleDimensionBChange}
+          onInput={handleDimensionBInput}
         />
       </div>
       <div>
@@ -130,11 +154,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionC")}:{" "}
         </label>
         <input
-          type="number"
+          type="number" // Change to number to allow manual input control
           id="dimensionC"
           value={dimensionC}
           step="0.1"
-          onChange={handleDimensionCChange}
+          onInput={handleDimensionCInput}
         />
       </div>
       <div>
@@ -142,15 +166,16 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionD")}:{" "}
         </label>
         <input
-          type="number"
+          type="number" // Change to number to allow manual input control
           id="dimensionD"
           value={dimensionD}
           step="0.1"
-          onChange={handleDimensionDChange}
+          onInput={handleDimensionDInput}
         />
       </div>
       {addedStatus ? <p>Progress added!</p> : null}
       {weightStatus ? <p>Add weight!</p> : null}
+      {dimensionStatus ? <p>Please fill in all dimensions!</p> : null}
       <button onClick={handleAddProgress}>Save</button>
     </>
   );
