@@ -52,7 +52,9 @@ export function WeightInfo() {
           <h3>Weight Info</h3>
           <p>Weight Target: {weightTarget}</p>
           <p>Latest Weight: {latestWeight}</p>
-          <p>Weight to lose: {latestWeight - Number(weightTarget)}</p>
+          <p>
+            Weight to lose: {(latestWeight - Number(weightTarget)).toFixed(1)}
+          </p>
           <hr />
         </>
       )}
