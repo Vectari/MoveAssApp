@@ -40,12 +40,10 @@ export function Settings() {
         navigate("/login");
       } else {
         setUser(user);
-        // Fetch the displayName from Firestore if available
         const userId = auth.currentUser.uid;
 
-        // Get user document
+        // Fetch user data from Firestore
         const userDoc = await getDoc(doc(db, "users", userId));
-        // Get daily kcal document
         const userKcalDoc = await getDoc(
           doc(db, "users", userId, "daily_kcal", "dailyKcal")
         );
@@ -53,87 +51,61 @@ export function Settings() {
           doc(db, "users", userId, "weight_target", "weightTarget")
         );
 
-        const userShowDailyKcalDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showDailyKcal")
+        // Fetch visibility settings
+        const visibilitySettings = [
+          "showDailyKcal",
+          "showDailyKcalStreak",
+          "showWeightInfo",
+          "showDimChart",
+          "showWeightChart",
+        ];
+        const visibilityPromises = visibilitySettings.map((setting) =>
+          getDoc(doc(db, "users", userId, "show_hide", setting))
         );
 
-        const userShowDailyKcalStrekDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showDailyKcalStreak")
-        );
+        const visibilityDocs = await Promise.all(visibilityPromises);
 
-        const userShowWeightInfoDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showWeightInfo")
-        );
-
-        const userShowDimChartDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showDimChart")
-        );
-
-        const userShowWeightChartDoc = await getDoc(
-          doc(db, "users", userId, "show_hide", "showWeightChart")
-        );
-
+        // Set state based on fetched data
         if (userDoc.exists()) {
           setDisplayName(userDoc.data().displayName || "");
-          setLoaded(true);
         }
-
         if (userKcalDoc.exists()) {
-          const kcalData = userKcalDoc.data();
-          setDailyKcal(kcalData?.dailyKcal || ""); // Ensure kcalData is defined before accessing dailyKcal
-          setLoaded(true);
+          setDailyKcal(userKcalDoc.data()?.dailyKcal || "");
         }
-
         if (userWeightDoc.exists()) {
-          const weightData = userWeightDoc.data();
-          setWeightTarget(weightData?.weightTarget || ""); // Ensure kcalData is defined before accessing dailyKcal
-          setLoaded(true);
+          setWeightTarget(userWeightDoc.data()?.weightTarget || "");
         }
-
-        if (userShowDailyKcalDoc.exists()) {
-          const showDailyKcalData = userShowDailyKcalDoc.data();
-          setShowDailyKcal(showDailyKcalData?.showDailyKcal);
-          setLoaded(true);
-        }
-
-        if (userShowDailyKcalStrekDoc.exists()) {
-          const showDailyKcalStrekData = userShowDailyKcalStrekDoc.data();
-          setShowDailyKcalStreak(showDailyKcalStrekData?.showDailyKcalStreak);
-          setLoaded(true);
-        }
-
-        if (userShowWeightInfoDoc.exists()) {
-          const showWeightInfoData = userShowWeightInfoDoc.data();
-          setShowWeightInfo(showWeightInfoData?.showWeightInfo);
-          setLoaded(true);
-        }
-
-        if (userShowDimChartDoc.exists()) {
-          const showDimChartData = userShowDimChartDoc.data();
-          setShowDimChart(showDimChartData?.showDimChart);
-          setLoaded(true);
-        }
-
-        if (userShowWeightChartDoc.exists()) {
-          const showWeightChartData = userShowWeightChartDoc.data();
-          setShowWeightChart(showWeightChartData?.showWeightChart);
-          setLoaded(true);
-        }
+        visibilityDocs.forEach((doc, index) => {
+          if (doc.exists()) {
+            const key = visibilitySettings[index];
+            const value = doc.data()[key];
+            if (key === "showDailyKcal") setShowDailyKcal(value);
+            if (key === "showDailyKcalStreak") setShowDailyKcalStreak(value);
+            if (key === "showWeightInfo") setShowWeightInfo(value);
+            if (key === "showDimChart") setShowDimChart(value);
+            if (key === "showWeightChart") setShowWeightChart(value);
+          }
+        });
+        setLoaded(true);
       }
     });
 
     return () => unsubscribe();
-  }, [navigate, setShowDailyKcal, setShowDailyKcalStreak, setShowDimChart, setShowWeightChart, setShowWeightInfo, setWeightTarget]);
+  }, [
+    navigate,
+    setShowDailyKcal,
+    setShowDailyKcalStreak,
+    setShowDimChart,
+    setShowWeightChart,
+    setShowWeightInfo,
+    setWeightTarget,
+  ]);
 
   const handleSaveDisplayName = async () => {
     if (auth.currentUser) {
-      // Update the displayName in Firebase Authentication
       await updateProfile(auth.currentUser, { displayName });
-
-      // Save the displayName to Firestore
       const userDocRef = doc(db, "users", auth.currentUser.uid);
       await setDoc(userDocRef, { displayName }, { merge: true });
-
       console.log("Display Name updated!");
     }
   };
@@ -141,8 +113,6 @@ export function Settings() {
   const handleSaveDailyKcal = async () => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-
-      // Reference to the "daily_kcal" subcollection under the user's document
       const dailyKcalDocRef = doc(
         db,
         "users",
@@ -150,9 +120,7 @@ export function Settings() {
         "daily_kcal",
         "dailyKcal"
       );
-
       await setDoc(dailyKcalDocRef, { dailyKcal }, { merge: true });
-
       console.log("Daily Kcal updated!");
     }
   };
@@ -160,8 +128,6 @@ export function Settings() {
   const handleSaveWeightTarget = async () => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-
-      // Reference to the "daily_kcal" subcollection under the user's document
       const weightTargetRef = doc(
         db,
         "users",
@@ -169,121 +135,44 @@ export function Settings() {
         "weight_target",
         "weightTarget"
       );
-
       await setDoc(weightTargetRef, { weightTarget }, { merge: true });
-
       console.log("Weight target updated!");
     }
   };
 
-  const handleShowDailyKcal = async (checked: boolean) => {
+  const handleVisibilityChange = async (setting: string, checked: boolean) => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-
-      const showDailyKcalRef = doc(
-        db,
-        "users",
-        userId,
-        "show_hide",
-        "showDailyKcal"
-      );
-
-      await setDoc(
-        showDailyKcalRef,
-        { showDailyKcal: checked },
-        { merge: true }
-      );
-      console.log("Show Daily Kcal updated!");
+      const visibilityRef = doc(db, "users", userId, "show_hide", setting);
+      await setDoc(visibilityRef, { [setting]: checked }, { merge: true });
+      console.log(`${setting} updated!`);
     }
   };
 
-  const handleShowDailyKcalStreak = async (checked: boolean) => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-
-      const showDailyKcalStreakRef = doc(
-        db,
-        "users",
-        userId,
-        "show_hide",
-        "showDailyKcalStreak"
-      );
-
-      await setDoc(
-        showDailyKcalStreakRef,
-        { showDailyKcalStreak: checked },
-        { merge: true }
-      );
-      console.log("Show Daily Kcal Streak updated!");
+  // Input validation for dailyKcal and weightTarget
+  const handleDailyKcalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,1}$/; // Match numbers with up to two decimal places
+    if (value === "" || regex.test(value)) {
+      setDailyKcal(value);
     }
   };
 
-  const handleShowWeightInfo = async (checked: boolean) => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-
-      const showWeightInfoRef = doc(
-        db,
-        "users",
-        userId,
-        "show_hide",
-        "showWeightInfo"
-      );
-
-      await setDoc(
-        showWeightInfoRef,
-        { showWeightInfo: checked },
-        { merge: true }
-      );
-      console.log("Show Weight Target updated!");
+  const handleWeightTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const regex = /^\d*\.?\d{0,1}$/; // Match numbers with up to two decimal places
+    if (value === "" || regex.test(value)) {
+      setWeightTarget(value);
     }
   };
 
-  const handleShowDimChart = async (checked: boolean) => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-
-      const showDimChrtRef = doc(
-        db,
-        "users",
-        userId,
-        "show_hide",
-        "showDimChart"
-      );
-
-      await setDoc(showDimChrtRef, { showDimChart: checked }, { merge: true });
-      console.log("Show Dim Chart updated!");
-    }
-  };
-
-  const handleShowWeightChart = async (checked: boolean) => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-
-      const showWeightChrtRef = doc(
-        db,
-        "users",
-        userId,
-        "show_hide",
-        "showWeightChart"
-      );
-
-      await setDoc(
-        showWeightChrtRef,
-        { showWeightChart: checked },
-        { merge: true }
-      );
-      console.log("Show Weight Chart updated!");
-    }
-  };
-
-  // Checkbox change handler
+  // Checkbox change handlers
   const handleShowDailyKcalCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const checked = e.target.checked;
     setShowDailyKcal(checked);
-    handleShowDailyKcal(checked);
+    handleVisibilityChange("showDailyKcal", checked);
   };
 
   const handleShowDailyKcalStreakCheckBoxChange = (
@@ -291,7 +180,7 @@ export function Settings() {
   ) => {
     const checked = e.target.checked;
     setShowDailyKcalStreak(checked);
-    handleShowDailyKcalStreak(checked);
+    handleVisibilityChange("showDailyKcalStreak", checked);
   };
 
   const handleShowWeightInfoCheckBoxChange = (
@@ -299,7 +188,7 @@ export function Settings() {
   ) => {
     const checked = e.target.checked;
     setShowWeightInfo(checked);
-    handleShowWeightInfo(checked);
+    handleVisibilityChange("showWeightInfo", checked);
   };
 
   const handleShowDimChartCheckBoxChange = (
@@ -307,7 +196,7 @@ export function Settings() {
   ) => {
     const checked = e.target.checked;
     setShowDimChart(checked);
-    handleShowDimChart(checked);
+    handleVisibilityChange("showDimChart", checked);
   };
 
   const handleShowWeightChartCheckBoxChange = (
@@ -315,7 +204,7 @@ export function Settings() {
   ) => {
     const checked = e.target.checked;
     setShowWeightChart(checked);
-    handleShowWeightChart(checked);
+    handleVisibilityChange("showWeightChart", checked);
   };
 
   return (
@@ -341,7 +230,7 @@ export function Settings() {
           type="number"
           id="dailyKcal"
           value={dailyKcal}
-          onChange={(e) => setDailyKcal(e.target.value)}
+          onChange={handleDailyKcalChange} // Updated to use the new validation function
         />
         <button onClick={handleSaveDailyKcal}>Save</button>
       </div>
@@ -351,7 +240,7 @@ export function Settings() {
           type="number"
           id="weightTarget"
           value={weightTarget}
-          onChange={(e) => setWeightTarget(e.target.value)}
+          onChange={handleWeightTargetChange} // Updated to use the new validation function
         />
         <button onClick={handleSaveWeightTarget}>Save</button>
       </div>
@@ -362,7 +251,7 @@ export function Settings() {
           checked={showDailyKcal}
           onChange={handleShowDailyKcalCheckboxChange}
         />
-        <label htmlFor="showDailyKcal">showDailyKcal</label>
+        <label htmlFor="showDailyKcal">Show Daily Kcal</label>
         <br />
         <input
           type="checkbox"
@@ -370,7 +259,7 @@ export function Settings() {
           checked={showDailyKcalStreak}
           onChange={handleShowDailyKcalStreakCheckBoxChange}
         />
-        <label htmlFor="showDailyKcalStreak">showDailyKcalStreak</label>
+        <label htmlFor="showDailyKcalStreak">Show Daily Kcal Streak</label>
         <br />
         <input
           type="checkbox"
@@ -378,7 +267,7 @@ export function Settings() {
           checked={showWeightInfo}
           onChange={handleShowWeightInfoCheckBoxChange}
         />
-        <label htmlFor="showWeightInfo">showWeightInfo</label>
+        <label htmlFor="showWeightInfo">Show Weight Info</label>
         <br />
         <input
           type="checkbox"
@@ -386,7 +275,7 @@ export function Settings() {
           checked={showDimChart}
           onChange={handleShowDimChartCheckBoxChange}
         />
-        <label htmlFor="showDimChart">showDimChart</label>
+        <label htmlFor="showDimChart">Show Dim Chart</label>
         <br />
         <input
           type="checkbox"
@@ -394,7 +283,7 @@ export function Settings() {
           checked={showWeightChart}
           onChange={handleShowWeightChartCheckBoxChange}
         />
-        <label htmlFor="showWeightChart">showWeightChart</label>
+        <label htmlFor="showWeightChart">Show Weight Chart</label>
       </div>
     </>
   );
