@@ -23,20 +23,33 @@ export function AddProgress() {
   const [weightStatus, setWeightStatus] = useState<boolean>(false);
 
   // Helper function to replace "," with "." and allow only one "."
-  const handleInputChange = (setter: (value: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-
+  const sanitizeInput = (value: string) => {
     // Replace commas with dots
     value = value.replace(",", ".");
 
     // Allow only one "." in the value
     const dotCount = (value.match(/\./g) || []).length;
-    if (dotCount > 1) {
-      return; // Stop processing if there are more than one "."
-    }
+    return dotCount > 1 ? "" : value; // Return empty string if there are more than one "."
+  };
 
-    // Update state with sanitized value
-    setter(value);
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWeight(sanitizeInput(e.target.value));
+  };
+
+  const handleDimensionAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDimensionA(sanitizeInput(e.target.value));
+  };
+
+  const handleDimensionBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDimensionB(sanitizeInput(e.target.value));
+  };
+
+  const handleDimensionCChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDimensionC(sanitizeInput(e.target.value));
+  };
+
+  const handleDimensionDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDimensionD(sanitizeInput(e.target.value));
   };
 
   const handleAddProgress = async () => {
@@ -81,10 +94,11 @@ export function AddProgress() {
           {translate("AddProgress", "weight")}:{" "}
         </label>
         <input
-          type="text"
+          type="number"
           id="dailyWeight"
           value={weight}
-          onChange={handleInputChange(setWeight)}
+          step="0.1"
+          onChange={handleWeightChange}
         />
       </div>
       <div>
@@ -92,10 +106,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionA")}:{" "}
         </label>
         <input
-          type="text"
+          type="number"
           id="dimensionA"
           value={dimensionA}
-          onChange={handleInputChange(setDimensionA)}
+          step="0.1"
+          onChange={handleDimensionAChange}
         />
       </div>
       <div>
@@ -103,10 +118,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionB")}:{" "}
         </label>
         <input
-          type="text"
+          type="number"
           id="dimensionB"
           value={dimensionB}
-          onChange={handleInputChange(setDimensionB)}
+          step="0.1"
+          onChange={handleDimensionBChange}
         />
       </div>
       <div>
@@ -114,10 +130,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionC")}:{" "}
         </label>
         <input
-          type="text"
+          type="number"
           id="dimensionC"
           value={dimensionC}
-          onChange={handleInputChange(setDimensionC)}
+          step="0.1"
+          onChange={handleDimensionCChange}
         />
       </div>
       <div>
@@ -125,10 +142,11 @@ export function AddProgress() {
           {translate("AddProgress", "dimensionD")}:{" "}
         </label>
         <input
-          type="text"
+          type="number"
           id="dimensionD"
           value={dimensionD}
-          onChange={handleInputChange(setDimensionD)}
+          step="0.1"
+          onChange={handleDimensionDChange}
         />
       </div>
       {addedStatus ? <p>Progress added!</p> : null}
