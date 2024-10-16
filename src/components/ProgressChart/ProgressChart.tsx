@@ -30,8 +30,8 @@ export function ProgressChart() {
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
-      ? `Do schudnięcia: ${latestWeight - weightTarget} kg`
-      : `${latestWeight - weightTarget} kg poniżej wagi docelowej `;
+      ? `Do schudnięcia: ${(latestWeight - weightTarget).toFixed(1)} kg`
+      : `${(latestWeight - weightTarget).toFixed(1)} kg poniżej wagi docelowej `;
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
