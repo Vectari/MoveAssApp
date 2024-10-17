@@ -6,19 +6,19 @@ import { auth } from "../../library/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  background-color: ${(props) => props.theme.background};
+  background-color: grey;
   border: 1px solid ${(props) => props.theme.border};
-  color: ${(props) => props.theme.primary};
+  color: white;
 `;
 
 const Button = styled.button`
-  background-color: ${(props) => props.theme.primary};
+  background-color: grey;
   border: none;
   color: white;
   padding: 10px;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.theme.hover.primary};
+    background-color: pink;
   }
 `;
 
