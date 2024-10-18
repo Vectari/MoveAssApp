@@ -8,6 +8,10 @@ import {
   atomLatestWeight,
   atomShowDimChart,
   atomShowWeightChart,
+  atomDimensionA,
+  atomDimensionB,
+  atomDimensionC,
+  atomDimensionD,
 } from "../../atoms/atoms";
 interface ProgressData {
   date: string;
@@ -28,10 +32,17 @@ export function ProgressChart() {
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
 
+  const [dimensionA] = useAtom(atomDimensionA);
+  const [dimensionB] = useAtom(atomDimensionB);
+  const [dimensionC] = useAtom(atomDimensionC);
+  const [dimensionD] = useAtom(atomDimensionD);
+
   const weightProgressStatus =
     latestWeight - weightTarget > 0
       ? `Do schudnięcia: ${(latestWeight - weightTarget).toFixed(1)} kg`
-      : `${(latestWeight - weightTarget).toFixed(1)} kg poniżej wagi docelowej `;
+      : `${(latestWeight - weightTarget).toFixed(
+          1
+        )} kg poniżej wagi docelowej `;
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -105,7 +116,11 @@ export function ProgressChart() {
             labels: data.map(({ date }) => date),
             datasets: [
               {
-                label: `${translate("AddProgress", "dimensionA")}`,
+                label: `${
+                  dimensionA === ""
+                    ? translate("AddProgress", "dimensionA")
+                    : dimensionA
+                }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
                 borderWidth: 1,
@@ -114,7 +129,11 @@ export function ProgressChart() {
                 ),
               },
               {
-                label: `${translate("AddProgress", "dimensionB")}`,
+                label: `${
+                  dimensionB === ""
+                    ? translate("AddProgress", "dimensionB")
+                    : dimensionB
+                }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
                 borderWidth: 1,
@@ -123,7 +142,11 @@ export function ProgressChart() {
                 ),
               },
               {
-                label: `${translate("AddProgress", "dimensionC")}`,
+                label: `${
+                  dimensionC === ""
+                    ? translate("AddProgress", "dimensionC")
+                    : dimensionC
+                }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
                 borderWidth: 1,
@@ -132,7 +155,11 @@ export function ProgressChart() {
                 ),
               },
               {
-                label: `${translate("AddProgress", "dimensionD")}`,
+                label: `${
+                  dimensionD === ""
+                    ? translate("AddProgress", "dimensionD")
+                    : dimensionD
+                }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
                 borderWidth: 1,
