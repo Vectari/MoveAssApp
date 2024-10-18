@@ -285,6 +285,54 @@ export function Settings() {
         />
         <label htmlFor="showWeightChart">Show Weight Chart</label>
       </div>
+      <hr />
+      {/* 
+      //
+       //
+        // 
+        //
+         //
+          */}
+      <div>
+        <label htmlFor="dimenstionA">Dimension A: </label>
+        <input
+          type="string"
+          id="dimenstionA"
+          value={dimenstionA}
+          onChange={handleDimenstionAChange} // Updated to use the new validation function
+        />
+        <button onClick={handleSaveDimenstionA}>Save</button>
+      </div>
+      <div>
+        <label htmlFor="dimenstionB">Dimension B: </label>
+        <input
+          type="string"
+          id="dimenstionB"
+          value={dimenstionB}
+          onChange={handleDimenstionBChange} // Updated to use the new validation function
+        />
+        <button onClick={handleSaveDimenstionB}>Save</button>
+      </div>
+      <div>
+        <label htmlFor="dimenstionC">Dimension C: </label>
+        <input
+          type="string"
+          id="dimenstionC"
+          value={dimenstionC}
+          onChange={handleDimenstionCChange} // Updated to use the new validation function
+        />
+        <button onClick={handleSaveDimenstionC}>Save</button>
+      </div>
+      <div>
+        <label htmlFor="dimenstionD">Dimension D: </label>
+        <input
+          type="string"
+          id="dimenstionD"
+          value={dimenstionD}
+          onChange={handleDimenstionDChange} // Updated to use the new validation function
+        />
+        <button onClick={handleSaveDimenstionD}>Save</button>
+      </div>
     </>
   );
 }
