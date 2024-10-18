@@ -8,3 +8,8 @@ export const atomShowWeightChart = atom<boolean>(false);
 
 export const atomWeightTarget = atom<string>("");
 export const atomLatestWeight = atom<number>(0);
+
+export const atomDimensionA = atom<string>("");
+export const atomDimensionB = atom<string>("");
+export const atomDimensionC = atom<string>("");
+export const atomDimensionD = atom<string>("");

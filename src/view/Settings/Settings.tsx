@@ -13,6 +13,10 @@ import {
   atomShowDimChart,
   atomShowWeightChart,
   atomWeightTarget,
+  atomDimensionA,
+  atomDimensionB,
+  atomDimensionC,
+  atomDimensionD,
 } from "../../atoms/atoms";
 import { Loader } from "../../components/Loader/Loader";
 
@@ -34,10 +38,10 @@ export function Settings() {
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
 
-  const [dimensionA, setDimensionA] = useState<string>("");
-  const [dimensionB, setDimensionB] = useState<string>("");
-  const [dimensionC, setDimensionC] = useState<string>("");
-  const [dimensionD, setDimensionD] = useState<string>("");
+  const [dimensionA, setDimensionA] = useAtom<string>(atomDimensionA);
+  const [dimensionB, setDimensionB] = useAtom<string>(atomDimensionB);
+  const [dimensionC, setDimensionC] = useAtom<string>(atomDimensionC);
+  const [dimensionD, setDimensionD] = useAtom<string>(atomDimensionD);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
