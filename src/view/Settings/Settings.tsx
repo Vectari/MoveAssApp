@@ -153,9 +153,9 @@ export function Settings() {
         "users",
         userId,
         "dimensions_name",
-        "dimension_a"
+        "dimensionA"
       );
-      await setDoc(dimensionARef, { dimension_a }, { merge: true });
+      await setDoc(dimensionARef, { dimensionA }, { merge: true });
       console.log("DimensionA updated!");
     }
   };
@@ -168,9 +168,9 @@ export function Settings() {
         "users",
         userId,
         "dimensions_name",
-        "dimension_b"
+        "dimensionB"
       );
-      await setDoc(dimensionBRef, { dimension_b }, { merge: true });
+      await setDoc(dimensionBRef, { dimensionB }, { merge: true });
       console.log("DimensionB updated!");
     }
   };
@@ -183,9 +183,9 @@ export function Settings() {
         "users",
         userId,
         "dimensions_name",
-        "dimension_c"
+        "dimensionC"
       );
-      await setDoc(dimensionCRef, { dimension_c }, { merge: true });
+      await setDoc(dimensionCRef, { dimensionC }, { merge: true });
       console.log("DimensionC updated!");
     }
   };
@@ -198,9 +198,9 @@ export function Settings() {
         "users",
         userId,
         "dimensions_name",
-        "dimension_d"
+        "dimensionD"
       );
-      await setDoc(dimensionDRef, { dimension_d }, { merge: true });
+      await setDoc(dimensionDRef, { dimensionD }, { merge: true });
       console.log("DimensionD updated!");
     }
   };
