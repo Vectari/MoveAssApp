@@ -34,6 +34,11 @@ export function Settings() {
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
 
+  const [dimensionA, setDimensionA] = useState<string>("");
+  const [dimensionB, setDimensionB] = useState<string>("");
+  const [dimensionC, setDimensionC] = useState<string>("");
+  const [dimensionD, setDimensionD] = useState<string>("");
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (auth.currentUser === null) {
@@ -140,6 +145,66 @@ export function Settings() {
     }
   };
 
+  const handleSaveDimensionA = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const dimensionARef = doc(
+        db,
+        "users",
+        userId,
+        "dimensions_name",
+        "dimension_a"
+      );
+      await setDoc(dimensionARef, { dimension_a }, { merge: true });
+      console.log("DimensionA updated!");
+    }
+  };
+
+  const handleSaveDimensionB = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const dimensionBRef = doc(
+        db,
+        "users",
+        userId,
+        "dimensions_name",
+        "dimension_b"
+      );
+      await setDoc(dimensionBRef, { dimension_b }, { merge: true });
+      console.log("DimensionB updated!");
+    }
+  };
+
+  const handleSaveDimensionC = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const dimensionCRef = doc(
+        db,
+        "users",
+        userId,
+        "dimensions_name",
+        "dimension_c"
+      );
+      await setDoc(dimensionCRef, { dimension_c }, { merge: true });
+      console.log("DimensionC updated!");
+    }
+  };
+
+  const handleSaveDimensionD = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const dimensionDRef = doc(
+        db,
+        "users",
+        userId,
+        "dimensions_name",
+        "dimension_d"
+      );
+      await setDoc(dimensionDRef, { dimension_d }, { merge: true });
+      console.log("DimensionD updated!");
+    }
+  };
+
   const handleVisibilityChange = async (setting: string, checked: boolean) => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
@@ -156,6 +221,23 @@ export function Settings() {
     if (value === "" || regex.test(value)) {
       setDailyKcal(value);
     }
+  };
+
+  const handleDimensionAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDimensionA(value);
+  };
+  const handleDimensionBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDimensionB(value);
+  };
+  const handleDimensionCChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDimensionC(value);
+  };
+  const handleDimensionDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDimensionD(value);
   };
 
   const handleWeightTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,44 +376,44 @@ export function Settings() {
          //
           */}
       <div>
-        <label htmlFor="dimenstionA">Dimension A: </label>
+        <label htmlFor="dimensionA">Dimension A: </label>
         <input
           type="string"
-          id="dimenstionA"
-          value={dimenstionA}
-          onChange={handleDimenstionAChange} // Updated to use the new validation function
+          id="dimensionA"
+          value={dimensionA}
+          onChange={handleDimensionAChange} // Updated to use the new validation function
         />
-        <button onClick={handleSaveDimenstionA}>Save</button>
+        <button onClick={handleSaveDimensionA}>Save</button>
       </div>
       <div>
-        <label htmlFor="dimenstionB">Dimension B: </label>
+        <label htmlFor="dimensionB">Dimension B: </label>
         <input
           type="string"
-          id="dimenstionB"
-          value={dimenstionB}
-          onChange={handleDimenstionBChange} // Updated to use the new validation function
+          id="dimensionB"
+          value={dimensionB}
+          onChange={handleDimensionBChange} // Updated to use the new validation function
         />
-        <button onClick={handleSaveDimenstionB}>Save</button>
+        <button onClick={handleSaveDimensionB}>Save</button>
       </div>
       <div>
-        <label htmlFor="dimenstionC">Dimension C: </label>
+        <label htmlFor="dimensionC">Dimension C: </label>
         <input
           type="string"
-          id="dimenstionC"
-          value={dimenstionC}
-          onChange={handleDimenstionCChange} // Updated to use the new validation function
+          id="dimensionC"
+          value={dimensionC}
+          onChange={handleDimensionCChange} // Updated to use the new validation function
         />
-        <button onClick={handleSaveDimenstionC}>Save</button>
+        <button onClick={handleSaveDimensionC}>Save</button>
       </div>
       <div>
-        <label htmlFor="dimenstionD">Dimension D: </label>
+        <label htmlFor="dimensionD">Dimension D: </label>
         <input
           type="string"
-          id="dimenstionD"
-          value={dimenstionD}
-          onChange={handleDimenstionDChange} // Updated to use the new validation function
+          id="dimensionD"
+          value={dimensionD}
+          onChange={handleDimensionDChange} // Updated to use the new validation function
         />
-        <button onClick={handleSaveDimenstionD}>Save</button>
+        <button onClick={handleSaveDimensionD}>Save</button>
       </div>
     </>
   );
