@@ -64,11 +64,22 @@ export function Settings() {
           "showDimChart",
           "showWeightChart",
         ];
+        const dimensionsName = [
+          "dimensionA",
+          "dimensionB",
+          "dimensionC",
+          "dimensionD",
+        ];
+
         const visibilityPromises = visibilitySettings.map((setting) =>
           getDoc(doc(db, "users", userId, "show_hide", setting))
         );
+        const dimensionsNamePromises = dimensionsName.map((setting) =>
+          getDoc(doc(db, "users", userId, "dimensions_name", setting))
+        );
 
         const visibilityDocs = await Promise.all(visibilityPromises);
+        const dimensionsNameDocs = await Promise.all(dimensionsNamePromises);
 
         // Set state based on fetched data
         if (userDoc.exists()) {
@@ -80,6 +91,18 @@ export function Settings() {
         if (userWeightDoc.exists()) {
           setWeightTarget(userWeightDoc.data()?.weightTarget || "");
         }
+
+        dimensionsNameDocs.forEach((doc, index) => {
+          if (doc.exists()) {
+            const key = dimensionsName[index];
+            const value = doc.data()[key];
+            if (key === "dimensionA") setDimensionA(value);
+            if (key === "dimensionB") setDimensionB(value);
+            if (key === "dimensionC") setDimensionC(value);
+            if (key === "dimensionD") setDimensionD(value);
+          }
+        });
+
         visibilityDocs.forEach((doc, index) => {
           if (doc.exists()) {
             const key = visibilitySettings[index];
