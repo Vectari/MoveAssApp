@@ -32,10 +32,10 @@ export function ProgressChart() {
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
 
-  const [dimensionA] = useAtom(atomDimensionA);
-  const [dimensionB] = useAtom(atomDimensionB);
-  const [dimensionC] = useAtom(atomDimensionC);
-  const [dimensionD] = useAtom(atomDimensionD);
+  const [dimensionA, setDimensionA] = useAtom(atomDimensionA);
+  const [dimensionB, setDimensionB] = useAtom(atomDimensionB);
+  const [dimensionC, setDimensionC] = useAtom(atomDimensionC);
+  const [dimensionD, setDimensionD] = useAtom(atomDimensionD);
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
@@ -64,6 +64,30 @@ export function ProgressChart() {
         const userShowWeightChartDoc = await getDoc(
           doc(db, "users", userId, "show_hide", "showWeightChart")
         );
+
+        const dimensionsName = [
+          "dimensionA",
+          "dimensionB",
+          "dimensionC",
+          "dimensionD",
+        ];
+
+        const dimensionsNamePromises = dimensionsName.map((setting) =>
+          getDoc(doc(db, "users", userId, "dimensions_name", setting))
+        );
+
+        const dimensionsNameDocs = await Promise.all(dimensionsNamePromises);
+
+        dimensionsNameDocs.forEach((doc, index) => {
+          if (doc.exists()) {
+            const key = dimensionsName[index];
+            const value = doc.data()[key];
+            if (key === "dimensionA") setDimensionA(value);
+            if (key === "dimensionB") setDimensionB(value);
+            if (key === "dimensionC") setDimensionC(value);
+            if (key === "dimensionD") setDimensionD(value);
+          }
+        });
 
         if (userShowDimChartDoc.exists()) {
           const showDimChartData = userShowDimChartDoc.data();
@@ -102,7 +126,7 @@ export function ProgressChart() {
     });
 
     return () => unsubscribe();
-  }, [setLatestWeight, setShowDimChart, setShowWeightChart]);
+  }, [setDimensionA, setDimensionB, setDimensionC, setDimensionD, setLatestWeight, setShowDimChart, setShowWeightChart]);
 
   useEffect(() => {
     if (showDimChart) {
