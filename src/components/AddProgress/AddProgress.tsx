@@ -2,6 +2,13 @@ import { useState } from "react";
 import { auth, db } from "../../library/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useAtom } from "jotai";
+import {
+  atomDimensionA,
+  atomDimensionB,
+  atomDimensionC,
+  atomDimensionD,
+} from "../../atoms/atoms";
 
 // Utility function to get current date in 'YYYY-MM-DD' format
 const getCurrentDate = () => {
@@ -15,10 +22,10 @@ const getCurrentDate = () => {
 export function AddProgress() {
   const { translate } = useTranslation();
   const [weight, setWeight] = useState<string>("");
-  const [dimensionA, setDimensionA] = useState<string>("");
-  const [dimensionB, setDimensionB] = useState<string>("");
-  const [dimensionC, setDimensionC] = useState<string>("");
-  const [dimensionD, setDimensionD] = useState<string>("");
+  const [dimensionA, setDimensionA] = useAtom(atomDimensionA);
+  const [dimensionB, setDimensionB] = useAtom(atomDimensionB);
+  const [dimensionC, setDimensionC] = useAtom(atomDimensionC);
+  const [dimensionD, setDimensionD] = useAtom(atomDimensionD);
   const [addedStatus, setAddedStatus] = useState<boolean>(false);
   const [weightStatus, setWeightStatus] = useState<boolean>(false);
   const [dimensionStatus, setDimensionStatus] = useState<boolean>(false);
@@ -127,7 +134,10 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionA">
-          {translate("AddProgress", "dimensionA")}:{" "}
+          {dimensionA === ""
+            ? translate("AddProgress", "dimensionA")
+            : dimensionA}
+          {": "}
         </label>
         <input
           type="number" // Change to number to allow manual input control
@@ -139,7 +149,10 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionB">
-          {translate("AddProgress", "dimensionB")}:{" "}
+          {dimensionB === ""
+            ? translate("AddProgress", "dimensionB")
+            : dimensionB}
+          {": "}
         </label>
         <input
           type="number" // Change to number to allow manual input control
@@ -151,7 +164,10 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionC">
-          {translate("AddProgress", "dimensionC")}:{" "}
+          {dimensionC === ""
+            ? translate("AddProgress", "dimensionC")
+            : dimensionC}
+          {": "}
         </label>
         <input
           type="number" // Change to number to allow manual input control
@@ -163,7 +179,10 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionD">
-          {translate("AddProgress", "dimensionD")}:{" "}
+          {dimensionD === ""
+            ? translate("AddProgress", "dimensionD")
+            : dimensionD}
+          {": "}
         </label>
         <input
           type="number" // Change to number to allow manual input control
