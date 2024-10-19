@@ -1,29 +1,21 @@
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "../../theme";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../library/firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { atomIsDarkMode } from "../../atoms/atoms";
+import { useAtom } from "jotai";
 
 const Container = styled.div`
-  background-color: grey;
+  background-color: ${(props) => props.theme.navbar.active};
   border: 1px solid ${(props) => props.theme.border};
   color: white;
-`;
-
-const Button = styled.button`
-  background-color: grey;
-  border: none;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: pink;
-  }
+  padding: 2rem;
 `;
 
 export function Home() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode] = useAtom(atomIsDarkMode);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,11 +32,7 @@ export function Home() {
     <>
       <h1>Home page</h1>
       <ThemeProvider theme={isDarkMode ? theme.darkMode : theme.lightMode}>
-        <Container>
-          <Button onClick={() => setIsDarkMode(!isDarkMode)}>
-            Toggle Mode
-          </Button>
-        </Container>
+        <Container></Container>
       </ThemeProvider>
     </>
   );
