@@ -1,5 +1,7 @@
 import { atom } from "jotai";
 
+export const atomIsDarkMode = atom<boolean>(true);
+
 export const atomShowDailyKcal = atom<boolean>(false);
 export const atomShowDailyKcalStreak = atom<boolean>(false);
 export const atomShowWeightInfo = atom<boolean>(false);
