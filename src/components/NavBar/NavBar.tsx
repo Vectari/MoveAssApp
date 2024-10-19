@@ -5,8 +5,11 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../library/firebaseConfig";
 import { useTranslation } from "../../hooks/useTranslation";
+import { useAtom } from "jotai";
+import { atomIsDarkMode } from "../../atoms/atoms";
 
 export function NavBar() {
+  const [isDarkMode, setIsDarkMode] = useAtom(atomIsDarkMode);
   const navigate = useNavigate();
   const { translate } = useTranslation();
   const location = useLocation();
@@ -36,6 +39,7 @@ export function NavBar() {
           <button onClick={handleLogout}>
             {translate("NavBar", "logout")}
           </button>
+          <button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</button>
         </>
       )}
 
@@ -45,6 +49,7 @@ export function NavBar() {
           <NavLink to="/login">{translate("NavBar", "login")}</NavLink>
           <NavLink to="/signup">{translate("NavBar", "signup")}</NavLink>
           {shouldRenderLanguageSelect() && <LanguageSelect />}
+          <button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</button>
         </>
       )}
     </StyledNavBar>
