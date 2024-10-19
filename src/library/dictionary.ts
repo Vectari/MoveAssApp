@@ -32,8 +32,16 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
   },
   HomePage: {
     title: {
-      pl: "",
-      en: "",
+      pl: "Move Ass App",
+      en: "Move Ass App",
+    },
+    subtitle: {
+      pl: "Śledź swoją drogę do utraty wagi",
+      en: "Track Your Weight Loss Journey",
+    },
+    info: {
+      pl: "Przejmij kontrolę nad swoimi celami fitness z Move Ass App! Nasze proste i intuicyjne narzędzie pomoże Ci monitorować postępy w odchudzaniu, wizualizować osiągnięcia i utrzymywać motywację. Niezależnie od tego, czy dopiero zaczynasz, czy zbliżasz się do swojego ostatecznego celu, Move Ass App będzie z Tobą na każdym kroku.",
+      en: "Take control of your fitness goals with Move Ass App! Our simple and intuitive tool helps you monitor your weight loss progress, visualize your achievements, and stay motivated. Whether you're just starting or pushing towards your final goal, Move Ass App keeps you on track every step of the way.",
     },
   },
   LogInPage: {
@@ -71,7 +79,7 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
   AddProgress: {
     weight: {
       pl: "Waga",
-      en: "Weight"
+      en: "Weight",
     },
     dimensionA: {
       pl: "Wymiar A",
