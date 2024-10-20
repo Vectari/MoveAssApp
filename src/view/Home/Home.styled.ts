@@ -9,6 +9,7 @@ export const Logo = styled.svg`
   width: 256px;
   height: 256px;
   grid-column: 1;
+  color: ${(props) => props.theme.text.primary};
 `;
 
 export const Header = styled.h1`

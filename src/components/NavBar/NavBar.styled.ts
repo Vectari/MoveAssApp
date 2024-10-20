@@ -7,10 +7,10 @@ export const StyledNavBar = styled.div`
     text-decoration: none;
     padding: 1rem;
     font-size: 1.5rem;
-    color: white;
+    color: ${(props) => props.theme.text.primary};
   }
 
   .active {
-    color: red;
+    color: ${(props) => props.theme.navbar.active};
   }
 `;
