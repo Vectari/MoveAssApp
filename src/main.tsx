@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { LogIn } from "./view/LogIn/LogIn";
 import { SignUp } from "./view/SignUp/SignUp";
@@ -9,6 +8,7 @@ import { NavBar } from "./components/NavBar/NavBar";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { UserPanel } from "./view/UserPanel/UserPanel";
 import { Settings } from "./view/Settings/Settings";
+import { GlobalStyled } from "./GlobalStyled";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +51,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <LanguageProvider>
-      <RouterProvider router={router}></RouterProvider>
+      <GlobalStyled>
+        <RouterProvider router={router} />
+      </GlobalStyled>
     </LanguageProvider>
   </React.StrictMode>
 );
