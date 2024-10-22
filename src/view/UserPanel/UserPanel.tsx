@@ -16,8 +16,10 @@ import {
 import { useAtom } from "jotai";
 import { Loader } from "../../components/Loader/Loader";
 import { WeightInfo } from "../../components/WeightInfo/WeightInfo";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export function UserPanel() {
+  const { translate } = useTranslation();
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
@@ -92,14 +94,18 @@ export function UserPanel() {
     <>
       <Loader description={"user data"} toCheck={loaded} />
       <NavBar />
-      <h1>Hello {user?.displayName} !</h1>
+      <h1>
+        {translate("UserPanel", "hello")} {user?.displayName} !
+      </h1>
       {showDailyKcal && (
         <div>
-          Daily kcal: <span>{dailyKcal}</span>
+          {translate("UserPanel", "dailyKcal")}: <span>{dailyKcal}</span>
         </div>
       )}
       {showDailyKcalStreak && <KcalStreak />}
-      <button onClick={() => setIsPortalOpen(true)}>Open Portal</button>
+      <button onClick={() => setIsPortalOpen(true)}>
+        {translate("UserPanel", "openPortal")}
+      </button>
       {isPortalOpen && (
         <Portal onClose={() => setIsPortalOpen(false)}>
           <AddProgress />
