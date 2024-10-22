@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../../library/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export function KcalStreak() {
+  const { translate } = useTranslation();
   const [kcalStreak, setKcalStreak] = useState<number>(0);
   const [resetStreak, setResetStreak] = useState<number>(0);
   const [kcalStrikeResetInfo, setKcalStrikeResetInfo] =
@@ -110,14 +112,18 @@ export function KcalStreak() {
     <>
       <hr />
       <p>
-        Daily kcal Streak: <span>{kcalStreak}</span>
+        {translate("KcalStreak", "dailyKcalStreak")}: <span>{kcalStreak}</span>
       </p>
       <button onClick={handleAddStreak} disabled={isButtonDisabled}>
-        Add +1
+        {translate("KcalStreak", "addStreak")}
       </button>
       <button onClick={handleResetStreak}>Reset</button>
-      <p>{kcalStrikeResetInfo ? "Two more times..." : null}</p>
-      {isButtonDisabled && <p>You can only add +1 once a day.</p>}
+      <p>
+        {kcalStrikeResetInfo
+          ? `${translate("KcalStreak", "resetWarning")}`
+          : null}
+      </p>
+      {isButtonDisabled && <p>{translate("KcalStreak", "addedInfo")}</p>}
       <hr />
     </>
   );
