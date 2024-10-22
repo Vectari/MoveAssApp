@@ -3,6 +3,8 @@ export type Dictionary =
   | "HomePage"
   | "LogInPage"
   | "SignUpPage"
+  | "UserPanel"
+  | "KcalStreak"
   | "AddProgress"
   | "en"
   | "pl";
@@ -74,6 +76,38 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     signupButton: {
       pl: "Zarejestruj",
       en: "Sign Up",
+    },
+  },
+  UserPanel: {
+    hello: {
+      pl: "Cześć",
+      en: "Hello",
+    },
+    dailyKcal: {
+      pl: "Dzienne kcal",
+      en: "Daily kcal",
+    },
+    openPortal: {
+      pl: "Dodaj progres",
+      en: "Add Progress",
+    },
+  },
+  KcalStreak: {
+    dailyKcalStreak: {
+      pl: "Dzienna seria kcal",
+      en: "Daily kcal Streak",
+    },
+    addStreak: {
+      pl: "Dodaj dzień",
+      en: "Add day",
+    },
+    addedInfo: {
+      pl: "Możesz dodać serie raz dziennie",
+      en: "You can add streak once a day",
+    },
+    resetWarning: {
+      pl: "Jeszcze dwa razy...",
+      en: "Two more times...",
     },
   },
   AddProgress: {
