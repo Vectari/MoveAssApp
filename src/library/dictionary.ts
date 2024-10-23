@@ -6,6 +6,7 @@ export type Dictionary =
   | "UserPanel"
   | "KcalStreak"
   | "AddProgress"
+  | "Loader"
   | "en"
   | "pl";
 
@@ -16,11 +17,11 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       en: "Home Page",
     },
     login: {
-      pl: "Zaloguj",
+      pl: "Logowanie",
       en: "Log in",
     },
     signup: {
-      pl: "Zarejestruj",
+      pl: "Rejestracja",
       en: "Sign up",
     },
     settings: {
@@ -47,6 +48,10 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     },
   },
   LogInPage: {
+    title: {
+      pl: "Logowanie",
+      en: "Log In",
+    },
     email: {
       pl: "Email",
       en: "Email",
@@ -61,6 +66,10 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     },
   },
   SignUpPage: {
+    title: {
+      pl: "Rejestracja",
+      en: "Sign Up",
+    },
     email: {
       pl: "Email",
       en: "Email",
@@ -130,6 +139,20 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     dimensionD: {
       pl: "Wymiar D",
       en: "Dimension D",
+    },
+  },
+  Loader: {
+    loadingStatus: {
+      pl: "Pobieranie",
+      en: "Loading",
+    },
+    descriptionUserData: {
+      pl: "danych",
+      en: "data",
+    },
+    descriptionSettings: {
+      pl: "ustawień",
+      en: "settings",
     },
   },
 
