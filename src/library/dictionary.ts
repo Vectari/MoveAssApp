@@ -4,6 +4,7 @@ export type Dictionary =
   | "LogInPage"
   | "SignUpPage"
   | "UserPanel"
+  | "Settings"
   | "KcalStreak"
   | "AddProgress"
   | "Loader"
@@ -99,6 +100,12 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     openPortal: {
       pl: "Dodaj progres",
       en: "Add Progress",
+    },
+  },
+  Settings: {
+    title: {
+      pl: "Ustawienia",
+      en: "Settings",
     },
   },
   KcalStreak: {
