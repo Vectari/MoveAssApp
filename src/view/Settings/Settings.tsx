@@ -330,7 +330,7 @@ export function Settings() {
       />
       <NavBar />
       <LanguageSelect />
-      <h1>Settings</h1>
+      <h1>{translate("Settings", "title")}</h1>
       <h2>{user?.email}</h2>
       <div>
         <label htmlFor="displayName">Display Name: </label>
