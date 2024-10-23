@@ -1,3 +1,4 @@
+import { useTranslation } from "../../hooks/useTranslation";
 import { LoaderWrapper } from "./Loader.styled";
 
 interface LoaderProps {
@@ -6,11 +7,14 @@ interface LoaderProps {
 }
 
 export function Loader({ description, toCheck }: LoaderProps) {
+  const { translate } = useTranslation();
   if (toCheck) return null;
 
   return (
     <LoaderWrapper>
-      <div>Loading {description}...</div>
+      <div>
+        {translate("Loader", "loadingStatus")} {description}...
+      </div>
     </LoaderWrapper>
   );
 }
