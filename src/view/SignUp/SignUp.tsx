@@ -46,10 +46,10 @@ export function SignUp() {
 
   return (
     <>
-      <h1>SignUp page</h1>
+      <h1>{translate("SignUpPage", "title")}</h1>
       <form onSubmit={handleSignup}>
         <div>
-          <label>{translate("SignUpPage", "email")}</label>
+          <label>{translate("SignUpPage", "email")}: </label>
           <input
             type="email"
             value={email}
@@ -58,7 +58,7 @@ export function SignUp() {
           />
         </div>
         <div>
-          <label>{translate("SignUpPage", "password")}</label>
+          <label>{translate("SignUpPage", "password")}: </label>
           <input
             type="password"
             value={password}
@@ -67,7 +67,7 @@ export function SignUp() {
           />
         </div>
         <div>
-          <label>{translate("SignUpPage", "adminPass")}</label>
+          <label>{translate("SignUpPage", "adminPass")}: </label>
           <input
             type="password"
             value={adminPass}
