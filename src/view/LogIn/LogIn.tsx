@@ -37,11 +37,11 @@ export function LogIn() {
 
   return (
     <>
-      <h2>Log In Page</h2>
+      <h2>{translate("LogInPage", "title")}</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
-          <label>{translate("LogInPage", "email")}</label>
+          <label>{translate("LogInPage", "email")}: </label>
           <input
             type="email"
             value={email}
@@ -50,7 +50,7 @@ export function LogIn() {
           />
         </div>
         <div>
-          <label>{translate("LogInPage", "password")}</label>
+          <label>{translate("LogInPage", "password")}: </label>
           <input
             type="password"
             value={password}
