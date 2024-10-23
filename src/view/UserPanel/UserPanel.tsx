@@ -92,7 +92,10 @@ export function UserPanel() {
 
   return (
     <>
-      <Loader description={"user data"} toCheck={loaded} />
+      <Loader
+        description={translate("Loader", "descriptionUserData")}
+        toCheck={loaded}
+      />
       <NavBar />
       <h1>
         {translate("UserPanel", "hello")} {user?.displayName} !
