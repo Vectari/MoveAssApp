@@ -19,8 +19,10 @@ import {
   atomDimensionD,
 } from "../../atoms/atoms";
 import { Loader } from "../../components/Loader/Loader";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export function Settings() {
+  const { translate } = useTranslation();
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
@@ -125,6 +127,10 @@ export function Settings() {
     return () => unsubscribe();
   }, [
     navigate,
+    setDimensionA,
+    setDimensionB,
+    setDimensionC,
+    setDimensionD,
     setShowDailyKcal,
     setShowDailyKcalStreak,
     setShowDimChart,
@@ -318,7 +324,10 @@ export function Settings() {
 
   return (
     <>
-      <Loader description={"settings"} toCheck={loaded} />
+      <Loader
+        description={translate("Loader", "descriptionSettings")}
+        toCheck={loaded}
+      />
       <NavBar />
       <LanguageSelect />
       <h1>Settings</h1>
