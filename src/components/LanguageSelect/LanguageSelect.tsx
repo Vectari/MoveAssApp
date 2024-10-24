@@ -5,7 +5,11 @@ import { useLanguage } from "../../hooks/useLanguage";
 import { Dictionary } from "../../library/dictionary";
 import { StyledLanguageSelectWrapper } from "./LanguageSelect.styled";
 
-export function LanguageSelect() {
+interface LanguageSelectProps {
+  display: boolean;
+}
+
+export function LanguageSelect({ display }: LanguageSelectProps) {
   const { language, setLanguage } = useLanguage();
 
   useEffect(() => {
@@ -15,7 +19,7 @@ export function LanguageSelect() {
   }, [setLanguage]);
 
   return (
-    <StyledLanguageSelectWrapper>
+    <StyledLanguageSelectWrapper style={{ display: display ? "" : "none" }}>
       {language === "pl" ? (
         <img
           src={UK_FLAG}
