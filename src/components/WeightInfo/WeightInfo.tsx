@@ -8,8 +8,10 @@ import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../library/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export function WeightInfo() {
+  const { translate } = useTranslation();
   const [weightTarget, setWeightTarget] = useAtom(atomWeightTarget);
   const [latestWeight] = useAtom(atomLatestWeight);
   // const [showWeightInfo] = useAtom(atomShowWeightInfo);
@@ -49,11 +51,21 @@ export function WeightInfo() {
       {showWeightInfo && (
         <>
           <hr />
-          <h3>Weight Info</h3>
-          <p>Weight Target: {weightTarget}</p>
-          <p>Latest Weight: {latestWeight}</p>
+          <h3>{translate("WeightInfo", "title")}</h3>
           <p>
-            Weight to lose: {(latestWeight - Number(weightTarget)).toFixed(1)}
+            {translate("WeightInfo", "weightTarget")}: {weightTarget} kg
+          </p>
+          <p>
+            {translate("WeightInfo", "latestWeight")}: {latestWeight} kg
+          </p>
+          <p>
+            {parseFloat((latestWeight - Number(weightTarget)).toFixed(1)) >= 0
+              ? `${translate("WeightInfo", "weightToLose")}: ${parseFloat(
+                  (latestWeight - Number(weightTarget)).toFixed(1)
+                )} kg`
+              : `${translate("WeightInfo", "belowTarget")}: ${parseFloat(
+                  (latestWeight - Number(weightTarget)).toFixed(1)
+                )} kg`}
           </p>
           <hr />
         </>
