@@ -21,7 +21,7 @@ export function NavBar() {
 
   // Function to check if LanguageSelect should be rendered
   const shouldRenderLanguageSelect = () => {
-    const allowedPaths = ["/", "/login", "/signup"];
+    const allowedPaths = ["/", "/login", "/signup", "/settings"];
     return allowedPaths.includes(location.pathname);
   };
 
@@ -36,6 +36,8 @@ export function NavBar() {
         <>
           <NavLink to="/panel">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/settings">{translate("NavBar", "settings")}</NavLink>
+          <LanguageSelect display={false} />
+          {shouldRenderLanguageSelect() && <LanguageSelect display={true} />}
           <button onClick={handleLogout}>
             {translate("NavBar", "logout")}
           </button>
@@ -48,7 +50,7 @@ export function NavBar() {
           <NavLink to="/">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/login">{translate("NavBar", "login")}</NavLink>
           <NavLink to="/signup">{translate("NavBar", "signup")}</NavLink>
-          {shouldRenderLanguageSelect() && <LanguageSelect />}
+          {shouldRenderLanguageSelect() && <LanguageSelect display={true} />}
           <button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</button>
         </>
       )}
