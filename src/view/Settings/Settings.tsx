@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../../library/firebaseConfig"; // Add Firestore (db) import
 import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; // Firestore functions
-import { LanguageSelect } from "../../components/LanguageSelect/LanguageSelect";
 import { useAtom } from "jotai";
 import {
   atomShowDailyKcal,
@@ -329,7 +328,6 @@ export function Settings() {
         toCheck={loaded}
       />
       <NavBar />
-      <LanguageSelect />
       <h1>{translate("Settings", "title")}</h1>
       <h2>{user?.email}</h2>
       <div>
