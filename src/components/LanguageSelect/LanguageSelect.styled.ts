@@ -4,6 +4,8 @@ export const StyledLanguageSelectWrapper = styled.span`
   cursor: pointer;
 
   img {
-    /* scale: 0.6; */
+    width: 40px;
+    padding-left: 10px;
+    vertical-align: middle;
   }
 `;
