@@ -14,4 +14,15 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${(props) => props.theme.background};
     color: ${(props) => props.theme.text.primary};
   }
+
+  hr {
+    max-width: 500px;
+  }
+
+ input {
+    border: none;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+  }
 `;
