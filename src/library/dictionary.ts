@@ -98,7 +98,7 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       en: "Daily kcal",
     },
     openPortal: {
-      pl: "Dodaj progres",
+      pl: "Dodaj postęp",
       en: "Add Progress",
     },
   },
@@ -127,6 +127,22 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     },
   },
   AddProgress: {
+    title: {
+      pl: "Dodaj postęp",
+      en: "Add progress",
+    },
+    addedStatus: {
+      pl: "Dodano postęp!",
+      en: "Progress added!",
+    },
+    weightStatus: {
+      pl: "Dodaj wagę!",
+      en: "Add weight!",
+    },
+    dimensionStatus: {
+      pl: "Proszę uzupełnić wszystkie wymiary!",
+      en: "Please fill in all dimensions!",
+    },
     weight: {
       pl: "Waga",
       en: "Weight",
@@ -146,6 +162,10 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     dimensionD: {
       pl: "Wymiar D",
       en: "Dimension D",
+    },
+    saveButton: {
+      pl: "Zapisz",
+      en: "Save",
     },
   },
   Loader: {
