@@ -7,6 +7,7 @@ export type Dictionary =
   | "Settings"
   | "KcalStreak"
   | "AddProgress"
+  | "WeightInfo"
   | "Loader"
   | "en"
   | "pl";
@@ -166,6 +167,28 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     saveButton: {
       pl: "Zapisz",
       en: "Save",
+    },
+  },
+  WeightInfo: {
+    title: {
+      pl: "Informacje o wadze",
+      en: "Weight Info",
+    },
+    weightTarget: {
+      pl: "Cel wagi",
+      en: "Weight target",
+    },
+    latestWeight: {
+      pl: "Ostatnia waga",
+      en: "Latest weight",
+    },
+    weightToLose: {
+      pl: "Do schudnięcia",
+      en: "Weight to lose",
+    },
+    belowTarget: {
+      pl: "Poniżej celu",
+      en: "Below target",
     },
   },
   Loader: {
