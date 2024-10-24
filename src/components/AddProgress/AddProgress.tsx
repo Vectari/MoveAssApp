@@ -119,7 +119,7 @@ export function AddProgress() {
 
   return (
     <>
-      <h2>Add Progress</h2>
+      <h2>{translate("AddProgress", "title")}</h2>
       <div>
         <label htmlFor="dailyWeight">
           {translate("AddProgress", "weight")}:{" "}
@@ -192,10 +192,14 @@ export function AddProgress() {
           onInput={handleDimensionDInput}
         />
       </div>
-      {addedStatus ? <p>Progress added!</p> : null}
-      {weightStatus ? <p>Add weight!</p> : null}
-      {dimensionStatus ? <p>Please fill in all dimensions!</p> : null}
-      <button onClick={handleAddProgress}>Save</button>
+      {addedStatus ? <p>{translate("AddProgress", "addedStatus")}</p> : null}
+      {weightStatus ? <p>{translate("AddProgress", "weightStatus")}</p> : null}
+      {dimensionStatus ? (
+        <p>{translate("AddProgress", "dimensionStatus")}</p>
+      ) : null}
+      <button onClick={handleAddProgress}>
+        {translate("AddProgress", "saveButton")}
+      </button>
     </>
   );
 }
