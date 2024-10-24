@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { StyledNavBar } from "./NavBar.styled";
+import { Button, StyledNavBar } from "./NavBar.styled";
 import { LanguageSelect } from "../LanguageSelect/LanguageSelect";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -37,11 +37,11 @@ export function NavBar() {
           <NavLink to="/panel">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/settings">{translate("NavBar", "settings")}</NavLink>
           <LanguageSelect display={false} />
-          {shouldRenderLanguageSelect() && <LanguageSelect display={true} />}
-          <button onClick={handleLogout}>
+          <Button onClick={handleLogout}>
             {translate("NavBar", "logout")}
-          </button>
-          <button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</button>
+          </Button>
+          <Button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</Button>
+          {shouldRenderLanguageSelect() && <LanguageSelect display={true} />}
         </>
       )}
 
@@ -50,8 +50,8 @@ export function NavBar() {
           <NavLink to="/">{translate("NavBar", "home")}</NavLink>
           <NavLink to="/login">{translate("NavBar", "login")}</NavLink>
           <NavLink to="/signup">{translate("NavBar", "signup")}</NavLink>
+          <Button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</Button>
           {shouldRenderLanguageSelect() && <LanguageSelect display={true} />}
-          <button onClick={() => setIsDarkMode(!isDarkMode)}>L/D Mode</button>
         </>
       )}
     </StyledNavBar>
