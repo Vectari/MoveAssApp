@@ -19,6 +19,7 @@ import {
 } from "../../atoms/atoms";
 import { Loader } from "../../components/Loader/Loader";
 import { useTranslation } from "../../hooks/useTranslation";
+import { SettingsWrapper } from "./Settings.styled";
 
 export function Settings() {
   const { translate } = useTranslation();
@@ -328,6 +329,7 @@ export function Settings() {
         toCheck={loaded}
       />
       <NavBar />
+      <SettingsWrapper>
       <h1>{translate("Settings", "title")}</h1>
       <h2>{user?.email}</h2>
       <div>
@@ -449,6 +451,7 @@ export function Settings() {
         />
         <button onClick={handleSaveDimensionD}>Save</button>
       </div>
+      </SettingsWrapper>
     </>
   );
 }
