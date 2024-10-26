@@ -4,8 +4,6 @@ import { auth, db } from "../../library/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { doc, getDoc } from "firebase/firestore";
-import { Portal } from "../../components/Portal/Portal";
-import { AddProgress } from "../../components/AddProgress/AddProgress";
 import { ProgressChart } from "../../components/ProgressChart/ProgressChart";
 import { KcalStreak } from "../../components/KcalStreak/KcalStreak";
 import {
@@ -24,7 +22,6 @@ export function UserPanel() {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [dailyKcal, setDailyKcal] = useState<string>("");
-  const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
   // const [showWeightInfo, setShowWeightInfo] =
   //   useAtom<boolean>(atomShowWeightInfo);
   const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
@@ -106,14 +103,6 @@ export function UserPanel() {
         </div>
       )}
       {showDailyKcalStreak && <KcalStreak />}
-      <button onClick={() => setIsPortalOpen(true)}>
-        {translate("UserPanel", "openPortal")}
-      </button>
-      {isPortalOpen && (
-        <Portal onClose={() => setIsPortalOpen(false)}>
-          <AddProgress />
-        </Portal>
-      )}
       <WeightInfo />
       <ProgressChart />
     </>
