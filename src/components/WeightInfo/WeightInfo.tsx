@@ -4,14 +4,17 @@ import {
   atomShowWeightInfo,
   atomWeightTarget,
 } from "../../atoms/atoms";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../library/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "../../hooks/useTranslation";
+import { Portal } from "../../components/Portal/Portal";
+import { AddProgress } from "../../components/AddProgress/AddProgress";
 
 export function WeightInfo() {
   const { translate } = useTranslation();
+  const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
   const [weightTarget, setWeightTarget] = useAtom(atomWeightTarget);
   const [latestWeight] = useAtom(atomLatestWeight);
   // const [showWeightInfo] = useAtom(atomShowWeightInfo);
@@ -50,7 +53,14 @@ export function WeightInfo() {
     <>
       {showWeightInfo && (
         <>
-          <hr />
+          <button onClick={() => setIsPortalOpen(true)}>
+            {translate("UserPanel", "openPortal")}
+          </button>
+          {isPortalOpen && (
+            <Portal onClose={() => setIsPortalOpen(false)}>
+              <AddProgress />
+            </Portal>
+          )}
           <h3>{translate("WeightInfo", "title")}</h3>
           <p>
             {translate("WeightInfo", "weightTarget")}: {weightTarget} kg
