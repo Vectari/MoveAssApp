@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const StyledNavBar = styled.div`
   width: 640px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   a {
     text-decoration: none;
@@ -17,7 +20,6 @@ export const StyledNavBar = styled.div`
 `;
 
 export const Button = styled.button`
-  /* color: ${(props) => props.theme.text.primary}; */
   background-color: ${(props) => props.theme.secondaryButton};
   border: none;
   border-radius: 10px;
