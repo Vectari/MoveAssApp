@@ -20,6 +20,7 @@ import {
 import { Loader } from "../../components/Loader/Loader";
 import { useTranslation } from "../../hooks/useTranslation";
 import { SettingsWrapper } from "./Settings.styled";
+import { SaveButton } from "../../components/SaveButton/SaveButton";
 
 export function Settings() {
   const { translate } = useTranslation();
@@ -330,127 +331,131 @@ export function Settings() {
       />
       <NavBar />
       <SettingsWrapper>
-      <h1>{translate("Settings", "title")}</h1>
-      <h2>{user?.email}</h2>
-      <div>
-        <label htmlFor="displayName">Display Name: </label>
-        <input
-          type="text"
-          id="displayName"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-        />
-        <button onClick={handleSaveDisplayName}>Save</button>
-      </div>
-      <div>
-        <label htmlFor="dailyKcal">Daily kcal: </label>
-        <input
-          type="number"
-          id="dailyKcal"
-          value={dailyKcal}
-          onChange={handleDailyKcalChange} // Updated to use the new validation function
-        />
-        <button onClick={handleSaveDailyKcal}>Save</button>
-      </div>
-      <div>
-        <label htmlFor="weightTarget">Weight target: </label>
-        <input
-          type="number"
-          id="weightTarget"
-          value={weightTarget}
-          onChange={handleWeightTargetChange} // Updated to use the new validation function
-        />
-        <button onClick={handleSaveWeightTarget}>Save</button>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          id="showDailyKcal"
-          checked={showDailyKcal}
-          onChange={handleShowDailyKcalCheckboxChange}
-        />
-        <label htmlFor="showDailyKcal">Show Daily Kcal</label>
-        <br />
-        <input
-          type="checkbox"
-          id="showDailyKcalStreak"
-          checked={showDailyKcalStreak}
-          onChange={handleShowDailyKcalStreakCheckBoxChange}
-        />
-        <label htmlFor="showDailyKcalStreak">Show Daily Kcal Streak</label>
-        <br />
-        <input
-          type="checkbox"
-          id="showWeightInfo"
-          checked={showWeightInfo}
-          onChange={handleShowWeightInfoCheckBoxChange}
-        />
-        <label htmlFor="showWeightInfo">Show Weight Info</label>
-        <br />
-        <input
-          type="checkbox"
-          id="showDimChart"
-          checked={showDimChart}
-          onChange={handleShowDimChartCheckBoxChange}
-        />
-        <label htmlFor="showDimChart">Show Dim Chart</label>
-        <br />
-        <input
-          type="checkbox"
-          id="showWeightChart"
-          checked={showWeightChart}
-          onChange={handleShowWeightChartCheckBoxChange}
-        />
-        <label htmlFor="showWeightChart">Show Weight Chart</label>
-      </div>
-      <hr />
-      {/* 
+        <h1>{translate("Settings", "title")}</h1>
+        <h2>{user?.email}</h2>
+        <div>
+          <label htmlFor="displayName">
+            {translate("Settings", "userName")}:
+          </label>
+          <input
+            type="text"
+            id="displayName"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+          <SaveButton click={handleSaveDisplayName} />
+        </div>
+        <div>
+          <label htmlFor="dailyKcal">
+            {translate("Settings", "dailyKcal")}:{" "}
+          </label>
+          <input
+            type="number"
+            id="dailyKcal"
+            value={dailyKcal}
+            onChange={handleDailyKcalChange} // Updated to use the new validation function
+          />
+          <SaveButton click={handleSaveDailyKcal} />
+        </div>
+        <div>
+          <label htmlFor="weightTarget">{translate("Settings", "weightTarget")}: </label>
+          <input
+            type="number"
+            id="weightTarget"
+            value={weightTarget}
+            onChange={handleWeightTargetChange} // Updated to use the new validation function
+          />
+          <SaveButton click={handleSaveWeightTarget} />
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            id="showDailyKcal"
+            checked={showDailyKcal}
+            onChange={handleShowDailyKcalCheckboxChange}
+          />
+          <label htmlFor="showDailyKcal">Show Daily Kcal</label>
+          <br />
+          <input
+            type="checkbox"
+            id="showDailyKcalStreak"
+            checked={showDailyKcalStreak}
+            onChange={handleShowDailyKcalStreakCheckBoxChange}
+          />
+          <label htmlFor="showDailyKcalStreak">Show Daily Kcal Streak</label>
+          <br />
+          <input
+            type="checkbox"
+            id="showWeightInfo"
+            checked={showWeightInfo}
+            onChange={handleShowWeightInfoCheckBoxChange}
+          />
+          <label htmlFor="showWeightInfo">Show Weight Info</label>
+          <br />
+          <input
+            type="checkbox"
+            id="showDimChart"
+            checked={showDimChart}
+            onChange={handleShowDimChartCheckBoxChange}
+          />
+          <label htmlFor="showDimChart">Show Dim Chart</label>
+          <br />
+          <input
+            type="checkbox"
+            id="showWeightChart"
+            checked={showWeightChart}
+            onChange={handleShowWeightChartCheckBoxChange}
+          />
+          <label htmlFor="showWeightChart">Show Weight Chart</label>
+        </div>
+        <hr />
+        {/* 
       //
        //
         // 
         //
          //
           */}
-      <div>
-        <label htmlFor="dimensionA">Dimension A: </label>
-        <input
-          type="string"
-          id="dimensionA"
-          value={dimensionA}
-          onChange={handleDimensionAChange} // Updated to use the new validation function
-        />
-        <button onClick={handleSaveDimensionA}>Save</button>
-      </div>
-      <div>
-        <label htmlFor="dimensionB">Dimension B: </label>
-        <input
-          type="string"
-          id="dimensionB"
-          value={dimensionB}
-          onChange={handleDimensionBChange} // Updated to use the new validation function
-        />
-        <button onClick={handleSaveDimensionB}>Save</button>
-      </div>
-      <div>
-        <label htmlFor="dimensionC">Dimension C: </label>
-        <input
-          type="string"
-          id="dimensionC"
-          value={dimensionC}
-          onChange={handleDimensionCChange} // Updated to use the new validation function
-        />
-        <button onClick={handleSaveDimensionC}>Save</button>
-      </div>
-      <div>
-        <label htmlFor="dimensionD">Dimension D: </label>
-        <input
-          type="string"
-          id="dimensionD"
-          value={dimensionD}
-          onChange={handleDimensionDChange} // Updated to use the new validation function
-        />
-        <button onClick={handleSaveDimensionD}>Save</button>
-      </div>
+        <div>
+          <label htmlFor="dimensionA">Dimension A: </label>
+          <input
+            type="string"
+            id="dimensionA"
+            value={dimensionA}
+            onChange={handleDimensionAChange} // Updated to use the new validation function
+          />
+          <SaveButton click={handleSaveDimensionA} />
+        </div>
+        <div>
+          <label htmlFor="dimensionB">Dimension B: </label>
+          <input
+            type="string"
+            id="dimensionB"
+            value={dimensionB}
+            onChange={handleDimensionBChange} // Updated to use the new validation function
+          />
+          <SaveButton click={handleSaveDimensionB} />
+        </div>
+        <div>
+          <label htmlFor="dimensionC">Dimension C: </label>
+          <input
+            type="string"
+            id="dimensionC"
+            value={dimensionC}
+            onChange={handleDimensionCChange} // Updated to use the new validation function
+          />
+          <SaveButton click={handleSaveDimensionC} />
+        </div>
+        <div>
+          <label htmlFor="dimensionD">Dimension D: </label>
+          <input
+            type="string"
+            id="dimensionD"
+            value={dimensionD}
+            onChange={handleDimensionDChange} // Updated to use the new validation function
+          />
+          <SaveButton click={handleSaveDimensionD} />
+        </div>
       </SettingsWrapper>
     </>
   );
