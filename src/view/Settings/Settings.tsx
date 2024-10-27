@@ -12,10 +12,10 @@ import {
   atomShowDimChart,
   atomShowWeightChart,
   atomWeightTarget,
-  atomDimensionA,
-  atomDimensionB,
-  atomDimensionC,
-  atomDimensionD,
+  atomDimensionAName,
+  atomDimensionBName,
+  atomDimensionCName,
+  atomDimensionDName,
 } from "../../atoms/atoms";
 import { Loader } from "../../components/Loader/Loader";
 import { useTranslation } from "../../hooks/useTranslation";
@@ -41,10 +41,10 @@ export function Settings() {
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
 
-  const [dimensionA, setDimensionA] = useAtom<string>(atomDimensionA);
-  const [dimensionB, setDimensionB] = useAtom<string>(atomDimensionB);
-  const [dimensionC, setDimensionC] = useAtom<string>(atomDimensionC);
-  const [dimensionD, setDimensionD] = useAtom<string>(atomDimensionD);
+  const [dimensionA, setDimensionA] = useAtom<string>(atomDimensionAName);
+  const [dimensionB, setDimensionB] = useAtom<string>(atomDimensionBName);
+  const [dimensionC, setDimensionC] = useAtom<string>(atomDimensionCName);
+  const [dimensionD, setDimensionD] = useAtom<string>(atomDimensionDName);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -358,7 +358,9 @@ export function Settings() {
           <SaveButton click={handleSaveDailyKcal} />
         </div>
         <div>
-          <label htmlFor="weightTarget">{translate("Settings", "weightTarget")}: </label>
+          <label htmlFor="weightTarget">
+            {translate("Settings", "weightTarget")}:{" "}
+          </label>
           <input
             type="number"
             id="weightTarget"
@@ -374,7 +376,9 @@ export function Settings() {
             checked={showDailyKcal}
             onChange={handleShowDailyKcalCheckboxChange}
           />
-          <label htmlFor="showDailyKcal">Show Daily Kcal</label>
+          <label htmlFor="showDailyKcal">
+            {translate("Settings", "showDailyKcal")}
+          </label>
           <br />
           <input
             type="checkbox"
@@ -382,7 +386,9 @@ export function Settings() {
             checked={showDailyKcalStreak}
             onChange={handleShowDailyKcalStreakCheckBoxChange}
           />
-          <label htmlFor="showDailyKcalStreak">Show Daily Kcal Streak</label>
+          <label htmlFor="showDailyKcalStreak">
+            {translate("Settings", "showDailyKcalStreak")}
+          </label>
           <br />
           <input
             type="checkbox"
@@ -390,7 +396,9 @@ export function Settings() {
             checked={showWeightInfo}
             onChange={handleShowWeightInfoCheckBoxChange}
           />
-          <label htmlFor="showWeightInfo">Show Weight Info</label>
+          <label htmlFor="showWeightInfo">
+            {translate("Settings", "showWeightInfo")}
+          </label>
           <br />
           <input
             type="checkbox"
@@ -398,7 +406,9 @@ export function Settings() {
             checked={showDimChart}
             onChange={handleShowDimChartCheckBoxChange}
           />
-          <label htmlFor="showDimChart">Show Dim Chart</label>
+          <label htmlFor="showDimChart">
+            {translate("Settings", "showDimChart")}
+          </label>
           <br />
           <input
             type="checkbox"
@@ -406,7 +416,9 @@ export function Settings() {
             checked={showWeightChart}
             onChange={handleShowWeightChartCheckBoxChange}
           />
-          <label htmlFor="showWeightChart">Show Weight Chart</label>
+          <label htmlFor="showWeightChart">
+            {translate("Settings", "showWeightChart")}
+          </label>
         </div>
         <hr />
         {/* 
@@ -417,7 +429,9 @@ export function Settings() {
          //
           */}
         <div>
-          <label htmlFor="dimensionA">Dimension A: </label>
+          <label htmlFor="dimensionA">
+            {translate("Settings", "dimensionA")}:{" "}
+          </label>
           <input
             type="string"
             id="dimensionA"
@@ -427,7 +441,9 @@ export function Settings() {
           <SaveButton click={handleSaveDimensionA} />
         </div>
         <div>
-          <label htmlFor="dimensionB">Dimension B: </label>
+          <label htmlFor="dimensionB">
+            {translate("Settings", "dimensionB")}:{" "}
+          </label>
           <input
             type="string"
             id="dimensionB"
@@ -437,7 +453,9 @@ export function Settings() {
           <SaveButton click={handleSaveDimensionB} />
         </div>
         <div>
-          <label htmlFor="dimensionC">Dimension C: </label>
+          <label htmlFor="dimensionC">
+            {translate("Settings", "dimensionC")}:{" "}
+          </label>
           <input
             type="string"
             id="dimensionC"
@@ -447,7 +465,9 @@ export function Settings() {
           <SaveButton click={handleSaveDimensionC} />
         </div>
         <div>
-          <label htmlFor="dimensionD">Dimension D: </label>
+          <label htmlFor="dimensionD">
+            {translate("Settings", "dimensionD")}:{" "}
+          </label>
           <input
             type="string"
             id="dimensionD"
