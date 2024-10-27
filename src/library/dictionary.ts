@@ -127,6 +127,42 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       pl: "Cel wagi",
       en: "Weight target",
     },
+    showDailyKcal: {
+      pl: "Pokaż dzienne kcal",
+      en: "Show Daily kcal",
+    },
+    showDailyKcalStreak: {
+      pl: "Pokaż dzienną serię kalorii",
+      en: "Show Daily kcal Streak",
+    },
+    showWeightInfo: {
+      pl: "Pokaż informacje o wadze",
+      en: "Show Weight Info",
+    },
+    showDimChart: {
+      pl: "Pokaż tabelę wymiarów",
+      en: "Show Dimmensions Chart",
+    },
+    showWeightChart: {
+      pl: "Pokaż tabelę wagi",
+      en: "Show Weight Chart",
+    },
+    dimensionA: {
+      pl: "Wymiar A",
+      en: "Dimension A",
+    },
+    dimensionB: {
+      pl: "Wymiar B",
+      en: "Dimension B",
+    },
+    dimensionC: {
+      pl: "Wymiar C",
+      en: "Dimension C",
+    },
+    dimensionD: {
+      pl: "Wymiar D",
+      en: "Dimension D",
+    },
   },
   KcalStreak: {
     dailyKcalStreak: {
@@ -182,10 +218,6 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     dimensionD: {
       pl: "Wymiar D",
       en: "Dimension D",
-    },
-    saveButton: {
-      pl: "Zapisz",
-      en: "Save",
     },
   },
   WeightInfo: {
