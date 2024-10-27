@@ -1,4 +1,5 @@
 export type Dictionary =
+  | "Interface"
   | "NavBar"
   | "HomePage"
   | "LogInPage"
@@ -13,6 +14,12 @@ export type Dictionary =
   | "pl";
 
 const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
+  Interface: {
+    saveButton: {
+      pl: "Zapisz",
+      en: "Save",
+    },
+  },
   NavBar: {
     home: {
       pl: "Strona Główna",
@@ -107,6 +114,18 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     title: {
       pl: "Ustawienia",
       en: "Settings",
+    },
+    userName: {
+      pl: "Imię użytkownika",
+      en: "User name",
+    },
+    dailyKcal: {
+      pl: "Dzienne kcal",
+      en: "Daily kcal",
+    },
+    weightTarget: {
+      pl: "Cel wagi",
+      en: "Weight target",
     },
   },
   KcalStreak: {
