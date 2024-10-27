@@ -8,10 +8,10 @@ import {
   atomLatestWeight,
   atomShowDimChart,
   atomShowWeightChart,
-  atomDimensionA,
-  atomDimensionB,
-  atomDimensionC,
-  atomDimensionD,
+  atomDimensionAName,
+  atomDimensionBName,
+  atomDimensionCName,
+  atomDimensionDName,
 } from "../../atoms/atoms";
 interface ProgressData {
   date: string;
@@ -32,10 +32,10 @@ export function ProgressChart() {
   const [showWeightChart, setShowWeightChart] =
     useAtom<boolean>(atomShowWeightChart);
 
-  const [dimensionA, setDimensionA] = useAtom(atomDimensionA);
-  const [dimensionB, setDimensionB] = useAtom(atomDimensionB);
-  const [dimensionC, setDimensionC] = useAtom(atomDimensionC);
-  const [dimensionD, setDimensionD] = useAtom(atomDimensionD);
+  const [dimensionAName, setDimensionAName] = useAtom(atomDimensionAName);
+  const [dimensionBName, setDimensionBName] = useAtom(atomDimensionBName);
+  const [dimensionCName, setDimensionCName] = useAtom(atomDimensionCName);
+  const [dimensionDName, setDimensionDName] = useAtom(atomDimensionDName);
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
@@ -66,10 +66,10 @@ export function ProgressChart() {
         );
 
         const dimensionsName = [
-          "dimensionA",
-          "dimensionB",
-          "dimensionC",
-          "dimensionD",
+          "dimensionAName",
+          "dimensionBName",
+          "dimensionCName",
+          "dimensionDName",
         ];
 
         const dimensionsNamePromises = dimensionsName.map((setting) =>
@@ -82,10 +82,10 @@ export function ProgressChart() {
           if (doc.exists()) {
             const key = dimensionsName[index];
             const value = doc.data()[key];
-            if (key === "dimensionA") setDimensionA(value);
-            if (key === "dimensionB") setDimensionB(value);
-            if (key === "dimensionC") setDimensionC(value);
-            if (key === "dimensionD") setDimensionD(value);
+            if (key === "dimensionAName") setDimensionAName(value);
+            if (key === "dimensionBName") setDimensionBName(value);
+            if (key === "dimensionCName") setDimensionCName(value);
+            if (key === "dimensionDName") setDimensionDName(value);
           }
         });
 
@@ -126,7 +126,7 @@ export function ProgressChart() {
     });
 
     return () => unsubscribe();
-  }, [setDimensionA, setDimensionB, setDimensionC, setDimensionD, setLatestWeight, setShowDimChart, setShowWeightChart]);
+  }, [setDimensionAName, setDimensionBName, setDimensionCName, setDimensionDName, setLatestWeight, setShowDimChart, setShowWeightChart]);
 
   useEffect(() => {
     if (showDimChart) {
@@ -141,9 +141,9 @@ export function ProgressChart() {
             datasets: [
               {
                 label: `${
-                  dimensionA === ""
+                  dimensionAName === ""
                     ? translate("AddProgress", "dimensionA")
-                    : dimensionA
+                    : dimensionAName
                 }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
@@ -154,9 +154,9 @@ export function ProgressChart() {
               },
               {
                 label: `${
-                  dimensionB === ""
+                  dimensionBName === ""
                     ? translate("AddProgress", "dimensionB")
-                    : dimensionB
+                    : dimensionBName
                 }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
@@ -167,9 +167,9 @@ export function ProgressChart() {
               },
               {
                 label: `${
-                  dimensionC === ""
+                  dimensionCName === ""
                     ? translate("AddProgress", "dimensionC")
-                    : dimensionC
+                    : dimensionCName
                 }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
@@ -180,9 +180,9 @@ export function ProgressChart() {
               },
               {
                 label: `${
-                  dimensionD === ""
+                  dimensionDName === ""
                     ? translate("AddProgress", "dimensionD")
-                    : dimensionD
+                    : dimensionDName
                 }`,
                 backgroundColor: "rgba(108, 202, 124, 0.2)",
                 borderColor: "#ebb236",
