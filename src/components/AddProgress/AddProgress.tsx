@@ -4,11 +4,12 @@ import { doc, setDoc } from "firebase/firestore";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useAtom } from "jotai";
 import {
-  atomDimensionA,
-  atomDimensionB,
-  atomDimensionC,
-  atomDimensionD,
+  atomDimensionAName,
+  atomDimensionBName,
+  atomDimensionCName,
+  atomDimensionDName,
 } from "../../atoms/atoms";
+import { SaveButton } from "../SaveButton/SaveButton";
 
 // Utility function to get current date in 'YYYY-MM-DD' format
 const getCurrentDate = () => {
@@ -22,10 +23,14 @@ const getCurrentDate = () => {
 export function AddProgress() {
   const { translate } = useTranslation();
   const [weight, setWeight] = useState<string>("");
-  const [dimensionA, setDimensionA] = useAtom(atomDimensionA);
-  const [dimensionB, setDimensionB] = useAtom(atomDimensionB);
-  const [dimensionC, setDimensionC] = useAtom(atomDimensionC);
-  const [dimensionD, setDimensionD] = useAtom(atomDimensionD);
+  const [dimensionAName] = useAtom(atomDimensionAName);
+  const [dimensionBName] = useAtom(atomDimensionBName);
+  const [dimensionCName] = useAtom(atomDimensionCName);
+  const [dimensionDName] = useAtom(atomDimensionDName);
+  const [dimensionA, setDimensionA] = useState("");
+  const [dimensionB, setDimensionB] = useState("");
+  const [dimensionC, setDimensionC] = useState("");
+  const [dimensionD, setDimensionD] = useState("");
   const [addedStatus, setAddedStatus] = useState<boolean>(false);
   const [weightStatus, setWeightStatus] = useState<boolean>(false);
   const [dimensionStatus, setDimensionStatus] = useState<boolean>(false);
@@ -134,9 +139,9 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionA">
-          {dimensionA === ""
+          {dimensionAName === ""
             ? translate("AddProgress", "dimensionA")
-            : dimensionA}
+            : dimensionAName}
           {": "}
         </label>
         <input
@@ -149,9 +154,9 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionB">
-          {dimensionB === ""
+          {dimensionBName === ""
             ? translate("AddProgress", "dimensionB")
-            : dimensionB}
+            : dimensionBName}
           {": "}
         </label>
         <input
@@ -164,9 +169,9 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionC">
-          {dimensionC === ""
+          {dimensionCName === ""
             ? translate("AddProgress", "dimensionC")
-            : dimensionC}
+            : dimensionCName}
           {": "}
         </label>
         <input
@@ -179,9 +184,9 @@ export function AddProgress() {
       </div>
       <div>
         <label htmlFor="dimensionD">
-          {dimensionD === ""
+          {dimensionDName === ""
             ? translate("AddProgress", "dimensionD")
-            : dimensionD}
+            : dimensionDName}
           {": "}
         </label>
         <input
@@ -197,9 +202,7 @@ export function AddProgress() {
       {dimensionStatus ? (
         <p>{translate("AddProgress", "dimensionStatus")}</p>
       ) : null}
-      <button onClick={handleAddProgress}>
-        {translate("AddProgress", "saveButton")}
-      </button>
+      <SaveButton click={handleAddProgress} />
     </>
   );
 }
