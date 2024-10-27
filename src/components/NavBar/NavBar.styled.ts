@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledNavBar = styled.div`
-  width: 640px;
+  max-width: 640px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@ export const StyledNavBar = styled.div`
     text-decoration: none;
     padding: 1rem;
     font-size: 1.5rem;
-    vertical-align: middle;
+    /* vertical-align: middle; */
     color: ${(props) => props.theme.text.primary};
   }
 

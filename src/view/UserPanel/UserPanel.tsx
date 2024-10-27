@@ -15,6 +15,7 @@ import { useAtom } from "jotai";
 import { Loader } from "../../components/Loader/Loader";
 import { WeightInfo } from "../../components/WeightInfo/WeightInfo";
 import { useTranslation } from "../../hooks/useTranslation";
+import { UserPanelWrapper } from "./UserPanel.styled";
 
 export function UserPanel() {
   const { translate } = useTranslation();
@@ -93,18 +94,20 @@ export function UserPanel() {
         description={translate("Loader", "descriptionUserData")}
         toCheck={loaded}
       />
-      <NavBar />
-      <h1>
-        {translate("UserPanel", "hello")} {user?.displayName} !
-      </h1>
-      {showDailyKcal && (
-        <div>
-          {translate("UserPanel", "dailyKcal")}: <span>{dailyKcal}</span>
-        </div>
-      )}
-      {showDailyKcalStreak && <KcalStreak />}
-      <WeightInfo />
-      <ProgressChart />
+      <UserPanelWrapper>
+        <NavBar />
+        <h1>
+          {translate("UserPanel", "hello")} {user?.displayName} !
+        </h1>
+        {showDailyKcal && (
+          <div>
+            {translate("UserPanel", "dailyKcal")}: <span>{dailyKcal}</span>
+          </div>
+        )}
+        {showDailyKcalStreak && <KcalStreak />}
+        <WeightInfo />
+        <ProgressChart />
+      </UserPanelWrapper>
     </>
   );
 }

@@ -8,8 +8,9 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     margin: 0;
+    padding: 0 5px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     font-family: 'Roboto', system-ui;
     background-color: ${(props) => props.theme.background};
     color: ${(props) => props.theme.text.primary};
