@@ -252,7 +252,7 @@ export function ProgressChart() {
             responsive: true,
             scales: {
               y: {
-                beginAtZero: true,
+                beginAtZero: false,
               },
             },
           },
