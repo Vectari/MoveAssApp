@@ -194,7 +194,7 @@ export function ProgressChart() {
             ],
           },
           options: {
-            responsive: true,
+            responsive: false,
           },
         });
       }
