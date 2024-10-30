@@ -267,13 +267,13 @@ export function ProgressChart() {
     <>
       {showDimChart && (
         <div>
-          <h3>Dim Chart</h3>
+          <h3>{translate("ProgressChart", "dimChart")}</h3>
           <canvas id="dimension_chart"></canvas>
         </div>
       )}
       {showWeightChart && (
         <div>
-          <h3>Weight chart</h3>
+          <h3>{translate("ProgressChart", "weightChart")}</h3>
           <canvas id="weight_chart"></canvas>
         </div>
       )}
