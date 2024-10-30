@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, db } from "../../library/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useAtom } from "jotai";
 import {
@@ -23,10 +23,18 @@ const getCurrentDate = () => {
 export function AddProgress() {
   const { translate } = useTranslation();
   const [weight, setWeight] = useState<string>("");
-  const [dimensionAName] = useAtom(atomDimensionAName);
-  const [dimensionBName] = useAtom(atomDimensionBName);
-  const [dimensionCName] = useAtom(atomDimensionCName);
-  const [dimensionDName] = useAtom(atomDimensionDName);
+  const [dimensionAName, setDimensionAName] =
+    useAtom<string>(atomDimensionAName);
+  const [dimensionBName, setDimensionBName] =
+    useAtom<string>(atomDimensionBName);
+  const [dimensionCName, setDimensionCName] =
+    useAtom<string>(atomDimensionCName);
+  const [dimensionDName, setDimensionDName] =
+    useAtom<string>(atomDimensionDName);
+  // const [dimensionAName, setDimensionAName] = useState<string>("");
+  // const [dimensionBName, setDimensionBName] = useState<string>("");
+  // const [dimensionCName, setDimensionCName] = useState<string>("");
+  // const [dimensionDName, setDimensionDName] = useState<string>("");
   const [dimensionA, setDimensionA] = useState("");
   const [dimensionB, setDimensionB] = useState("");
   const [dimensionC, setDimensionC] = useState("");
@@ -121,6 +129,49 @@ export function AddProgress() {
       setDimensionStatus(true);
     }
   };
+
+  useEffect(() => {
+    const fetchDimensions = async () => {
+      const user = auth.currentUser;
+      if (!user) return; // Exit if no user is logged in
+
+      const userId = user.uid;
+      const dimensionsName = [
+        "dimensionA",
+        "dimensionB",
+        "dimensionC",
+        "dimensionD",
+      ];
+
+      try {
+        const dimensionsNamePromises = dimensionsName.map((setting) =>
+          getDoc(doc(db, "users", userId, "dimensions_name", setting))
+        );
+
+        const dimensionsNameDocs = await Promise.all(dimensionsNamePromises);
+
+        dimensionsNameDocs.forEach((doc, index) => {
+          if (doc.exists()) {
+            const key = dimensionsName[index];
+            const value = doc.data()[key];
+            if (key === "dimensionA") setDimensionAName(value);
+            if (key === "dimensionB") setDimensionBName(value);
+            if (key === "dimensionC") setDimensionCName(value);
+            if (key === "dimensionD") setDimensionDName(value);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching dimensions:", error);
+      }
+    };
+
+    fetchDimensions();
+  }, [
+    setDimensionAName,
+    setDimensionBName,
+    setDimensionCName,
+    setDimensionDName,
+  ]);
 
   return (
     <>
