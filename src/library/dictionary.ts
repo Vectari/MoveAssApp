@@ -9,6 +9,7 @@ export type Dictionary =
   | "KcalStreak"
   | "AddProgress"
   | "WeightInfo"
+  | "ProgressChart"
   | "Loader"
   | "en"
   | "pl";
@@ -240,6 +241,16 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
     belowTarget: {
       pl: "Poniżej celu",
       en: "Below target",
+    },
+  },
+  ProgressChart: {
+    dimChart: {
+      pl: "Wykres wymiarów",
+      en: "Dimension chart",
+    },
+    weightChart: {
+      pl: "Wykres wagi",
+      en: "Weight chart",
     },
   },
   Loader: {
