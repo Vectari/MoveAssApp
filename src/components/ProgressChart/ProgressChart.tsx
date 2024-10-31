@@ -66,10 +66,10 @@ export function ProgressChart() {
         );
 
         const dimensionsName = [
-          "dimensionAName",
-          "dimensionBName",
-          "dimensionCName",
-          "dimensionDName",
+          "dimensionA",
+          "dimensionB",
+          "dimensionC",
+          "dimensionD",
         ];
 
         const dimensionsNamePromises = dimensionsName.map((setting) =>
@@ -82,10 +82,10 @@ export function ProgressChart() {
           if (doc.exists()) {
             const key = dimensionsName[index];
             const value = doc.data()[key];
-            if (key === "dimensionAName") setDimensionAName(value);
-            if (key === "dimensionBName") setDimensionBName(value);
-            if (key === "dimensionCName") setDimensionCName(value);
-            if (key === "dimensionDName") setDimensionDName(value);
+            if (key === "dimensionA") setDimensionAName(value);
+            if (key === "dimensionB") setDimensionBName(value);
+            if (key === "dimensionC") setDimensionCName(value);
+            if (key === "dimensionD") setDimensionDName(value);
           }
         });
 
@@ -126,7 +126,15 @@ export function ProgressChart() {
     });
 
     return () => unsubscribe();
-  }, [setDimensionAName, setDimensionBName, setDimensionCName, setDimensionDName, setLatestWeight, setShowDimChart, setShowWeightChart]);
+  }, [
+    setDimensionAName,
+    setDimensionBName,
+    setDimensionCName,
+    setDimensionDName,
+    setLatestWeight,
+    setShowDimChart,
+    setShowWeightChart,
+  ]);
 
   useEffect(() => {
     if (showDimChart) {
