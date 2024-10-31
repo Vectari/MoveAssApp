@@ -143,26 +143,22 @@ export function AddProgress() {
         "dimensionD",
       ];
 
-      try {
-        const dimensionsNamePromises = dimensionsName.map((setting) =>
-          getDoc(doc(db, "users", userId, "dimensions_name", setting))
-        );
+      const dimensionsNamePromises = dimensionsName.map((setting) =>
+        getDoc(doc(db, "users", userId, "dimensions_name", setting))
+      );
 
-        const dimensionsNameDocs = await Promise.all(dimensionsNamePromises);
+      const dimensionsNameDocs = await Promise.all(dimensionsNamePromises);
 
-        dimensionsNameDocs.forEach((doc, index) => {
-          if (doc.exists()) {
-            const key = dimensionsName[index];
-            const value = doc.data()[key];
-            if (key === "dimensionA") setDimensionAName(value);
-            if (key === "dimensionB") setDimensionBName(value);
-            if (key === "dimensionC") setDimensionCName(value);
-            if (key === "dimensionD") setDimensionDName(value);
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching dimensions:", error);
-      }
+      dimensionsNameDocs.forEach((doc, index) => {
+        if (doc.exists()) {
+          const key = dimensionsName[index];
+          const value = doc.data()[key];
+          if (key === "dimensionA") setDimensionAName(value);
+          if (key === "dimensionB") setDimensionBName(value);
+          if (key === "dimensionC") setDimensionCName(value);
+          if (key === "dimensionD") setDimensionDName(value);
+        }
+      });
     };
 
     fetchDimensions();
@@ -178,8 +174,9 @@ export function AddProgress() {
       <h2>{translate("AddProgress", "title")}</h2>
       <div>
         <label htmlFor="dailyWeight">
-          {translate("AddProgress", "weight")}:{" "}
+          {translate("AddProgress", "weight")}
         </label>
+        <br />
         <input
           type="number" // Change to number to allow manual input control
           id="dailyWeight"
@@ -193,8 +190,8 @@ export function AddProgress() {
           {dimensionAName === ""
             ? translate("AddProgress", "dimensionA")
             : dimensionAName}
-          {": "}
         </label>
+        <br />
         <input
           type="number" // Change to number to allow manual input control
           id="dimensionA"
@@ -208,8 +205,8 @@ export function AddProgress() {
           {dimensionBName === ""
             ? translate("AddProgress", "dimensionB")
             : dimensionBName}
-          {": "}
         </label>
+        <br />
         <input
           type="number" // Change to number to allow manual input control
           id="dimensionB"
@@ -223,8 +220,8 @@ export function AddProgress() {
           {dimensionCName === ""
             ? translate("AddProgress", "dimensionC")
             : dimensionCName}
-          {": "}
         </label>
+        <br />
         <input
           type="number" // Change to number to allow manual input control
           id="dimensionC"
@@ -238,8 +235,8 @@ export function AddProgress() {
           {dimensionDName === ""
             ? translate("AddProgress", "dimensionD")
             : dimensionDName}
-          {": "}
         </label>
+        <br />
         <input
           type="number" // Change to number to allow manual input control
           id="dimensionD"
