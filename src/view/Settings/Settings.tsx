@@ -21,6 +21,8 @@ import { Loader } from "../../components/Loader/Loader";
 import { useTranslation } from "../../hooks/useTranslation";
 import { SettingsWrapper } from "./Settings.styled";
 import { SaveButton } from "../../components/SaveButton/SaveButton";
+import { Input } from "../../components/Input/Input";
+import { Checkbox } from "../../components/Checkbox/Checkbox";
 
 export function Settings() {
   const { translate } = useTranslation();
@@ -337,11 +339,13 @@ export function Settings() {
           <label htmlFor="displayName">
             {translate("Settings", "userName")}:
           </label>
-          <input
+          <Input
             type="text"
             id="displayName"
             value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
+            onChange={(e) =>
+              setDisplayName((e.target as HTMLInputElement).value)
+            }
           />
           <SaveButton click={handleSaveDisplayName} />
         </div>
@@ -349,7 +353,7 @@ export function Settings() {
           <label htmlFor="dailyKcal">
             {translate("Settings", "dailyKcal")}:{" "}
           </label>
-          <input
+          <Input
             type="number"
             id="dailyKcal"
             value={dailyKcal}
@@ -361,7 +365,7 @@ export function Settings() {
           <label htmlFor="weightTarget">
             {translate("Settings", "weightTarget")}:{" "}
           </label>
-          <input
+          <Input
             type="number"
             id="weightTarget"
             value={weightTarget}
@@ -370,7 +374,7 @@ export function Settings() {
           <SaveButton click={handleSaveWeightTarget} />
         </div>
         <div>
-          <input
+          <Input
             type="checkbox"
             id="showDailyKcal"
             checked={showDailyKcal}
@@ -380,7 +384,7 @@ export function Settings() {
             {translate("Settings", "showDailyKcal")}
           </label>
           <br />
-          <input
+          <Checkbox
             type="checkbox"
             id="showDailyKcalStreak"
             checked={showDailyKcalStreak}
@@ -390,7 +394,7 @@ export function Settings() {
             {translate("Settings", "showDailyKcalStreak")}
           </label>
           <br />
-          <input
+          <Checkbox
             type="checkbox"
             id="showWeightInfo"
             checked={showWeightInfo}
@@ -400,7 +404,7 @@ export function Settings() {
             {translate("Settings", "showWeightInfo")}
           </label>
           <br />
-          <input
+          <Checkbox
             type="checkbox"
             id="showDimChart"
             checked={showDimChart}
@@ -410,7 +414,7 @@ export function Settings() {
             {translate("Settings", "showDimChart")}
           </label>
           <br />
-          <input
+          <Checkbox
             type="checkbox"
             id="showWeightChart"
             checked={showWeightChart}
