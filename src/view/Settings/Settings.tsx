@@ -336,10 +336,9 @@ export function Settings() {
         <h1>{translate("Settings", "title")}</h1>
         <h2>{user?.email}</h2>
         <div>
-          <label htmlFor="displayName">
-            {translate("Settings", "userName")}:
-          </label>
           <Input
+            htmlFor="displayName"
+            label={`${translate("Settings", "userName")}`}
             type="text"
             id="displayName"
             value={displayName}
@@ -350,10 +349,9 @@ export function Settings() {
           <SaveButton click={handleSaveDisplayName} />
         </div>
         <div>
-          <label htmlFor="dailyKcal">
-            {translate("Settings", "dailyKcal")}:{" "}
-          </label>
           <Input
+            htmlFor="dailyKcal"
+            label={`${translate("Settings", "dailyKcal")}`}
             type="number"
             id="dailyKcal"
             value={dailyKcal}
@@ -362,10 +360,9 @@ export function Settings() {
           <SaveButton click={handleSaveDailyKcal} />
         </div>
         <div>
-          <label htmlFor="weightTarget">
-            {translate("Settings", "weightTarget")}:{" "}
-          </label>
           <Input
+            htmlFor="weightTarget"
+            label={`${translate("Settings", "weightTarget")}`}
             type="number"
             id="weightTarget"
             value={weightTarget}
@@ -374,7 +371,7 @@ export function Settings() {
           <SaveButton click={handleSaveWeightTarget} />
         </div>
         <div>
-          <Input
+          <Checkbox
             type="checkbox"
             id="showDailyKcal"
             checked={showDailyKcal}
