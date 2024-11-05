@@ -252,6 +252,22 @@ const dictionary: Record<Dictionary, Record<string, Record<string, string>>> = {
       pl: "Wykres wagi",
       en: "Weight chart",
     },
+    weightChartInfo: {
+      pl: "Cel wagi",
+      en: "Weight target",
+    },
+    weightChartStatus: {
+      pl: "Status",
+      en: "Status",
+    },
+    toLose: {
+      pl: "Do schudnięcia",
+      en: "Weight to lose",
+    },
+    below: {
+      pl: "poniżej wagi docelowej",
+      en: "below weight target",
+    },
   },
   Loader: {
     loadingStatus: {
