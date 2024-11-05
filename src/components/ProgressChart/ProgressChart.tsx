@@ -39,10 +39,13 @@ export function ProgressChart() {
 
   const weightProgressStatus =
     latestWeight - weightTarget > 0
-      ? `Do schudnięcia: ${(latestWeight - weightTarget).toFixed(1)} kg`
-      : `${(latestWeight - weightTarget).toFixed(
-          1
-        )} kg poniżej wagi docelowej `;
+      ? `${translate("ProgressChart", "toLose")}: ${(
+          latestWeight - weightTarget
+        ).toFixed(1)} kg`
+      : `${(latestWeight - weightTarget).toFixed(1)} kg ${translate(
+          "ProgressChart",
+          "below"
+        )}`;
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -250,7 +253,14 @@ export function ProgressChart() {
                 ),
               },
               {
-                label: `Weight Target: ${weightTarget} kg Status: ${weightProgressStatus}`,
+                label: `${translate(
+                  "ProgressChart",
+                  "weightChartInfo"
+                )}: ${weightTarget} kg 
+                ${translate(
+                  "ProgressChart",
+                  "weightChartStatus"
+                )}: ${weightProgressStatus}`,
                 backgroundColor: "rgba(255, 99, 132, 0.75)",
                 data: null,
               },
