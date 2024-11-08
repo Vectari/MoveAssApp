@@ -265,12 +265,6 @@ export function ProgressChart() {
                 data: null,
               },
             ],
-            
-            // 
-            // 
-            // 
-            // 
-            // 
           },
           options: {
             responsive: true,
