@@ -266,6 +266,11 @@ export function ProgressChart() {
               },
             ],
           },
+          // 
+          // 
+          // 
+          // 
+          // 
           options: {
             responsive: true,
             scales: {
