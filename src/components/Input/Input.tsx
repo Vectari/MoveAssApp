@@ -24,6 +24,7 @@ export function Input({
     <InputWrapper>
       <label htmlFor={htmlFor}>{label}</label>
       <input
+        placeholder={label}
         type={type}
         id={id}
         value={value}
