@@ -26,7 +26,7 @@ export const PortalWrapper = styled.div`
     background: red;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     cursor: pointer;
     border-radius: 4px;
   }
