@@ -6,11 +6,7 @@ import { NavBar } from "../../components/NavBar/NavBar";
 import { doc, getDoc } from "firebase/firestore";
 import { ProgressChart } from "../../components/ProgressChart/ProgressChart";
 import { KcalStreak } from "../../components/KcalStreak/KcalStreak";
-import {
-  atomShowDailyKcal,
-  atomShowDailyKcalStreak,
-  // atomShowWeightInfo,
-} from "../../atoms/atoms";
+import { atomShowDailyKcal, atomShowDailyKcalStreak } from "../../atoms/atoms";
 import { useAtom } from "jotai";
 import { Loader } from "../../components/Loader/Loader";
 import { WeightInfo } from "../../components/WeightInfo/WeightInfo";
@@ -23,8 +19,6 @@ export function UserPanel() {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [dailyKcal, setDailyKcal] = useState<string>("");
-  // const [showWeightInfo, setShowWeightInfo] =
-  //   useAtom<boolean>(atomShowWeightInfo);
   const [showDailyKcal, setShowDailyKcal] = useAtom<boolean>(atomShowDailyKcal);
   const [showDailyKcalStreak, setShowDailyKcalStreak] = useAtom<boolean>(
     atomShowDailyKcalStreak
