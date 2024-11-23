@@ -27,7 +27,3 @@ Check out the live demo [here](https://moveass.netlify.app/).
 ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
 
 </div>
-
-<!-- 
-
- -->
